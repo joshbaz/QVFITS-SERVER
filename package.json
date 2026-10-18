@@ -1,0 +1,40 @@
+{
+  "name": "qvfits-server",
+  "version": "1.0.0",
+  "description": "server for qvfits",
+  "main": "src/index.mjs",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"node esbuild.config.mjs --watch\" \"nodemon dist/index.cjs\"",
+    "start": "node dist/index.cjs",
+    "build": "rimraf dist && NODE_ENV='production' node esbuild.config.mjs",
+    "postinstall": "prisma generate",
+    "postbuild": "prisma generate"
+  },
+  "author": "Joshua Kimbareeba",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "concurrently": "^10.0.6",
+    "esbuild": "^0.28.2",
+    "nodemon": "^3.1.14",
+    "prisma": "6.5.0",
+    "rimraf": "6.0.1"
+  },
+  "dependencies": {
+    "@prisma/client": "6.5.0",
+    "bcryptjs": "^3.0.3",
+    "compression": "^1.8.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^16",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.11.2",
+    "socket.io": "^4.8.4",
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0",
+    "zod": "^4.6.7"
+  }
+}
