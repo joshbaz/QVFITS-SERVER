@@ -7,6 +7,9 @@ const envSchema = z.object({
     DATABASE_URL: z.string().startsWith("mongodb", "DATABASE_URL must be a MongoDB connection string"),
     AUTH_SECRET: z.string().min(32, "AUTH_SECRET must be at least 32 characters"),
     REDIS_URL: z.string().startsWith("redis", "REDIS_URL must be a Redis connection string"),
+    // Photo uploads (src/utils/imagekit.mjs). Only the server holds the private key.
+    IMAGEKIT_PRIVATE_KEY: z.string().startsWith("private_", "IMAGEKIT_PRIVATE_KEY is the private key from ImageKit, Developer options"),
+    IMAGEKIT_URL_ENDPOINT: z.string().url(),
     // Where the client runs; invite links point here.
     APP_URL: z.string().url().default("http://localhost:5173"),
 });

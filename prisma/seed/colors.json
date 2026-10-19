@@ -1,0 +1,98 @@
+[
+  {
+    "id": "teal",
+    "name": "Teal",
+    "hex": "#14625a",
+    "position": 0
+  },
+  {
+    "id": "forest",
+    "name": "Forest",
+    "hex": "#26433a",
+    "position": 1
+  },
+  {
+    "id": "ivory",
+    "name": "Ivory",
+    "hex": "#f4efe6",
+    "position": 2
+  },
+  {
+    "id": "cream",
+    "name": "Cream",
+    "hex": "#ece2d2",
+    "position": 3
+  },
+  {
+    "id": "sand",
+    "name": "Sand",
+    "hex": "#d9c7ab",
+    "position": 4
+  },
+  {
+    "id": "mocha",
+    "name": "Mocha",
+    "hex": "#b08968",
+    "position": 5
+  },
+  {
+    "id": "espresso",
+    "name": "Espresso",
+    "hex": "#5c4433",
+    "position": 6
+  },
+  {
+    "id": "butter",
+    "name": "Butter",
+    "hex": "#efcb68",
+    "position": 7
+  },
+  {
+    "id": "pink",
+    "name": "Pink",
+    "hex": "#e8467f",
+    "position": 8
+  },
+  {
+    "id": "navy",
+    "name": "Navy",
+    "hex": "#2a3a6b",
+    "position": 9
+  },
+  {
+    "id": "burgundy",
+    "name": "Burgundy",
+    "hex": "#7d2740",
+    "position": 10
+  },
+  {
+    "id": "grey",
+    "name": "Grey",
+    "hex": "#b9bcc0",
+    "position": 11
+  },
+  {
+    "id": "olive",
+    "name": "Olive",
+    "hex": "#7d8560",
+    "position": 12
+  },
+  {
+    "id": "slate",
+    "name": "Slate",
+    "hex": "#5d6b73",
+    "position": 13
+  },
+  {
+    "id": "black",
+    "name": "Black",
+    "hex": "#1c2321",
+    "position": 14
+  },
+  {
+    "id": "white",
+    "name": "White",
+    "hex": "#ffffff",
+    "position": 15
+  }
+]

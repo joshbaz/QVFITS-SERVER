@@ -129,8 +129,9 @@ export default function customizeApp(app) {
     });
 
     // Rate Limiting (see utils/rateLimits.js): counters live in Redis, shared by every process
-    const { apiLimiter, authLimiter } = createRateLimiters();
+    const { apiLimiter, authLimiter, formsLimiter } = createRateLimiters();
     app.use('/api', authLimiter);
+    app.use('/api', formsLimiter);
     app.use('/api', apiLimiter);
 
     // API Routes
@@ -155,15 +156,15 @@ export default function customizeApp(app) {
         }
         if (status >= 500) {
             console.error(err);
-            // Never send internals to the browser.
-            message = 'Something went wrong on our side. Please try again.';
+            // Never send internals to the browser; our own AppErrors are written for the person and pass through.
+            if (!ours) message = 'Something went wrong on our side. Please try again.';
         }
 
         res.status(status).json({
             error: {
                 code: ours ? err.code : codeFor(status),
                 message,
-                details: ours && status < 500 ? err.details : undefined,
+                details: ours ? err.details : undefined,
             },
         });
     });

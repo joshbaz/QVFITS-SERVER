@@ -1,0 +1,37 @@
+[
+  {
+    "id": "category",
+    "name": "Category",
+    "slug": "category",
+    "previousSlugs": [],
+    "kind": "category",
+    "position": 0,
+    "inMenu": true,
+    "inFilters": true,
+    "active": true
+  },
+  {
+    "id": "movement",
+    "name": "Movement",
+    "slug": "movement",
+    "previousSlugs": [
+      "for"
+    ],
+    "kind": "tags",
+    "position": 1,
+    "inMenu": true,
+    "inFilters": true,
+    "active": true
+  },
+  {
+    "id": "edits",
+    "name": "Edits",
+    "slug": "edits",
+    "previousSlugs": [],
+    "kind": "edits",
+    "position": 2,
+    "inMenu": true,
+    "inFilters": true,
+    "active": true
+  }
+]

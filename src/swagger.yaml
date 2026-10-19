@@ -14,6 +14,10 @@ servers:
 tags:
   - name: Admin auth
   - name: Team
+  - name: Catalog
+    description: The storefront's catalogue. Live pieces only; anyone may read.
+  - name: Admin catalog
+    description: Products, attributes, reviews, the size chart and photo uploads, each checked against the person's permissions.
 components:
   securitySchemes:
     adminBearer:
@@ -337,3 +341,105 @@ paths:
       responses:
         '204': { description: Deleted }
         '409': { $ref: '#/components/responses/Error' }
+
+  /catalog/facets:
+    get: { tags: [Catalog], summary: 'Live groups, categories, terms, colours, sizes and the filter layout', responses: { '200': { description: OK } } }
+  /catalog/products:
+    get:
+      tags: [Catalog]
+      summary: Live pieces, filtered and sorted (kits are listed separately)
+      parameters:
+        - { name: categoryId, in: query, schema: { type: string } }
+        - { name: size, in: query, schema: { type: string } }
+        - { name: color, in: query, schema: { type: string }, description: 'Colour name' }
+        - { name: term, in: query, schema: { type: string }, description: 'Term ids, comma separated' }
+        - { name: badge, in: query, schema: { type: string, example: New } }
+        - { name: sale, in: query, schema: { type: boolean } }
+        - { name: inStock, in: query, schema: { type: boolean } }
+        - { name: maxPrice, in: query, schema: { type: integer }, description: 'UGX, after any sale' }
+        - { name: q, in: query, schema: { type: string }, description: 'Forgiving search (plurals, typos)' }
+        - { name: sort, in: query, schema: { type: string, enum: [featured, price-asc, price-desc, new] } }
+      responses: { '200': { description: OK }, '400': { $ref: '#/components/responses/Error' } }
+  /catalog/products/by-ids:
+    get:
+      tags: [Catalog]
+      summary: Several live pieces by id, in the order asked (the bag, saved pieces)
+      parameters: [{ name: ids, in: query, required: true, schema: { type: string }, description: 'Comma separated, up to 100' }]
+      responses: { '200': { description: OK } }
+  /catalog/products/{slug}:
+    get:
+      tags: [Catalog]
+      summary: One live piece by its address
+      parameters: [{ name: slug, in: path, required: true, schema: { type: string } }]
+      responses: { '200': { description: OK }, '404': { $ref: '#/components/responses/Error' } }
+  /catalog/kits:
+    get: { tags: [Catalog], summary: 'Live kits whose every piece is live and in stock', responses: { '200': { description: OK } } }
+  /catalog/reviews:
+    get: { tags: [Catalog], summary: Approved reviews, responses: { '200': { description: OK } } }
+    post:
+      tags: [Catalog]
+      summary: A shopper's review, saved as pending (10 per hour per address)
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [name, text, stars], properties: { name: { type: string }, text: { type: string }, stars: { type: integer, minimum: 1, maximum: 5 }, productId: { type: string, nullable: true } } } } } }
+      responses: { '201': { description: Saved as pending }, '429': { $ref: '#/components/responses/Error' } }
+  /catalog/size-chart:
+    get: { tags: [Catalog], summary: 'Body measurements per size', responses: { '200': { description: OK } } }
+
+  /admin/catalog/products:
+    get: { tags: [Admin catalog], summary: 'Every product, drafts included (products view)', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+    post:
+      tags: [Admin catalog]
+      summary: Add a product (products edit). The address and id come from the name.
+      description: Publishing needs a name, a price, a photo, a category and stock (a kit needs two live pieces). A photo url must be https (uploaded first).
+      security: [{ adminBearer: [] }]
+      responses: { '201': { description: Created }, '422': { $ref: '#/components/responses/Error' } }
+  /admin/catalog/products/{id}:
+    parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+    get: { tags: [Admin catalog], summary: One product, security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+    patch:
+      tags: [Admin catalog]
+      summary: Change a product (products edit)
+      description: Send updatedAt as read; if stock moved since, today's stock is kept for existing sizes. The address is frozen once the piece has been live. A piece in a live kit cannot be unpublished.
+      security: [{ adminBearer: [] }]
+      responses: { '200': { description: Updated }, '409': { $ref: '#/components/responses/Error' }, '422': { $ref: '#/components/responses/Error' } }
+    delete: { tags: [Admin catalog], summary: 'Delete (products delete); refused while a kit holds it', security: [{ adminBearer: [] }], responses: { '204': { description: Deleted }, '409': { $ref: '#/components/responses/Error' } } }
+  /admin/catalog/products/preview/{slug}:
+    get: { tags: [Admin catalog], summary: 'A product by address, whatever its status', security: [{ adminBearer: [] }], parameters: [{ name: slug, in: path, required: true, schema: { type: string } }], responses: { '200': { description: OK } } }
+  /admin/catalog/products/bulk-update:
+    post: { tags: [Admin catalog], summary: 'One change to many: status, isNew, pinnedBestseller, salePercent, categoryId', security: [{ adminBearer: [] }], responses: { '200': { description: How many changed } } }
+  /admin/catalog/products/bulk-delete:
+    post: { tags: [Admin catalog], summary: Delete many, security: [{ adminBearer: [] }], responses: { '200': { description: How many deleted } } }
+  /admin/catalog/products/{id}/duplicate:
+    post: { tags: [Admin catalog], summary: 'A draft copy with stock at zero', security: [{ adminBearer: [] }], parameters: [{ name: id, in: path, required: true, schema: { type: string } }], responses: { '201': { description: Created } } }
+  /admin/catalog/products/reassign-category:
+    post: { tags: [Admin catalog], summary: 'Move every product from one category to another { from, to }', security: [{ adminBearer: [] }], responses: { '200': { description: How many moved } } }
+  /admin/catalog/products/{id}/variants/{variantId}/stock:
+    put:
+      tags: [Admin catalog]
+      summary: "Set one size's stock { stock, reason } (restock, sale, damaged, correction); logged"
+      security: [{ adminBearer: [] }]
+      parameters: [{ name: id, in: path, required: true, schema: { type: string } }, { name: variantId, in: path, required: true, schema: { type: string } }]
+      responses: { '200': { description: The product }, '404': { $ref: '#/components/responses/Error' } }
+  /admin/catalog/products/stock-movements:
+    get: { tags: [Admin catalog], summary: 'The stock log, newest first (last 1000)', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/catalog/{table}:
+    parameters: [{ name: table, in: path, required: true, schema: { type: string, enum: [groups, categories, terms, colors, sizes, reviews] } }]
+    get: { tags: [Admin catalog], summary: 'List a table (any signed-in admin)', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+    post: { tags: [Admin catalog], summary: 'Add a row; ids and addresses come from the name', security: [{ adminBearer: [] }], responses: { '201': { description: Created } } }
+  /admin/catalog/{table}/{id}:
+    parameters: [{ name: table, in: path, required: true, schema: { type: string } }, { name: id, in: path, required: true, schema: { type: string } }]
+    patch: { tags: [Admin catalog], summary: 'Change a row; a rename keeps the old address for redirects', security: [{ adminBearer: [] }], responses: { '200': { description: Updated } } }
+    delete: { tags: [Admin catalog], summary: 'Delete a row nothing uses', security: [{ adminBearer: [] }], responses: { '204': { description: Deleted }, '409': { $ref: '#/components/responses/Error' } } }
+  /admin/catalog/{table}/reorder:
+    post: { tags: [Admin catalog], summary: 'New order { ids } first to last (not reviews)', security: [{ adminBearer: [] }], parameters: [{ name: table, in: path, required: true, schema: { type: string } }], responses: { '204': { description: Saved } } }
+  /admin/catalog/filters:
+    get: { tags: [Admin catalog], summary: The filter drawer and sort menu, security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+    patch: { tags: [Admin catalog], summary: 'Change it, merged one level deep (categories edit)', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/catalog/size-chart:
+    put: { tags: [Admin catalog], summary: 'Replace the size chart { rows } (size-guide edit)', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/uploads:
+    post:
+      tags: [Admin catalog]
+      summary: Upload a photo to ImageKit; returns a Photo
+      description: multipart/form-data with `folder` (products needs products edit; categories needs categories edit) and `file` (JPEG, PNG, WebP or AVIF, up to 5 MB).
+      security: [{ adminBearer: [] }]
+      responses: { '201': { description: The Photo }, '403': { $ref: '#/components/responses/Error' }, '413': { $ref: '#/components/responses/Error' }, '502': { $ref: '#/components/responses/Error' } }

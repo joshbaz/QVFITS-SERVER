@@ -1,0 +1,152 @@
+[
+  {
+    "id": "gym",
+    "name": "Gym",
+    "slug": "gym",
+    "previousSlugs": [],
+    "image": "movement-gym",
+    "description": "Lifting, HIIT and the floor work in between.",
+    "position": 0,
+    "active": true,
+    "groupId": "movement"
+  },
+  {
+    "id": "run",
+    "name": "Running",
+    "slug": "running",
+    "previousSlugs": [],
+    "image": null,
+    "description": "Light, bounce-free support for road and treadmill.",
+    "position": 1,
+    "active": true,
+    "groupId": "movement"
+  },
+  {
+    "id": "yoga",
+    "name": "Pilates and yoga",
+    "slug": "pilates",
+    "previousSlugs": [],
+    "image": "movement-pilates",
+    "description": "Second-skin seamless that moves through every flow.",
+    "position": 2,
+    "active": true,
+    "groupId": "movement"
+  },
+  {
+    "id": "golf-tennis",
+    "name": "Tennis and golf",
+    "slug": "tennis",
+    "previousSlugs": [],
+    "image": "movement-tennis",
+    "description": "Court and course: skorts, collars and an inbuilt pant.",
+    "position": 3,
+    "active": true,
+    "groupId": "movement"
+  },
+  {
+    "id": "swim",
+    "name": "Swim",
+    "slug": "swim",
+    "previousSlugs": [],
+    "image": "collection-swim",
+    "description": "Pool, beach and the boat day after.",
+    "position": 4,
+    "active": true,
+    "groupId": "movement"
+  },
+  {
+    "id": "lounge",
+    "name": "Lounge",
+    "slug": "lounge",
+    "previousSlugs": [],
+    "image": "collection-lounge",
+    "description": "For the hours after the workout.",
+    "position": 5,
+    "active": true,
+    "groupId": "movement"
+  },
+  {
+    "id": "everyday",
+    "name": "Everyday",
+    "slug": "everyday",
+    "previousSlugs": [],
+    "image": "movement-lifestyle",
+    "description": "Errands, coffee and the commute.",
+    "position": 6,
+    "active": true,
+    "groupId": "movement"
+  },
+  {
+    "id": "everything",
+    "groupId": "edits",
+    "name": "Shop everything",
+    "slug": "everything",
+    "previousSlugs": [],
+    "image": null,
+    "description": "",
+    "target": {},
+    "position": 0,
+    "active": true,
+    "inHeader": false
+  },
+  {
+    "id": "new-in",
+    "groupId": "edits",
+    "name": "New in",
+    "slug": "new-in",
+    "previousSlugs": [],
+    "image": null,
+    "description": "",
+    "target": {
+      "label": "new"
+    },
+    "position": 1,
+    "active": true,
+    "inHeader": true
+  },
+  {
+    "id": "best-sellers",
+    "groupId": "edits",
+    "name": "Best sellers",
+    "slug": "best-sellers",
+    "previousSlugs": [],
+    "image": null,
+    "description": "",
+    "target": {
+      "label": "bestseller"
+    },
+    "position": 2,
+    "active": true,
+    "inHeader": true
+  },
+  {
+    "id": "kits",
+    "groupId": "edits",
+    "name": "Shop the kit",
+    "slug": "kits",
+    "previousSlugs": [],
+    "image": null,
+    "description": "",
+    "target": {
+      "label": "kits"
+    },
+    "position": 3,
+    "active": true,
+    "inHeader": false
+  },
+  {
+    "id": "size-guide",
+    "groupId": "edits",
+    "name": "Size guide",
+    "slug": "size-guide",
+    "previousSlugs": [],
+    "image": null,
+    "description": "",
+    "target": {
+      "page": "/size-guide"
+    },
+    "position": 4,
+    "active": true,
+    "inHeader": false
+  }
+]

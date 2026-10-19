@@ -1,0 +1,74 @@
+[
+  {
+    "id": "sets",
+    "name": "Sets",
+    "slug": "sets",
+    "parentId": null,
+    "image": "collection-sets",
+    "description": "Matching tops and bottoms, seamless and seam-fit.",
+    "position": 0,
+    "active": true,
+    "previousSlugs": [],
+    "inHeader": false
+  },
+  {
+    "id": "bras",
+    "name": "Bras",
+    "slug": "bras",
+    "parentId": null,
+    "image": "collection-bras",
+    "description": "Light to high support, made to be seen.",
+    "position": 1,
+    "active": true,
+    "previousSlugs": [],
+    "inHeader": false
+  },
+  {
+    "id": "bottoms",
+    "name": "Bottoms",
+    "slug": "bottoms",
+    "parentId": null,
+    "image": "collection-bottoms",
+    "description": "Leggings and flares, squat-tested.",
+    "position": 2,
+    "active": true,
+    "previousSlugs": [],
+    "inHeader": false
+  },
+  {
+    "id": "skorts",
+    "name": "Skorts",
+    "slug": "skorts",
+    "parentId": null,
+    "image": "collection-skorts",
+    "description": "Golf and tennis, with an inbuilt pant.",
+    "position": 3,
+    "active": true,
+    "previousSlugs": [],
+    "inHeader": false
+  },
+  {
+    "id": "swim",
+    "name": "Swim",
+    "slug": "swim",
+    "parentId": null,
+    "image": "collection-swim",
+    "description": "One-pieces and bikinis that hold.",
+    "position": 4,
+    "active": true,
+    "previousSlugs": [],
+    "inHeader": true
+  },
+  {
+    "id": "lounge",
+    "name": "Lounge",
+    "slug": "lounge",
+    "parentId": null,
+    "image": "collection-lounge",
+    "description": "Soft knits for slow days and long flights.",
+    "position": 5,
+    "active": true,
+    "previousSlugs": [],
+    "inHeader": false
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "rev_1",
+    "productId": null,
+    "stars": 5,
+    "status": "approved",
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "name": "Natacia",
+    "text": "I Love it OMG, I thought u we're kidding about the material but omg, I love it"
+  },
+  {
+    "id": "rev_2",
+    "productId": null,
+    "stars": 5,
+    "status": "approved",
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "name": "Eryne",
+    "text": "Hey hun, I love them. Wouldn't get another set if I didn't. Quality is top notch."
+  },
+  {
+    "id": "rev_3",
+    "productId": null,
+    "stars": 5,
+    "status": "approved",
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "name": "Melody",
+    "text": "Well receive. Thank you Lots. The quality, I can't deal. It's too rich. Definitely hitting the gym in this just to show off. Thanks once again."
+  }
+]

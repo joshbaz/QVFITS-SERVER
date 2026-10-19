@@ -67,3 +67,155 @@ model SystemLock {
   id        String   @id @map("_id")
   createdAt DateTime @default(now())
 }
+
+/* Catalog. Ids are readable slugs ("leggings", "teal") because the client's links, menus and filters store them. */
+
+type Photo {
+  /// ImageKit's fileId for an upload; a /photos id or a CDN id for older photos.
+  id      String
+  url     String?
+  width   Int
+  height  Int
+  widths  Int[]
+  colorId String?
+}
+
+/// One sellable unit: a colour in a size, with its own SKU and stock.
+type Variant {
+  id      String
+  sku     String
+  colorId String
+  size    String
+  stock   Int
+}
+
+type Seo {
+  title       String @default("")
+  description String @default("")
+}
+
+/// A storefront "Shop by" group: Category (the one system group), tags or edits.
+model ShopGroup {
+  id            String   @id @map("_id")
+  name          String
+  slug          String
+  previousSlugs String[]
+  kind          String
+  position      Int
+  inMenu        Boolean
+  inFilters     Boolean
+  active        Boolean
+}
+
+model Category {
+  id            String   @id @map("_id")
+  name          String
+  slug          String
+  parentId      String?
+  /// A /photos id, an uploaded Photo, or null.
+  image         Json?
+  description   String   @default("")
+  position      Int
+  active        Boolean
+  inHeader      Boolean  @default(false)
+  previousSlugs String[]
+}
+
+/// An item in a tags or edits group (Running, High support, New in).
+model Term {
+  id            String   @id @map("_id")
+  groupId       String
+  name          String
+  slug          String
+  previousSlugs String[]
+  image         Json?
+  description   String   @default("")
+  /// Edits only: what the item opens.
+  target        Json?
+  position      Int
+  active        Boolean
+  inHeader      Boolean  @default(false)
+
+  @@index([groupId])
+}
+
+model Color {
+  id       String @id @map("_id")
+  name     String
+  hex      String
+  position Int
+}
+
+model Size {
+  id       String @id @map("_id")
+  label    String
+  group    String
+  position Int
+}
+
+model Product {
+  id               String    @id @map("_id")
+  slug             String    @unique
+  /// Set once the piece has been live, so its address never changes after that.
+  slugLocked       Boolean   @default(false)
+  name             String
+  status           String
+  categoryId       String    @default("")
+  price            Int
+  compareAtPrice   Int?
+  salePercent      Int?
+  type             String
+  kitItems         String[]
+  isNew            Boolean
+  pinnedBestseller Boolean
+  colorIds         String[]
+  termIds          String[]
+  blurb            String    @default("")
+  details          String[]
+  fit              String?
+  fitNote          String?
+  fabric           String?
+  care             String?
+  variants         Variant[]
+  photos           Photo[]
+  seo              Seo
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+/// Every change to one size of one colour, with who made it and why.
+model StockMovement {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  at          DateTime @default(now())
+  productId   String
+  productName String
+  color       String
+  size        String
+  from        Int
+  to          Int
+  reason      String
+  /// The order or return it came from: QV-XXXXXX.
+  ref         String?
+  by          String
+
+  @@index([at])
+  @@index([productId])
+}
+
+model Review {
+  id        String   @id @map("_id")
+  productId String?
+  name      String
+  text      String
+  stars     Int
+  status    String
+  badge     String?
+  createdAt DateTime @default(now())
+}
+
+/// Single documents: the filter layout ("filters") and the size chart ("size-chart").
+model CatalogDocument {
+  id        String   @id @map("_id")
+  data      Json
+  updatedAt DateTime @updatedAt
+}

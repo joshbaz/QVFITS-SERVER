@@ -8,7 +8,11 @@ export const RATE_LIMITS = {
     api: { windowMinutes: 15, limit: 1500, keyedBy: 'signed-in user, otherwise IP' },
     login: { windowMinutes: 15, limit: 10, keyedBy: 'IP + email, failed attempts only' },
     loginPerIp: { windowMinutes: 15, limit: 60, keyedBy: 'IP, all attempts' },
+    forms: { windowMinutes: 60, limit: 10, keyedBy: 'IP' },
 };
+
+// Public forms anyone can send without signing in: reviews now, contact and newsletter later.
+const FORM_PATH = /\/catalog\/reviews$/;
 
 // Sign-in and every public form that takes a password or creates an account.
 const AUTH_PATH = /\/auth\/(admin|customer)\/(login|setup|accept-invite|signup|forgot-password|reset-password)$/;
@@ -82,5 +86,17 @@ export const createRateLimiters = () => {
         loginPerIpLimiter(req, res, (err) => (err ? next(err) : loginPerEmailLimiter(req, res, next)));
     };
 
-    return { apiLimiter, authLimiter };
+    const formsPerIpLimiter = limiter('forms', RATE_LIMITS.forms, {
+        keyGenerator: clientIp,
+        handler: rejected('Thanks, we have plenty from you for now. Please try again later.'),
+    });
+
+    /** Applies the forms limiter to public form posts only. */
+    const formsLimiter = (req, res, next) => {
+        const path = (req.originalUrl || '').split('?')[0];
+        if (req.method !== 'POST' || !FORM_PATH.test(path)) return next();
+        formsPerIpLimiter(req, res, next);
+    };
+
+    return { apiLimiter, authLimiter, formsLimiter };
 };

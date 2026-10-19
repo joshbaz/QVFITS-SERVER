@@ -1,0 +1,3020 @@
+[
+  {
+    "id": "seamless-longsleeve-set",
+    "slug": "seamless-longsleeve-set",
+    "name": "Seamless Long-Sleeve Set",
+    "status": "active",
+    "categoryId": "sets",
+    "price": 210000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "ivory",
+      "pink",
+      "black"
+    ],
+    "blurb": "Second-skin seamless in a long sleeve and matching legging. Knitted in one piece, so there are no side seams to dig in.",
+    "details": [
+      "Seamless knit construction",
+      "Long sleeve + matching legging",
+      "Squat-tested opaque",
+      "Four-way stretch"
+    ],
+    "fit": "small",
+    "fitNote": "Compressive by design. Size up if you want a softer hold.",
+    "fabric": "Nylon-elastane seamless knit",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "seamless-longsleeve-set--ivory--xs",
+        "sku": "QV-001-IVO-XS",
+        "colorId": "ivory",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longsleeve-set--pink--xs",
+        "sku": "QV-001-PIN-XS",
+        "colorId": "pink",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longsleeve-set--black--xs",
+        "sku": "QV-001-BLA-XS",
+        "colorId": "black",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longsleeve-set--ivory--s",
+        "sku": "QV-001-IVO-S",
+        "colorId": "ivory",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "seamless-longsleeve-set--pink--s",
+        "sku": "QV-001-PIN-S",
+        "colorId": "pink",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "seamless-longsleeve-set--black--s",
+        "sku": "QV-001-BLA-S",
+        "colorId": "black",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longsleeve-set--ivory--m",
+        "sku": "QV-001-IVO-M",
+        "colorId": "ivory",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "seamless-longsleeve-set--pink--m",
+        "sku": "QV-001-PIN-M",
+        "colorId": "pink",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "seamless-longsleeve-set--black--m",
+        "sku": "QV-001-BLA-M",
+        "colorId": "black",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longsleeve-set--ivory--l",
+        "sku": "QV-001-IVO-L",
+        "colorId": "ivory",
+        "size": "L",
+        "stock": 2
+      },
+      {
+        "id": "seamless-longsleeve-set--pink--l",
+        "sku": "QV-001-PIN-L",
+        "colorId": "pink",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longsleeve-set--black--l",
+        "sku": "QV-001-BLA-L",
+        "colorId": "black",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longsleeve-set--ivory--xl",
+        "sku": "QV-001-IVO-XL",
+        "colorId": "ivory",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longsleeve-set--pink--xl",
+        "sku": "QV-001-PIN-XL",
+        "colorId": "pink",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longsleeve-set--black--xl",
+        "sku": "QV-001-BLA-XL",
+        "colorId": "black",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1618355281951-a174b87198e2",
+        "url": "https://images.unsplash.com/photo-1618355281951-a174b87198e2",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1644225450138-9f4f9e2d4582",
+        "url": "https://images.unsplash.com/photo-1644225450138-9f4f9e2d4582",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "gym",
+      "everyday",
+      "lounge"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": true,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "sculpt-seamless-set",
+    "slug": "sculpt-seamless-set",
+    "name": "Sculpt Seamless Set",
+    "status": "active",
+    "categoryId": "sets",
+    "price": 195000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "ivory",
+      "butter",
+      "teal"
+    ],
+    "blurb": "The bra-and-bike-short set that started it all. Ribbed through the waist, smooth everywhere else.",
+    "details": [
+      "Longline bra + bike short",
+      "Ribbed contour panels",
+      "Removable cups",
+      "High waist"
+    ],
+    "fit": "small",
+    "fitNote": "Runs small. Between sizes? Take the larger.",
+    "fabric": "Nylon-elastane seamless knit",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "sculpt-seamless-set--ivory--xs",
+        "sku": "QV-002-IVO-XS",
+        "colorId": "ivory",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-seamless-set--butter--xs",
+        "sku": "QV-002-BUT-XS",
+        "colorId": "butter",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-seamless-set--teal--xs",
+        "sku": "QV-002-TEA-XS",
+        "colorId": "teal",
+        "size": "XS",
+        "stock": 0
+      },
+      {
+        "id": "sculpt-seamless-set--ivory--s",
+        "sku": "QV-002-IVO-S",
+        "colorId": "ivory",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "sculpt-seamless-set--butter--s",
+        "sku": "QV-002-BUT-S",
+        "colorId": "butter",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-seamless-set--teal--s",
+        "sku": "QV-002-TEA-S",
+        "colorId": "teal",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-seamless-set--ivory--m",
+        "sku": "QV-002-IVO-M",
+        "colorId": "ivory",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "sculpt-seamless-set--butter--m",
+        "sku": "QV-002-BUT-M",
+        "colorId": "butter",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-seamless-set--teal--m",
+        "sku": "QV-002-TEA-M",
+        "colorId": "teal",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-seamless-set--ivory--l",
+        "sku": "QV-002-IVO-L",
+        "colorId": "ivory",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-seamless-set--butter--l",
+        "sku": "QV-002-BUT-L",
+        "colorId": "butter",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-seamless-set--teal--l",
+        "sku": "QV-002-TEA-L",
+        "colorId": "teal",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-seamless-set--ivory--xl",
+        "sku": "QV-002-IVO-XL",
+        "colorId": "ivory",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-seamless-set--butter--xl",
+        "sku": "QV-002-BUT-XL",
+        "colorId": "butter",
+        "size": "XL",
+        "stock": 0
+      },
+      {
+        "id": "sculpt-seamless-set--teal--xl",
+        "sku": "QV-002-TEA-XL",
+        "colorId": "teal",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1606902965551-dce093cda6e7",
+        "url": "https://images.unsplash.com/photo-1606902965551-dce093cda6e7",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1584863495140-a320b13a11a8",
+        "url": "https://images.unsplash.com/photo-1584863495140-a320b13a11a8",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "gym",
+      "yoga",
+      "everyday"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": false,
+    "pinnedBestseller": true
+  },
+  {
+    "id": "rib-seamless-set",
+    "slug": "rib-seamless-set",
+    "name": "Rib Seamless Set",
+    "status": "active",
+    "categoryId": "sets",
+    "price": 195000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "navy",
+      "sand",
+      "black"
+    ],
+    "blurb": "A finer rib with more give. The one to train in when you want the set to move with you, not hold you.",
+    "details": [
+      "Fine rib seamless knit",
+      "Scoop bra + full-length legging",
+      "Soft waistband",
+      "Breathable"
+    ],
+    "fit": "true",
+    "fitNote": "True to size.",
+    "fabric": "Nylon-elastane rib knit",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "rib-seamless-set--navy--xs",
+        "sku": "QV-003-NAV-XS",
+        "colorId": "navy",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "rib-seamless-set--sand--xs",
+        "sku": "QV-003-SAN-XS",
+        "colorId": "sand",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "rib-seamless-set--black--xs",
+        "sku": "QV-003-BLA-XS",
+        "colorId": "black",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "rib-seamless-set--navy--s",
+        "sku": "QV-003-NAV-S",
+        "colorId": "navy",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "rib-seamless-set--sand--s",
+        "sku": "QV-003-SAN-S",
+        "colorId": "sand",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "rib-seamless-set--black--s",
+        "sku": "QV-003-BLA-S",
+        "colorId": "black",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "rib-seamless-set--navy--m",
+        "sku": "QV-003-NAV-M",
+        "colorId": "navy",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "rib-seamless-set--sand--m",
+        "sku": "QV-003-SAN-M",
+        "colorId": "sand",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "rib-seamless-set--black--m",
+        "sku": "QV-003-BLA-M",
+        "colorId": "black",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "rib-seamless-set--navy--l",
+        "sku": "QV-003-NAV-L",
+        "colorId": "navy",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "rib-seamless-set--sand--l",
+        "sku": "QV-003-SAN-L",
+        "colorId": "sand",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "rib-seamless-set--black--l",
+        "sku": "QV-003-BLA-L",
+        "colorId": "black",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "rib-seamless-set--navy--xl",
+        "sku": "QV-003-NAV-XL",
+        "colorId": "navy",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "rib-seamless-set--sand--xl",
+        "sku": "QV-003-SAN-XL",
+        "colorId": "sand",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "rib-seamless-set--black--xl",
+        "sku": "QV-003-BLA-XL",
+        "colorId": "black",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1626026397008-3316047db4fc",
+        "url": "https://images.unsplash.com/photo-1626026397008-3316047db4fc",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1612310480700-e64c5c42dae7",
+        "url": "https://images.unsplash.com/photo-1612310480700-e64c5c42dae7",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "gym",
+      "yoga",
+      "lounge"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": true,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "studio-two-piece",
+    "slug": "studio-two-piece",
+    "name": "Studio Two-Piece",
+    "status": "active",
+    "categoryId": "sets",
+    "price": 225000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "burgundy",
+      "slate",
+      "black"
+    ],
+    "blurb": "Seam-fit rather than seamless, panelled for structure where you want it and airflow where you need it.",
+    "details": [
+      "Seam-fit panelling",
+      "Mesh ventilation",
+      "Cropped tank + legging",
+      "Flatlock seams"
+    ],
+    "fit": "true",
+    "fitNote": "True to size, supportive through the middle.",
+    "fabric": "Recycled poly-elastane",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "studio-two-piece--burgundy--xs",
+        "sku": "QV-004-BUR-XS",
+        "colorId": "burgundy",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "studio-two-piece--slate--xs",
+        "sku": "QV-004-SLA-XS",
+        "colorId": "slate",
+        "size": "XS",
+        "stock": 0
+      },
+      {
+        "id": "studio-two-piece--black--xs",
+        "sku": "QV-004-BLA-XS",
+        "colorId": "black",
+        "size": "XS",
+        "stock": 0
+      },
+      {
+        "id": "studio-two-piece--burgundy--s",
+        "sku": "QV-004-BUR-S",
+        "colorId": "burgundy",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "studio-two-piece--slate--s",
+        "sku": "QV-004-SLA-S",
+        "colorId": "slate",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "studio-two-piece--black--s",
+        "sku": "QV-004-BLA-S",
+        "colorId": "black",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "studio-two-piece--burgundy--m",
+        "sku": "QV-004-BUR-M",
+        "colorId": "burgundy",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "studio-two-piece--slate--m",
+        "sku": "QV-004-SLA-M",
+        "colorId": "slate",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "studio-two-piece--black--m",
+        "sku": "QV-004-BLA-M",
+        "colorId": "black",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "studio-two-piece--burgundy--l",
+        "sku": "QV-004-BUR-L",
+        "colorId": "burgundy",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "studio-two-piece--slate--l",
+        "sku": "QV-004-SLA-L",
+        "colorId": "slate",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "studio-two-piece--black--l",
+        "sku": "QV-004-BLA-L",
+        "colorId": "black",
+        "size": "L",
+        "stock": 0
+      },
+      {
+        "id": "studio-two-piece--burgundy--xl",
+        "sku": "QV-004-BUR-XL",
+        "colorId": "burgundy",
+        "size": "XL",
+        "stock": 0
+      },
+      {
+        "id": "studio-two-piece--slate--xl",
+        "sku": "QV-004-SLA-XL",
+        "colorId": "slate",
+        "size": "XL",
+        "stock": 0
+      },
+      {
+        "id": "studio-two-piece--black--xl",
+        "sku": "QV-004-BLA-XL",
+        "colorId": "black",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1706029831374-e236f69cbe8b",
+        "url": "https://images.unsplash.com/photo-1706029831374-e236f69cbe8b",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1791212420653-233f6bf4f8bb",
+        "url": "https://images.unsplash.com/photo-1791212420653-233f6bf4f8bb",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "gym",
+      "run",
+      "everyday"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": true,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "seamless-longline-bra",
+    "slug": "seamless-longline-bra",
+    "name": "Seamless Longline Bra",
+    "status": "active",
+    "categoryId": "bras",
+    "price": 85000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "ivory",
+      "mocha",
+      "teal",
+      "black"
+    ],
+    "blurb": "Longline cut with a wide underband. Medium support, and comfortable enough to keep on all day.",
+    "details": [
+      "Longline silhouette",
+      "Wide supportive underband",
+      "Removable cups",
+      "Medium support"
+    ],
+    "fit": "small",
+    "fitNote": "Runs small. Size up if you are between.",
+    "fabric": "Nylon-elastane seamless knit",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "seamless-longline-bra--ivory--xs",
+        "sku": "QV-005-IVO-XS",
+        "colorId": "ivory",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--mocha--xs",
+        "sku": "QV-005-MOC-XS",
+        "colorId": "mocha",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--teal--xs",
+        "sku": "QV-005-TEA-XS",
+        "colorId": "teal",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--black--xs",
+        "sku": "QV-005-BLA-XS",
+        "colorId": "black",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--ivory--s",
+        "sku": "QV-005-IVO-S",
+        "colorId": "ivory",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "seamless-longline-bra--mocha--s",
+        "sku": "QV-005-MOC-S",
+        "colorId": "mocha",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "seamless-longline-bra--teal--s",
+        "sku": "QV-005-TEA-S",
+        "colorId": "teal",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--black--s",
+        "sku": "QV-005-BLA-S",
+        "colorId": "black",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--ivory--m",
+        "sku": "QV-005-IVO-M",
+        "colorId": "ivory",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "seamless-longline-bra--mocha--m",
+        "sku": "QV-005-MOC-M",
+        "colorId": "mocha",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "seamless-longline-bra--teal--m",
+        "sku": "QV-005-TEA-M",
+        "colorId": "teal",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--black--m",
+        "sku": "QV-005-BLA-M",
+        "colorId": "black",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--ivory--l",
+        "sku": "QV-005-IVO-L",
+        "colorId": "ivory",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--mocha--l",
+        "sku": "QV-005-MOC-L",
+        "colorId": "mocha",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--teal--l",
+        "sku": "QV-005-TEA-L",
+        "colorId": "teal",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--black--l",
+        "sku": "QV-005-BLA-L",
+        "colorId": "black",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--ivory--xl",
+        "sku": "QV-005-IVO-XL",
+        "colorId": "ivory",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--mocha--xl",
+        "sku": "QV-005-MOC-XL",
+        "colorId": "mocha",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--teal--xl",
+        "sku": "QV-005-TEA-XL",
+        "colorId": "teal",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "seamless-longline-bra--black--xl",
+        "sku": "QV-005-BLA-XL",
+        "colorId": "black",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1682523426986-92746735ccc2",
+        "url": "https://images.unsplash.com/photo-1682523426986-92746735ccc2",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1768407683326-39eab5ffe373",
+        "url": "https://images.unsplash.com/photo-1768407683326-39eab5ffe373",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "gym",
+      "yoga",
+      "everyday"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": false,
+    "pinnedBestseller": true
+  },
+  {
+    "id": "crossback-sports-bra",
+    "slug": "crossback-sports-bra",
+    "name": "Cross-Back Sports Bra",
+    "status": "active",
+    "categoryId": "bras",
+    "price": 90000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "black",
+      "forest",
+      "sand"
+    ],
+    "blurb": "High support, cross-back straps, no bounce. Built for the days you actually run.",
+    "details": [
+      "High support",
+      "Cross-back straps",
+      "Moisture-wicking",
+      "Bonded edges"
+    ],
+    "fit": "true",
+    "fitNote": "True to size. Snug on purpose.",
+    "fabric": "Recycled poly-elastane",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "crossback-sports-bra--black--xs",
+        "sku": "QV-006-BLA-XS",
+        "colorId": "black",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "crossback-sports-bra--forest--xs",
+        "sku": "QV-006-FOR-XS",
+        "colorId": "forest",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "crossback-sports-bra--sand--xs",
+        "sku": "QV-006-SAN-XS",
+        "colorId": "sand",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "crossback-sports-bra--black--s",
+        "sku": "QV-006-BLA-S",
+        "colorId": "black",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "crossback-sports-bra--forest--s",
+        "sku": "QV-006-FOR-S",
+        "colorId": "forest",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "crossback-sports-bra--sand--s",
+        "sku": "QV-006-SAN-S",
+        "colorId": "sand",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "crossback-sports-bra--black--m",
+        "sku": "QV-006-BLA-M",
+        "colorId": "black",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "crossback-sports-bra--forest--m",
+        "sku": "QV-006-FOR-M",
+        "colorId": "forest",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "crossback-sports-bra--sand--m",
+        "sku": "QV-006-SAN-M",
+        "colorId": "sand",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "crossback-sports-bra--black--l",
+        "sku": "QV-006-BLA-L",
+        "colorId": "black",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "crossback-sports-bra--forest--l",
+        "sku": "QV-006-FOR-L",
+        "colorId": "forest",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "crossback-sports-bra--sand--l",
+        "sku": "QV-006-SAN-L",
+        "colorId": "sand",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "crossback-sports-bra--black--xl",
+        "sku": "QV-006-BLA-XL",
+        "colorId": "black",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "crossback-sports-bra--forest--xl",
+        "sku": "QV-006-FOR-XL",
+        "colorId": "forest",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "crossback-sports-bra--sand--xl",
+        "sku": "QV-006-SAN-XL",
+        "colorId": "sand",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1594730036615-a0f77497536f",
+        "url": "https://images.unsplash.com/photo-1594730036615-a0f77497536f",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1759476530926-f80b01cb6c27",
+        "url": "https://images.unsplash.com/photo-1759476530926-f80b01cb6c27",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "run",
+      "gym"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": false,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "ribbed-scoop-bra",
+    "slug": "ribbed-scoop-bra",
+    "name": "Ribbed Scoop Bra",
+    "status": "active",
+    "categoryId": "bras",
+    "price": 75000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "butter",
+      "ivory",
+      "olive"
+    ],
+    "blurb": "Light support, deep scoop, soft rib. The one that lives in your everyday rotation.",
+    "details": [
+      "Light support",
+      "Deep scoop neckline",
+      "Rib knit",
+      "Pull-on"
+    ],
+    "fit": "true",
+    "fitNote": "True to size.",
+    "fabric": "Cotton-blend rib",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "ribbed-scoop-bra--butter--xs",
+        "sku": "QV-007-BUT-XS",
+        "colorId": "butter",
+        "size": "XS",
+        "stock": 2
+      },
+      {
+        "id": "ribbed-scoop-bra--ivory--xs",
+        "sku": "QV-007-IVO-XS",
+        "colorId": "ivory",
+        "size": "XS",
+        "stock": 2
+      },
+      {
+        "id": "ribbed-scoop-bra--olive--xs",
+        "sku": "QV-007-OLI-XS",
+        "colorId": "olive",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-scoop-bra--butter--s",
+        "sku": "QV-007-BUT-S",
+        "colorId": "butter",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "ribbed-scoop-bra--ivory--s",
+        "sku": "QV-007-IVO-S",
+        "colorId": "ivory",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "ribbed-scoop-bra--olive--s",
+        "sku": "QV-007-OLI-S",
+        "colorId": "olive",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "ribbed-scoop-bra--butter--m",
+        "sku": "QV-007-BUT-M",
+        "colorId": "butter",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "ribbed-scoop-bra--ivory--m",
+        "sku": "QV-007-IVO-M",
+        "colorId": "ivory",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "ribbed-scoop-bra--olive--m",
+        "sku": "QV-007-OLI-M",
+        "colorId": "olive",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-scoop-bra--butter--l",
+        "sku": "QV-007-BUT-L",
+        "colorId": "butter",
+        "size": "L",
+        "stock": 2
+      },
+      {
+        "id": "ribbed-scoop-bra--ivory--l",
+        "sku": "QV-007-IVO-L",
+        "colorId": "ivory",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-scoop-bra--olive--l",
+        "sku": "QV-007-OLI-L",
+        "colorId": "olive",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-scoop-bra--butter--xl",
+        "sku": "QV-007-BUT-XL",
+        "colorId": "butter",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-scoop-bra--ivory--xl",
+        "sku": "QV-007-IVO-XL",
+        "colorId": "ivory",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-scoop-bra--olive--xl",
+        "sku": "QV-007-OLI-XL",
+        "colorId": "olive",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1597299001669-6454fec8ac25",
+        "url": "https://images.unsplash.com/photo-1597299001669-6454fec8ac25",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1635862641294-5d3d7438c942",
+        "url": "https://images.unsplash.com/photo-1635862641294-5d3d7438c942",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "yoga",
+      "lounge",
+      "everyday"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": false,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "highwaist-sculpt-legging",
+    "slug": "highwaist-sculpt-legging",
+    "name": "High-Waist Sculpt Legging",
+    "status": "active",
+    "categoryId": "bottoms",
+    "price": 145000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "navy",
+      "black",
+      "mocha",
+      "slate"
+    ],
+    "blurb": "The legging we get asked about most. High rise, contour seaming, and genuinely opaque under load.",
+    "details": [
+      "High rise",
+      "Contour seaming",
+      "Squat-tested opaque",
+      "Hidden waistband pocket"
+    ],
+    "fit": "true",
+    "fitNote": "True to size and compressive. Size up for a relaxed feel.",
+    "fabric": "Nylon-elastane",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "highwaist-sculpt-legging--navy--xs",
+        "sku": "QV-008-NAV-XS",
+        "colorId": "navy",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--black--xs",
+        "sku": "QV-008-BLA-XS",
+        "colorId": "black",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--mocha--xs",
+        "sku": "QV-008-MOC-XS",
+        "colorId": "mocha",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--slate--xs",
+        "sku": "QV-008-SLA-XS",
+        "colorId": "slate",
+        "size": "XS",
+        "stock": 0
+      },
+      {
+        "id": "highwaist-sculpt-legging--navy--s",
+        "sku": "QV-008-NAV-S",
+        "colorId": "navy",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "highwaist-sculpt-legging--black--s",
+        "sku": "QV-008-BLA-S",
+        "colorId": "black",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "highwaist-sculpt-legging--mocha--s",
+        "sku": "QV-008-MOC-S",
+        "colorId": "mocha",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--slate--s",
+        "sku": "QV-008-SLA-S",
+        "colorId": "slate",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--navy--m",
+        "sku": "QV-008-NAV-M",
+        "colorId": "navy",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "highwaist-sculpt-legging--black--m",
+        "sku": "QV-008-BLA-M",
+        "colorId": "black",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "highwaist-sculpt-legging--mocha--m",
+        "sku": "QV-008-MOC-M",
+        "colorId": "mocha",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--slate--m",
+        "sku": "QV-008-SLA-M",
+        "colorId": "slate",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--navy--l",
+        "sku": "QV-008-NAV-L",
+        "colorId": "navy",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--black--l",
+        "sku": "QV-008-BLA-L",
+        "colorId": "black",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--mocha--l",
+        "sku": "QV-008-MOC-L",
+        "colorId": "mocha",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--slate--l",
+        "sku": "QV-008-SLA-L",
+        "colorId": "slate",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--navy--xl",
+        "sku": "QV-008-NAV-XL",
+        "colorId": "navy",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--black--xl",
+        "sku": "QV-008-BLA-XL",
+        "colorId": "black",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--mocha--xl",
+        "sku": "QV-008-MOC-XL",
+        "colorId": "mocha",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "highwaist-sculpt-legging--slate--xl",
+        "sku": "QV-008-SLA-XL",
+        "colorId": "slate",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1597460970375-1449df2fb73a",
+        "url": "https://images.unsplash.com/photo-1597460970375-1449df2fb73a",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1618259181324-86a49fe68099",
+        "url": "https://images.unsplash.com/photo-1618259181324-86a49fe68099",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "gym",
+      "run",
+      "everyday"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": true,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "flare-lounge-legging",
+    "slug": "flare-lounge-legging",
+    "name": "Flare Lounge Legging",
+    "status": "active",
+    "categoryId": "bottoms",
+    "price": 135000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "mocha",
+      "burgundy",
+      "black"
+    ],
+    "blurb": "A soft flare through the ankle. Studio to street without changing.",
+    "details": [
+      "Flared hem",
+      "High rise",
+      "Brushed inside",
+      "Full length"
+    ],
+    "fit": "true",
+    "fitNote": "True to size. Long, made for a trainer or a heel.",
+    "fabric": "Brushed poly-elastane",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "flare-lounge-legging--mocha--xs",
+        "sku": "QV-009-MOC-XS",
+        "colorId": "mocha",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "flare-lounge-legging--burgundy--xs",
+        "sku": "QV-009-BUR-XS",
+        "colorId": "burgundy",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "flare-lounge-legging--black--xs",
+        "sku": "QV-009-BLA-XS",
+        "colorId": "black",
+        "size": "XS",
+        "stock": 0
+      },
+      {
+        "id": "flare-lounge-legging--mocha--s",
+        "sku": "QV-009-MOC-S",
+        "colorId": "mocha",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "flare-lounge-legging--burgundy--s",
+        "sku": "QV-009-BUR-S",
+        "colorId": "burgundy",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "flare-lounge-legging--black--s",
+        "sku": "QV-009-BLA-S",
+        "colorId": "black",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "flare-lounge-legging--mocha--m",
+        "sku": "QV-009-MOC-M",
+        "colorId": "mocha",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "flare-lounge-legging--burgundy--m",
+        "sku": "QV-009-BUR-M",
+        "colorId": "burgundy",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "flare-lounge-legging--black--m",
+        "sku": "QV-009-BLA-M",
+        "colorId": "black",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "flare-lounge-legging--mocha--l",
+        "sku": "QV-009-MOC-L",
+        "colorId": "mocha",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "flare-lounge-legging--burgundy--l",
+        "sku": "QV-009-BUR-L",
+        "colorId": "burgundy",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "flare-lounge-legging--black--l",
+        "sku": "QV-009-BLA-L",
+        "colorId": "black",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "flare-lounge-legging--mocha--xl",
+        "sku": "QV-009-MOC-XL",
+        "colorId": "mocha",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "flare-lounge-legging--burgundy--xl",
+        "sku": "QV-009-BUR-XL",
+        "colorId": "burgundy",
+        "size": "XL",
+        "stock": 0
+      },
+      {
+        "id": "flare-lounge-legging--black--xl",
+        "sku": "QV-009-BLA-XL",
+        "colorId": "black",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1650461970708-7bf32499516d",
+        "url": "https://images.unsplash.com/photo-1650461970708-7bf32499516d",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1586930713012-7059dc74a72b",
+        "url": "https://images.unsplash.com/photo-1586930713012-7059dc74a72b",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "lounge",
+      "everyday",
+      "yoga"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": false,
+    "pinnedBestseller": true
+  },
+  {
+    "id": "golf-tennis-skort-dress",
+    "slug": "golf-tennis-skort-dress",
+    "name": "Golf & Tennis Skort Dress",
+    "status": "active",
+    "categoryId": "skorts",
+    "price": 245000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "teal",
+      "white",
+      "black"
+    ],
+    "blurb": "Collared, zip-front, with an inbuilt pant underneath. Multifunctional sportswear: course, court, then lunch.",
+    "details": [
+      "Inbuilt pant",
+      "Zip front placket",
+      "Collared, sleeveless",
+      "Four-way stretch"
+    ],
+    "fit": "true",
+    "fitNote": "True to size. Stocked XS to XXL.",
+    "fabric": "Poly-elastane performance knit",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "golf-tennis-skort-dress--teal--xs",
+        "sku": "QV-010-TEA-XS",
+        "colorId": "teal",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "golf-tennis-skort-dress--white--xs",
+        "sku": "QV-010-WHI-XS",
+        "colorId": "white",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "golf-tennis-skort-dress--black--xs",
+        "sku": "QV-010-BLA-XS",
+        "colorId": "black",
+        "size": "XS",
+        "stock": 0
+      },
+      {
+        "id": "golf-tennis-skort-dress--teal--s",
+        "sku": "QV-010-TEA-S",
+        "colorId": "teal",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "golf-tennis-skort-dress--white--s",
+        "sku": "QV-010-WHI-S",
+        "colorId": "white",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "golf-tennis-skort-dress--black--s",
+        "sku": "QV-010-BLA-S",
+        "colorId": "black",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "golf-tennis-skort-dress--teal--m",
+        "sku": "QV-010-TEA-M",
+        "colorId": "teal",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "golf-tennis-skort-dress--white--m",
+        "sku": "QV-010-WHI-M",
+        "colorId": "white",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "golf-tennis-skort-dress--black--m",
+        "sku": "QV-010-BLA-M",
+        "colorId": "black",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "golf-tennis-skort-dress--teal--l",
+        "sku": "QV-010-TEA-L",
+        "colorId": "teal",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "golf-tennis-skort-dress--white--l",
+        "sku": "QV-010-WHI-L",
+        "colorId": "white",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "golf-tennis-skort-dress--black--l",
+        "sku": "QV-010-BLA-L",
+        "colorId": "black",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "golf-tennis-skort-dress--teal--xl",
+        "sku": "QV-010-TEA-XL",
+        "colorId": "teal",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "golf-tennis-skort-dress--white--xl",
+        "sku": "QV-010-WHI-XL",
+        "colorId": "white",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "golf-tennis-skort-dress--black--xl",
+        "sku": "QV-010-BLA-XL",
+        "colorId": "black",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1639564166502-e6b287fbb0ec",
+        "url": "https://images.unsplash.com/photo-1639564166502-e6b287fbb0ec",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1650914875928-4b61223a6a90",
+        "url": "https://images.unsplash.com/photo-1650914875928-4b61223a6a90",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "golf-tennis",
+      "everyday"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": false,
+    "pinnedBestseller": true
+  },
+  {
+    "id": "pleated-tennis-skort",
+    "slug": "pleated-tennis-skort",
+    "name": "Pleated Tennis Skort",
+    "status": "active",
+    "categoryId": "skorts",
+    "price": 165000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "white",
+      "teal",
+      "butter"
+    ],
+    "blurb": "Knife-pleated with the same inbuilt pant. Moves properly on a serve.",
+    "details": [
+      "Knife pleats",
+      "Inbuilt pant",
+      "Elasticated waist",
+      "Ball pocket"
+    ],
+    "fit": "true",
+    "fitNote": "True to size.",
+    "fabric": "Poly-elastane performance knit",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "pleated-tennis-skort--white--xs",
+        "sku": "QV-011-WHI-XS",
+        "colorId": "white",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "pleated-tennis-skort--teal--xs",
+        "sku": "QV-011-TEA-XS",
+        "colorId": "teal",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "pleated-tennis-skort--butter--xs",
+        "sku": "QV-011-BUT-XS",
+        "colorId": "butter",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "pleated-tennis-skort--white--s",
+        "sku": "QV-011-WHI-S",
+        "colorId": "white",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "pleated-tennis-skort--teal--s",
+        "sku": "QV-011-TEA-S",
+        "colorId": "teal",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "pleated-tennis-skort--butter--s",
+        "sku": "QV-011-BUT-S",
+        "colorId": "butter",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "pleated-tennis-skort--white--m",
+        "sku": "QV-011-WHI-M",
+        "colorId": "white",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "pleated-tennis-skort--teal--m",
+        "sku": "QV-011-TEA-M",
+        "colorId": "teal",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "pleated-tennis-skort--butter--m",
+        "sku": "QV-011-BUT-M",
+        "colorId": "butter",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "pleated-tennis-skort--white--l",
+        "sku": "QV-011-WHI-L",
+        "colorId": "white",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "pleated-tennis-skort--teal--l",
+        "sku": "QV-011-TEA-L",
+        "colorId": "teal",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "pleated-tennis-skort--butter--l",
+        "sku": "QV-011-BUT-L",
+        "colorId": "butter",
+        "size": "L",
+        "stock": 0
+      },
+      {
+        "id": "pleated-tennis-skort--white--xl",
+        "sku": "QV-011-WHI-XL",
+        "colorId": "white",
+        "size": "XL",
+        "stock": 0
+      },
+      {
+        "id": "pleated-tennis-skort--teal--xl",
+        "sku": "QV-011-TEA-XL",
+        "colorId": "teal",
+        "size": "XL",
+        "stock": 0
+      },
+      {
+        "id": "pleated-tennis-skort--butter--xl",
+        "sku": "QV-011-BUT-XL",
+        "colorId": "butter",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1712869456131-f20d945004cd",
+        "url": "https://images.unsplash.com/photo-1712869456131-f20d945004cd",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1677368744545-c5a4d7de7225",
+        "url": "https://images.unsplash.com/photo-1677368744545-c5a4d7de7225",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "golf-tennis",
+      "everyday"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": false,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "sculpt-one-piece",
+    "slug": "sculpt-one-piece",
+    "name": "Sculpt One-Piece",
+    "status": "active",
+    "categoryId": "swim",
+    "price": 185000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "black",
+      "teal",
+      "mocha"
+    ],
+    "blurb": "Scooped back, high leg, and a lining that actually holds. Swims as well as it photographs.",
+    "details": [
+      "Full front lining",
+      "High-leg cut",
+      "Scoop back",
+      "Chlorine resistant"
+    ],
+    "fit": "small",
+    "fitNote": "Swim runs small. Size up if between.",
+    "fabric": "Recycled nylon-elastane",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "sculpt-one-piece--black--xs",
+        "sku": "QV-012-BLA-XS",
+        "colorId": "black",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-one-piece--teal--xs",
+        "sku": "QV-012-TEA-XS",
+        "colorId": "teal",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-one-piece--mocha--xs",
+        "sku": "QV-012-MOC-XS",
+        "colorId": "mocha",
+        "size": "XS",
+        "stock": 0
+      },
+      {
+        "id": "sculpt-one-piece--black--s",
+        "sku": "QV-012-BLA-S",
+        "colorId": "black",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-one-piece--teal--s",
+        "sku": "QV-012-TEA-S",
+        "colorId": "teal",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-one-piece--mocha--s",
+        "sku": "QV-012-MOC-S",
+        "colorId": "mocha",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-one-piece--black--m",
+        "sku": "QV-012-BLA-M",
+        "colorId": "black",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-one-piece--teal--m",
+        "sku": "QV-012-TEA-M",
+        "colorId": "teal",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-one-piece--mocha--m",
+        "sku": "QV-012-MOC-M",
+        "colorId": "mocha",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-one-piece--black--l",
+        "sku": "QV-012-BLA-L",
+        "colorId": "black",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-one-piece--teal--l",
+        "sku": "QV-012-TEA-L",
+        "colorId": "teal",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-one-piece--mocha--l",
+        "sku": "QV-012-MOC-L",
+        "colorId": "mocha",
+        "size": "L",
+        "stock": 0
+      },
+      {
+        "id": "sculpt-one-piece--black--xl",
+        "sku": "QV-012-BLA-XL",
+        "colorId": "black",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "sculpt-one-piece--teal--xl",
+        "sku": "QV-012-TEA-XL",
+        "colorId": "teal",
+        "size": "XL",
+        "stock": 0
+      },
+      {
+        "id": "sculpt-one-piece--mocha--xl",
+        "sku": "QV-012-MOC-XL",
+        "colorId": "mocha",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1585924756944-b82af627eca9",
+        "url": "https://images.unsplash.com/photo-1585924756944-b82af627eca9",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1467632499275-7a693a761056",
+        "url": "https://images.unsplash.com/photo-1467632499275-7a693a761056",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "swim"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": false,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "ribbed-bikini-set",
+    "slug": "ribbed-bikini-set",
+    "name": "Ribbed Bikini Set",
+    "status": "active",
+    "categoryId": "swim",
+    "price": 165000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "butter",
+      "ivory",
+      "teal"
+    ],
+    "blurb": "Ribbed triangle top with tie sides. Sold as a set, sized separately on request.",
+    "details": [
+      "Ribbed fabric",
+      "Adjustable tie sides",
+      "Removable cups",
+      "Sold as a set"
+    ],
+    "fit": "true",
+    "fitNote": "True to size. Ask us to split sizes across top and bottom.",
+    "fabric": "Recycled nylon-elastane rib",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "ribbed-bikini-set--butter--xs",
+        "sku": "QV-013-BUT-XS",
+        "colorId": "butter",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-bikini-set--ivory--xs",
+        "sku": "QV-013-IVO-XS",
+        "colorId": "ivory",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-bikini-set--teal--xs",
+        "sku": "QV-013-TEA-XS",
+        "colorId": "teal",
+        "size": "XS",
+        "stock": 0
+      },
+      {
+        "id": "ribbed-bikini-set--butter--s",
+        "sku": "QV-013-BUT-S",
+        "colorId": "butter",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "ribbed-bikini-set--ivory--s",
+        "sku": "QV-013-IVO-S",
+        "colorId": "ivory",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-bikini-set--teal--s",
+        "sku": "QV-013-TEA-S",
+        "colorId": "teal",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-bikini-set--butter--m",
+        "sku": "QV-013-BUT-M",
+        "colorId": "butter",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-bikini-set--ivory--m",
+        "sku": "QV-013-IVO-M",
+        "colorId": "ivory",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-bikini-set--teal--m",
+        "sku": "QV-013-TEA-M",
+        "colorId": "teal",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-bikini-set--butter--l",
+        "sku": "QV-013-BUT-L",
+        "colorId": "butter",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-bikini-set--ivory--l",
+        "sku": "QV-013-IVO-L",
+        "colorId": "ivory",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-bikini-set--teal--l",
+        "sku": "QV-013-TEA-L",
+        "colorId": "teal",
+        "size": "L",
+        "stock": 0
+      },
+      {
+        "id": "ribbed-bikini-set--butter--xl",
+        "sku": "QV-013-BUT-XL",
+        "colorId": "butter",
+        "size": "XL",
+        "stock": 0
+      },
+      {
+        "id": "ribbed-bikini-set--ivory--xl",
+        "sku": "QV-013-IVO-XL",
+        "colorId": "ivory",
+        "size": "XL",
+        "stock": 0
+      },
+      {
+        "id": "ribbed-bikini-set--teal--xl",
+        "sku": "QV-013-TEA-XL",
+        "colorId": "teal",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1597297260448-3cc8d0a38388",
+        "url": "https://images.unsplash.com/photo-1597297260448-3cc8d0a38388",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1597296591262-3a1229aaecec",
+        "url": "https://images.unsplash.com/photo-1597296591262-3a1229aaecec",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "swim"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": true,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "ribbed-lounge-set",
+    "slug": "ribbed-lounge-set",
+    "name": "Ribbed Lounge Set",
+    "status": "active",
+    "categoryId": "lounge",
+    "price": 240000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "burgundy",
+      "mocha",
+      "cream"
+    ],
+    "blurb": "Hooded rib top and wide-leg pant in the same soft knit. Built for long flights and slow mornings.",
+    "details": [
+      "Hooded rib top + wide-leg pant",
+      "Soft-spun rib knit",
+      "Relaxed through the leg",
+      "Sold as a set"
+    ],
+    "fit": "relaxed",
+    "fitNote": "Oversized on purpose. Take your usual size.",
+    "fabric": "Viscose-blend rib knit",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "ribbed-lounge-set--burgundy--xs",
+        "sku": "QV-014-BUR-XS",
+        "colorId": "burgundy",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-lounge-set--mocha--xs",
+        "sku": "QV-014-MOC-XS",
+        "colorId": "mocha",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-lounge-set--cream--xs",
+        "sku": "QV-014-CRE-XS",
+        "colorId": "cream",
+        "size": "XS",
+        "stock": 0
+      },
+      {
+        "id": "ribbed-lounge-set--burgundy--s",
+        "sku": "QV-014-BUR-S",
+        "colorId": "burgundy",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "ribbed-lounge-set--mocha--s",
+        "sku": "QV-014-MOC-S",
+        "colorId": "mocha",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-lounge-set--cream--s",
+        "sku": "QV-014-CRE-S",
+        "colorId": "cream",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-lounge-set--burgundy--m",
+        "sku": "QV-014-BUR-M",
+        "colorId": "burgundy",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "ribbed-lounge-set--mocha--m",
+        "sku": "QV-014-MOC-M",
+        "colorId": "mocha",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-lounge-set--cream--m",
+        "sku": "QV-014-CRE-M",
+        "colorId": "cream",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-lounge-set--burgundy--l",
+        "sku": "QV-014-BUR-L",
+        "colorId": "burgundy",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-lounge-set--mocha--l",
+        "sku": "QV-014-MOC-L",
+        "colorId": "mocha",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-lounge-set--cream--l",
+        "sku": "QV-014-CRE-L",
+        "colorId": "cream",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-lounge-set--burgundy--xl",
+        "sku": "QV-014-BUR-XL",
+        "colorId": "burgundy",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-lounge-set--mocha--xl",
+        "sku": "QV-014-MOC-XL",
+        "colorId": "mocha",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "ribbed-lounge-set--cream--xl",
+        "sku": "QV-014-CRE-XL",
+        "colorId": "cream",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1759229875274-bd920070ceef",
+        "url": "https://images.unsplash.com/photo-1759229875274-bd920070ceef",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1766056278825-55168658f120",
+        "url": "https://images.unsplash.com/photo-1766056278825-55168658f120",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "lounge",
+      "everyday"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": false,
+    "pinnedBestseller": true
+  },
+  {
+    "id": "oversized-lounge-hoodie",
+    "slug": "oversized-lounge-hoodie",
+    "name": "Oversized Lounge Hoodie",
+    "status": "active",
+    "categoryId": "lounge",
+    "price": 165000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "cream",
+      "slate",
+      "forest"
+    ],
+    "blurb": "Heavyweight, dropped shoulder, brushed inside. The one that never makes it back to its owner.",
+    "details": [
+      "Heavyweight fleeceback",
+      "Dropped shoulder",
+      "Kangaroo pocket",
+      "Ribbed cuffs"
+    ],
+    "fit": "relaxed",
+    "fitNote": "Oversized. Size down for a neater fit.",
+    "fabric": "Cotton-blend fleeceback",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "oversized-lounge-hoodie--cream--xs",
+        "sku": "QV-015-CRE-XS",
+        "colorId": "cream",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "oversized-lounge-hoodie--slate--xs",
+        "sku": "QV-015-SLA-XS",
+        "colorId": "slate",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "oversized-lounge-hoodie--forest--xs",
+        "sku": "QV-015-FOR-XS",
+        "colorId": "forest",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "oversized-lounge-hoodie--cream--s",
+        "sku": "QV-015-CRE-S",
+        "colorId": "cream",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "oversized-lounge-hoodie--slate--s",
+        "sku": "QV-015-SLA-S",
+        "colorId": "slate",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "oversized-lounge-hoodie--forest--s",
+        "sku": "QV-015-FOR-S",
+        "colorId": "forest",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "oversized-lounge-hoodie--cream--m",
+        "sku": "QV-015-CRE-M",
+        "colorId": "cream",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "oversized-lounge-hoodie--slate--m",
+        "sku": "QV-015-SLA-M",
+        "colorId": "slate",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "oversized-lounge-hoodie--forest--m",
+        "sku": "QV-015-FOR-M",
+        "colorId": "forest",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "oversized-lounge-hoodie--cream--l",
+        "sku": "QV-015-CRE-L",
+        "colorId": "cream",
+        "size": "L",
+        "stock": 2
+      },
+      {
+        "id": "oversized-lounge-hoodie--slate--l",
+        "sku": "QV-015-SLA-L",
+        "colorId": "slate",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "oversized-lounge-hoodie--forest--l",
+        "sku": "QV-015-FOR-L",
+        "colorId": "forest",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "oversized-lounge-hoodie--cream--xl",
+        "sku": "QV-015-CRE-XL",
+        "colorId": "cream",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "oversized-lounge-hoodie--slate--xl",
+        "sku": "QV-015-SLA-XL",
+        "colorId": "slate",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "oversized-lounge-hoodie--forest--xl",
+        "sku": "QV-015-FOR-XL",
+        "colorId": "forest",
+        "size": "XL",
+        "stock": 1
+      }
+    ],
+    "photos": [
+      {
+        "id": "1515614557830-ae0df9016e19",
+        "url": "https://images.unsplash.com/photo-1515614557830-ae0df9016e19",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1779675789001-1c01b5a8aa30",
+        "url": "https://images.unsplash.com/photo-1779675789001-1c01b5a8aa30",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "lounge",
+      "everyday"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": false,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "wideleg-lounge-pant",
+    "slug": "wideleg-lounge-pant",
+    "name": "Wide-Leg Lounge Pant",
+    "status": "active",
+    "categoryId": "lounge",
+    "price": 150000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [
+      "burgundy",
+      "mocha",
+      "black"
+    ],
+    "blurb": "A proper wide leg with a soft waistband. Wears like pyjamas, reads like trousers.",
+    "details": [
+      "Wide leg",
+      "Soft elastic waistband",
+      "Full length",
+      "Side pockets"
+    ],
+    "fit": "relaxed",
+    "fitNote": "Relaxed. Take your usual size.",
+    "fabric": "Viscose-blend rib knit",
+    "care": "Cold wash, inside out, no fabric softener. Hang to dry.",
+    "variants": [
+      {
+        "id": "wideleg-lounge-pant--burgundy--xs",
+        "sku": "QV-016-BUR-XS",
+        "colorId": "burgundy",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "wideleg-lounge-pant--mocha--xs",
+        "sku": "QV-016-MOC-XS",
+        "colorId": "mocha",
+        "size": "XS",
+        "stock": 1
+      },
+      {
+        "id": "wideleg-lounge-pant--black--xs",
+        "sku": "QV-016-BLA-XS",
+        "colorId": "black",
+        "size": "XS",
+        "stock": 0
+      },
+      {
+        "id": "wideleg-lounge-pant--burgundy--s",
+        "sku": "QV-016-BUR-S",
+        "colorId": "burgundy",
+        "size": "S",
+        "stock": 2
+      },
+      {
+        "id": "wideleg-lounge-pant--mocha--s",
+        "sku": "QV-016-MOC-S",
+        "colorId": "mocha",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "wideleg-lounge-pant--black--s",
+        "sku": "QV-016-BLA-S",
+        "colorId": "black",
+        "size": "S",
+        "stock": 1
+      },
+      {
+        "id": "wideleg-lounge-pant--burgundy--m",
+        "sku": "QV-016-BUR-M",
+        "colorId": "burgundy",
+        "size": "M",
+        "stock": 2
+      },
+      {
+        "id": "wideleg-lounge-pant--mocha--m",
+        "sku": "QV-016-MOC-M",
+        "colorId": "mocha",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "wideleg-lounge-pant--black--m",
+        "sku": "QV-016-BLA-M",
+        "colorId": "black",
+        "size": "M",
+        "stock": 1
+      },
+      {
+        "id": "wideleg-lounge-pant--burgundy--l",
+        "sku": "QV-016-BUR-L",
+        "colorId": "burgundy",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "wideleg-lounge-pant--mocha--l",
+        "sku": "QV-016-MOC-L",
+        "colorId": "mocha",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "wideleg-lounge-pant--black--l",
+        "sku": "QV-016-BLA-L",
+        "colorId": "black",
+        "size": "L",
+        "stock": 1
+      },
+      {
+        "id": "wideleg-lounge-pant--burgundy--xl",
+        "sku": "QV-016-BUR-XL",
+        "colorId": "burgundy",
+        "size": "XL",
+        "stock": 1
+      },
+      {
+        "id": "wideleg-lounge-pant--mocha--xl",
+        "sku": "QV-016-MOC-XL",
+        "colorId": "mocha",
+        "size": "XL",
+        "stock": 0
+      },
+      {
+        "id": "wideleg-lounge-pant--black--xl",
+        "sku": "QV-016-BLA-XL",
+        "colorId": "black",
+        "size": "XL",
+        "stock": 0
+      }
+    ],
+    "photos": [
+      {
+        "id": "1779676086442-2e8cd975b28c",
+        "url": "https://images.unsplash.com/photo-1779676086442-2e8cd975b28c",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      },
+      {
+        "id": "1768929096297-ba9fde63f58f",
+        "url": "https://images.unsplash.com/photo-1768929096297-ba9fde63f58f",
+        "width": 1200,
+        "height": 1600,
+        "widths": [
+          400,
+          800,
+          1200
+        ],
+        "colorId": null
+      }
+    ],
+    "seo": {
+      "title": "",
+      "description": ""
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "termIds": [
+      "lounge",
+      "everyday"
+    ],
+    "type": "piece",
+    "kitItems": [],
+    "isNew": false,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "kit-lift-day",
+    "slug": "kit-lift-day",
+    "name": "Lift Day",
+    "status": "active",
+    "categoryId": "",
+    "price": 425000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [],
+    "termIds": [],
+    "blurb": "Compression where it counts. Longline bra, sculpt legging, nothing that moves.",
+    "details": [],
+    "fit": null,
+    "fitNote": "",
+    "fabric": "",
+    "care": "",
+    "variants": [],
+    "photos": [
+      {
+        "id": "look-lift-day",
+        "width": 800,
+        "height": 1067,
+        "widths": [
+          400
+        ]
+      }
+    ],
+    "seo": {
+      "title": "Lift Day kit",
+      "description": "Compression where it counts. Longline bra, sculpt legging, nothing that moves."
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "type": "kit",
+    "kitItems": [
+      "seamless-longline-bra",
+      "highwaist-sculpt-legging",
+      "rib-seamless-set"
+    ],
+    "isNew": false,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "kit-course-to-lunch",
+    "slug": "kit-course-to-lunch",
+    "name": "Course to Lunch",
+    "status": "active",
+    "categoryId": "",
+    "price": 500000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [],
+    "termIds": [],
+    "blurb": "The skort dress with an inbuilt pant, so nine holes and a table both work.",
+    "details": [],
+    "fit": null,
+    "fitNote": "",
+    "fabric": "",
+    "care": "",
+    "variants": [],
+    "photos": [
+      {
+        "id": "look-course-to-lunch",
+        "width": 800,
+        "height": 1067,
+        "widths": [
+          400
+        ]
+      }
+    ],
+    "seo": {
+      "title": "Course to Lunch kit",
+      "description": "The skort dress with an inbuilt pant, so nine holes and a table both work."
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "type": "kit",
+    "kitItems": [
+      "golf-tennis-skort-dress",
+      "crossback-sports-bra",
+      "pleated-tennis-skort"
+    ],
+    "isNew": false,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "kit-long-haul",
+    "slug": "kit-long-haul",
+    "name": "Long Haul",
+    "status": "active",
+    "categoryId": "",
+    "price": 555000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [],
+    "termIds": [],
+    "blurb": "Rib lounge set and an oversized hoodie. Built for the flight, not the photo.",
+    "details": [],
+    "fit": null,
+    "fitNote": "",
+    "fabric": "",
+    "care": "",
+    "variants": [],
+    "photos": [
+      {
+        "id": "look-long-haul",
+        "width": 800,
+        "height": 1067,
+        "widths": [
+          400
+        ]
+      }
+    ],
+    "seo": {
+      "title": "Long Haul kit",
+      "description": "Rib lounge set and an oversized hoodie. Built for the flight, not the photo."
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "type": "kit",
+    "kitItems": [
+      "ribbed-lounge-set",
+      "oversized-lounge-hoodie",
+      "wideleg-lounge-pant"
+    ],
+    "isNew": false,
+    "pinnedBestseller": false
+  },
+  {
+    "id": "kit-off-duty",
+    "slug": "kit-off-duty",
+    "name": "Off Duty",
+    "status": "active",
+    "categoryId": "",
+    "price": 360000,
+    "compareAtPrice": null,
+    "salePercent": null,
+    "colorIds": [],
+    "termIds": [],
+    "blurb": "Soft rib bra, flare legging, and a jogger for when it cools down.",
+    "details": [],
+    "fit": null,
+    "fitNote": "",
+    "fabric": "",
+    "care": "",
+    "variants": [],
+    "photos": [
+      {
+        "id": "look-off-duty",
+        "width": 800,
+        "height": 1067,
+        "widths": [
+          400
+        ]
+      }
+    ],
+    "seo": {
+      "title": "Off Duty kit",
+      "description": "Soft rib bra, flare legging, and a jogger for when it cools down."
+    },
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "updatedAt": "2026-10-01T09:00:00.000Z",
+    "type": "kit",
+    "kitItems": [
+      "ribbed-scoop-bra",
+      "flare-lounge-legging",
+      "wideleg-lounge-pant"
+    ],
+    "isNew": false,
+    "pinnedBestseller": false
+  }
+]

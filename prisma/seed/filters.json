@@ -1,0 +1,75 @@
+{
+  "facets": [
+    {
+      "id": "category",
+      "label": "Category",
+      "visible": true,
+      "position": 0
+    },
+    {
+      "id": "group:movement",
+      "label": "Movement",
+      "visible": true,
+      "position": 1
+    },
+    {
+      "id": "group:edits",
+      "label": "Edits",
+      "visible": true,
+      "position": 2
+    },
+    {
+      "id": "size",
+      "label": "Size",
+      "visible": true,
+      "position": 3
+    },
+    {
+      "id": "color",
+      "label": "Colour",
+      "visible": true,
+      "position": 4
+    },
+    {
+      "id": "price",
+      "label": "Price",
+      "visible": true,
+      "position": 5
+    }
+  ],
+  "sort": {
+    "default": "featured",
+    "options": [
+      {
+        "id": "featured",
+        "label": "Featured",
+        "visible": true,
+        "position": 0
+      },
+      {
+        "id": "bestselling",
+        "label": "Best selling",
+        "visible": true,
+        "position": 1
+      },
+      {
+        "id": "new",
+        "label": "Newest",
+        "visible": true,
+        "position": 2
+      },
+      {
+        "id": "low",
+        "label": "Price, low to high",
+        "visible": true,
+        "position": 3
+      },
+      {
+        "id": "high",
+        "label": "Price, high to low",
+        "visible": true,
+        "position": 4
+      }
+    ]
+  }
+}

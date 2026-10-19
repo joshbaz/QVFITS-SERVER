@@ -1,0 +1,38 @@
+[
+  {
+    "id": "xs",
+    "label": "XS",
+    "group": "apparel",
+    "position": 0
+  },
+  {
+    "id": "s",
+    "label": "S",
+    "group": "apparel",
+    "position": 1
+  },
+  {
+    "id": "m",
+    "label": "M",
+    "group": "apparel",
+    "position": 2
+  },
+  {
+    "id": "l",
+    "label": "L",
+    "group": "apparel",
+    "position": 3
+  },
+  {
+    "id": "xl",
+    "label": "XL",
+    "group": "apparel",
+    "position": 4
+  },
+  {
+    "id": "xxl",
+    "label": "XXL",
+    "group": "apparel",
+    "position": 5
+  }
+]
