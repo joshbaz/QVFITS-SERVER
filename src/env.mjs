@@ -6,6 +6,9 @@ const envSchema = z.object({
     PORT: z.coerce.number().int().positive().default(5000),
     DATABASE_URL: z.string().startsWith("mongodb", "DATABASE_URL must be a MongoDB connection string"),
     AUTH_SECRET: z.string().min(32, "AUTH_SECRET must be at least 32 characters"),
+    REDIS_URL: z.string().startsWith("redis", "REDIS_URL must be a Redis connection string"),
+    // Where the client runs; invite links point here.
+    APP_URL: z.string().url().default("http://localhost:5173"),
 });
 
 const parsed = envSchema.safeParse(process.env);

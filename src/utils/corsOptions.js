@@ -21,6 +21,7 @@ that includes the following methods:
 - 'GET': Allows reading the resource.
 - 'POST': Allows creating a new resource.
 - 'PUT': Allows updating an existing resource.
+- 'PATCH': Allows partly updating an existing resource.
 - 'DELETE': Allows deleting a resource.
 - 'OPTIONS': Allows querying the supported HTTP methods.
 
@@ -52,7 +53,7 @@ export const corsOptions = {
 
     ],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'x-device-id', 'x-client-ip', 'x-ticket-token'],
     preflightContinue: false,
     optionsSuccessStatus: 204,

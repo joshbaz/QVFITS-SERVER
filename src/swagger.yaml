@@ -2,8 +2,338 @@ openapi: 3.0.0
 info:
   title: QVFITS API Documentation
   version: 1.0.0
-  description: API documentation for the QVFITS server
+  description: |
+    API documentation for the QVFITS server.
+
+    Every success is `{ data }`; every failure is `{ error: { code, message, details? } }`.
+    Admin routes take `Authorization: Bearer <accessToken>` (15 minutes). The refresh token
+    is an httpOnly cookie (`qvfits_admin_rt`) scoped to `/api/v1/auth/admin`.
 servers:
   - url: http://localhost:5000/api/v1
     description: Development server
-paths: {}
+tags:
+  - name: Admin auth
+  - name: Team
+components:
+  securitySchemes:
+    adminBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code: { type: string, example: CONFLICT }
+            message: { type: string }
+            details:
+              type: object
+              properties:
+                fieldErrors:
+                  type: object
+                  additionalProperties: { type: array, items: { type: string } }
+    PermissionMap:
+      type: object
+      additionalProperties: { type: array, items: { type: string } }
+      example: { products: [view, edit], orders: [view] }
+    AdminUser:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        email: { type: string }
+        role: { type: string, example: owner }
+        permissions: { $ref: '#/components/schemas/PermissionMap' }
+    AdminSession:
+      type: object
+      properties:
+        admin: { $ref: '#/components/schemas/AdminUser' }
+        accessToken: { type: string }
+    StaffMember:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        email: { type: string }
+        roleId: { type: string }
+        overrides: { $ref: '#/components/schemas/PermissionMap' }
+        status: { type: string, enum: [active, invited, suspended] }
+        lastSeenAt: { type: string, format: date-time, nullable: true }
+        createdAt: { type: string, format: date-time }
+    Role:
+      type: object
+      properties:
+        id: { type: string, example: manager }
+        name: { type: string }
+        description: { type: string }
+        system: { type: boolean }
+        permissions: { $ref: '#/components/schemas/PermissionMap' }
+  responses:
+    Error:
+      description: Failure
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    Session:
+      description: Signed in. Sets the refresh cookie.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data: { $ref: '#/components/schemas/AdminSession' }
+paths:
+  /auth/admin/setup:
+    get:
+      tags: [Admin auth]
+      summary: Whether the one-time owner setup is still open
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: object, properties: { open: { type: boolean } } }
+    post:
+      tags: [Admin auth]
+      summary: Create the first admin as the owner (only while setup is open)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name: { type: string }
+                email: { type: string }
+                password: { type: string, minLength: 8, maxLength: 72 }
+      responses:
+        '201': { $ref: '#/components/responses/Session' }
+        '409': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
+  /auth/admin/login:
+    post:
+      tags: [Admin auth]
+      summary: Sign in (rate limited)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string }
+                password: { type: string }
+      responses:
+        '200': { $ref: '#/components/responses/Session' }
+        '401': { $ref: '#/components/responses/Error' }
+        '403': { $ref: '#/components/responses/Error' }
+        '429': { $ref: '#/components/responses/Error' }
+  /auth/admin/refresh:
+    post:
+      tags: [Admin auth]
+      summary: Swap the refresh cookie for a new access token (rotates the cookie)
+      responses:
+        '200': { $ref: '#/components/responses/Session' }
+        '401': { $ref: '#/components/responses/Error' }
+  /auth/admin/logout:
+    post:
+      tags: [Admin auth]
+      summary: End this session and clear the refresh cookie
+      responses:
+        '204': { description: Signed out }
+  /auth/admin/me:
+    get:
+      tags: [Admin auth]
+      summary: The signed-in admin with current permissions
+      security: [{ adminBearer: [] }]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/AdminUser' }
+        '401': { $ref: '#/components/responses/Error' }
+  /auth/admin/invite:
+    post:
+      tags: [Admin auth]
+      summary: Invite someone to the team (needs team edit; only an owner can invite an owner)
+      security: [{ adminBearer: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, roleId]
+              properties:
+                name: { type: string }
+                email: { type: string }
+                roleId: { type: string }
+      responses:
+        '201':
+          description: Invited. The link is valid for 7 days.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      member: { $ref: '#/components/schemas/StaffMember' }
+                      inviteLink: { type: string }
+        '403': { $ref: '#/components/responses/Error' }
+        '409': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
+  /auth/admin/accept-invite:
+    post:
+      tags: [Admin auth]
+      summary: Set a password from an invite link and sign in (the link works once)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, password]
+              properties:
+                token: { type: string }
+                password: { type: string, minLength: 8, maxLength: 72 }
+      responses:
+        '200': { $ref: '#/components/responses/Session' }
+        '404': { $ref: '#/components/responses/Error' }
+  /admin/team/staff:
+    get:
+      tags: [Team]
+      summary: Everyone on the team (needs team view)
+      security: [{ adminBearer: [] }]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/StaffMember' } }
+  /admin/team/staff/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    patch:
+      tags: [Team]
+      summary: Change a name, role, own access or pause/restore (needs team edit)
+      description: The shop always keeps one active owner; you cannot pause yourself; only an owner can give or take the owner role.
+      security: [{ adminBearer: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                roleId: { type: string }
+                overrides: { $ref: '#/components/schemas/PermissionMap' }
+                status: { type: string, enum: [active, suspended] }
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/StaffMember' }
+        '403': { $ref: '#/components/responses/Error' }
+        '404': { $ref: '#/components/responses/Error' }
+        '409': { $ref: '#/components/responses/Error' }
+    delete:
+      tags: [Team]
+      summary: Remove from the team (needs team delete)
+      security: [{ adminBearer: [] }]
+      responses:
+        '204': { description: Removed }
+        '409': { $ref: '#/components/responses/Error' }
+  /admin/team/roles:
+    get:
+      tags: [Team]
+      summary: All roles (any signed-in admin)
+      security: [{ adminBearer: [] }]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/Role' } }
+    post:
+      tags: [Team]
+      summary: Add a role (needs team edit)
+      security: [{ adminBearer: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id, name]
+              properties:
+                id: { type: string, description: Turned into a slug }
+                name: { type: string }
+                description: { type: string }
+                permissions: { $ref: '#/components/schemas/PermissionMap' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/Role' }
+        '409': { $ref: '#/components/responses/Error' }
+  /admin/team/roles/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    patch:
+      tags: [Team]
+      summary: Change a role's access (needs team edit; the owner role is fixed, system roles keep their names)
+      security: [{ adminBearer: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                description: { type: string }
+                permissions: { $ref: '#/components/schemas/PermissionMap' }
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/Role' }
+        '409': { $ref: '#/components/responses/Error' }
+    delete:
+      tags: [Team]
+      summary: Delete a custom role nobody holds (needs team delete)
+      security: [{ adminBearer: [] }]
+      responses:
+        '204': { description: Deleted }
+        '409': { $ref: '#/components/responses/Error' }

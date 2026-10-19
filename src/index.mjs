@@ -3,6 +3,8 @@ import http from 'http';
 import { env } from './env.mjs';
 import customizeApp from './app.mjs';
 import { setupSocketIO } from './utils/sockets.js';
+import { ensureSystemRoles } from './utils/permissions.mjs';
+import { connectRedis } from './utils/redis.mjs';
 
 const app = express();
 
@@ -19,7 +21,12 @@ app.start = async () => {
 
     const port = env.PORT;
     app.set('port', port);
+    // The rate limiters keep their counters in Redis, so it must be reachable before the app is built.
+    await connectRedis();
     customizeApp(app);
+
+    // Owner, Manager and Staff must exist before anyone can be invited to one.
+    await ensureSystemRoles();
 
 
 

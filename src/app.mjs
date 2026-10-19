@@ -4,8 +4,9 @@ import api from './api/index.js';
 import compression from "compression";
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import { apiLimiter, authLimiter } from './utils/rateLimits.js';
+import { createRateLimiters } from './utils/rateLimits.js';
 import { corsOptions } from './utils/corsOptions.js';
+import { AppError, codeFor } from './utils/AppError.js';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
@@ -127,37 +128,45 @@ export default function customizeApp(app) {
         res.json(swaggerDocument);
     });
 
-    // Rate Limiting (see utils/rateLimits.js)
+    // Rate Limiting (see utils/rateLimits.js): counters live in Redis, shared by every process
+    const { apiLimiter, authLimiter } = createRateLimiters();
     app.use('/api', authLimiter);
     app.use('/api', apiLimiter);
 
     // API Routes
     app.use('/api', api);
 
-    // Error Handling Middleware
+    // An /api address nothing answers is a JSON 404, not Express's HTML page.
+    app.use('/api', (req, res, next) => next(new AppError('We could not find that.', 404)));
+
+    // Error Handling Middleware: every failure leaves as { error: { code, message, details? } }
     app.use((err, req, res, next) => {
-        if (err.statusCode >= 400 && err.statusCode < 500) {
-            let message = err.message || 'Bad Request';
-            if (!message && err.statusCode === 404) {
-                message = 'The requested resource was not found';
-            }
-            res.status(err.statusCode).json({
-                status: 'error',
-                message,
-            });
-        } else {
-            console.error(err?.message || 'Internal Server Error');
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            res.status(err.statusCode).json({
-                status: 'error',
-                message: err?.message || 'Internal Server Error',
-            });
+        // Only an AppError's code and details are ours to send; anything else gets a code from its status.
+        const ours = err instanceof AppError;
+        let status = err.statusCode ?? err.status ?? 500;
+        let message = err.message;
+
+        // A request body that isn't valid JSON (from express.json).
+        if (err.type === 'entity.parse.failed') message = 'The request body is not valid JSON.';
+        // Prisma unique constraint: someone else saved the same value first.
+        if (err.code === 'P2002') {
+            status = 409;
+            message = 'That already exists.';
         }
+        if (status >= 500) {
+            console.error(err);
+            // Never send internals to the browser.
+            message = 'Something went wrong on our side. Please try again.';
+        }
+
+        res.status(status).json({
+            error: {
+                code: ours ? err.code : codeFor(status),
+                message,
+                details: ours && status < 500 ? err.details : undefined,
+            },
+        });
     });
-
-
 }
 
 /* Security Notes

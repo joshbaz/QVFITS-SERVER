@@ -1,0 +1,143 @@
+[
+  {
+    "id": "overview",
+    "label": "Overview",
+    "actions": [
+      "view",
+      "edit",
+      "delete"
+    ]
+  },
+  {
+    "id": "reports",
+    "label": "Reports",
+    "actions": [
+      "view"
+    ]
+  },
+  {
+    "id": "products",
+    "label": "Products, kits, stock and reviews",
+    "actions": [
+      "view",
+      "edit",
+      "delete"
+    ]
+  },
+  {
+    "id": "categories",
+    "label": "Categories, groups and colours",
+    "actions": [
+      "view",
+      "edit",
+      "delete"
+    ]
+  },
+  {
+    "id": "size-guide",
+    "label": "Sizes, size guide and shop filters",
+    "actions": [
+      "view",
+      "edit",
+      "delete"
+    ]
+  },
+  {
+    "id": "orders",
+    "label": "Orders, returns, refunds and payments",
+    "actions": [
+      "view",
+      "edit",
+      "delete",
+      "refund",
+      "payment"
+    ]
+  },
+  {
+    "id": "transactions",
+    "label": "Transactions",
+    "actions": [
+      "view"
+    ]
+  },
+  {
+    "id": "customers",
+    "label": "Customers",
+    "actions": [
+      "view",
+      "edit",
+      "delete"
+    ]
+  },
+  {
+    "id": "discounts",
+    "label": "Discount codes",
+    "actions": [
+      "view",
+      "edit",
+      "delete"
+    ]
+  },
+  {
+    "id": "offers",
+    "label": "Offers",
+    "actions": [
+      "view",
+      "edit",
+      "delete"
+    ]
+  },
+  {
+    "id": "newsletter",
+    "label": "Newsletter",
+    "actions": [
+      "view",
+      "edit",
+      "delete"
+    ]
+  },
+  {
+    "id": "vee",
+    "label": "Vee, the style assistant",
+    "actions": [
+      "view",
+      "edit"
+    ]
+  },
+  {
+    "id": "messages",
+    "label": "Messages",
+    "actions": [
+      "view",
+      "edit",
+      "delete"
+    ]
+  },
+  {
+    "id": "team",
+    "label": "Team and roles",
+    "actions": [
+      "view",
+      "edit",
+      "delete"
+    ]
+  },
+  {
+    "id": "settings",
+    "label": "Settings",
+    "actions": [
+      "view",
+      "edit",
+      "delete"
+    ]
+  },
+  {
+    "id": "activity",
+    "label": "Activity log",
+    "actions": [
+      "view",
+      "edit",
+      "delete"
+    ]
+  }
+]

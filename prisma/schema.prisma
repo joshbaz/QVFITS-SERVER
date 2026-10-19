@@ -7,11 +7,63 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  email        String   @unique
-  name         String?
-  passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+enum StaffStatus {
+  active
+  invited
+  suspended
+}
+
+/// Owner, Manager and Staff are seeded with `system: true`; the team can add their own.
+/// The id is a readable slug ("owner", "photographer") because the client keys roles by it.
+model Role {
+  id          String   @id @map("_id")
+  name        String
+  description String   @default("")
+  system      Boolean  @default(false)
+  /// { [module]: ["view", "edit", ...] }, modules from src/data/permissions.json
+  permissions Json
+  staff       Staff[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+/// Everyone who can sign in to the admin.
+model Staff {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  email           String         @unique
+  /// Null until an invited person sets their password.
+  passwordHash    String?
+  roleId          String
+  role            Role           @relation(fields: [roleId], references: [id])
+  /// Per-person permission changes laid over the role's.
+  overrides       Json
+  status          StaffStatus
+  inviteTokenHash String?
+  inviteExpiresAt DateTime?
+  lastSeenAt      DateTime?
+  refreshTokens   RefreshToken[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([inviteTokenHash])
+}
+
+/// One per signed-in browser tab session. Only the hash is stored; each refresh rotates it.
+model RefreshToken {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  tokenHash String    @unique
+  staffId   String    @db.ObjectId
+  staff     Staff     @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([staffId])
+}
+
+/// One-time switches. The unique _id makes "create the first owner" succeed exactly once.
+model SystemLock {
+  id        String   @id @map("_id")
+  createdAt DateTime @default(now())
 }

@@ -1,0 +1,210 @@
+[
+  {
+    "id": "owner",
+    "name": "Owner",
+    "description": "Everything, including team, money and settings.",
+    "system": true,
+    "permissions": {
+      "overview": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "reports": [
+        "view"
+      ],
+      "products": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "categories": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "size-guide": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "orders": [
+        "view",
+        "edit",
+        "delete",
+        "refund",
+        "payment"
+      ],
+      "customers": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "discounts": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "offers": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "newsletter": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "messages": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "team": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "settings": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "activity": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "vee": [
+        "view",
+        "edit"
+      ],
+      "transactions": [
+        "view"
+      ]
+    }
+  },
+  {
+    "id": "manager",
+    "name": "Manager",
+    "description": "Runs the shop day to day. No team or settings.",
+    "system": true,
+    "permissions": {
+      "overview": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "reports": [
+        "view"
+      ],
+      "products": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "categories": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "size-guide": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "orders": [
+        "view",
+        "edit",
+        "delete",
+        "refund",
+        "payment"
+      ],
+      "customers": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "discounts": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "offers": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "newsletter": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "messages": [
+        "view",
+        "edit",
+        "delete"
+      ],
+      "team": [],
+      "settings": [
+        "view"
+      ],
+      "activity": [
+        "view"
+      ],
+      "vee": [
+        "view",
+        "edit"
+      ],
+      "transactions": [
+        "view"
+      ]
+    }
+  },
+  {
+    "id": "staff",
+    "name": "Showroom staff",
+    "description": "Orders, stock and customers. Read only elsewhere.",
+    "system": true,
+    "permissions": {
+      "overview": [
+        "view"
+      ],
+      "reports": [],
+      "products": [
+        "view"
+      ],
+      "categories": [
+        "view"
+      ],
+      "size-guide": [
+        "view"
+      ],
+      "orders": [
+        "view",
+        "edit"
+      ],
+      "customers": [
+        "view"
+      ],
+      "discounts": [
+        "view"
+      ],
+      "offers": [
+        "view"
+      ],
+      "newsletter": [
+        "view"
+      ],
+      "messages": [
+        "view",
+        "edit"
+      ],
+      "team": [],
+      "settings": [],
+      "activity": [],
+      "vee": [],
+      "transactions": []
+    }
+  }
+]

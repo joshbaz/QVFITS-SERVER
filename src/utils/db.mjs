@@ -23,7 +23,7 @@ export { gfs };
  */
 const prisma = new PrismaClient({
     // Never return secrets unless a query explicitly opts in with omit: { field: false }
-    omit: { user: { passwordHash: true } },
+    omit: { staff: { passwordHash: true, inviteTokenHash: true } },
 });
 
 export default prisma;
