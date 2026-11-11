@@ -5,20 +5,25 @@ import prisma from '../../../../utils/db.mjs';
 import { AppError } from '../../../../utils/AppError.js';
 import { requireAdmin, requirePermission } from '../../../../middleware/adminAuth.mjs';
 import validate from '../../../../middleware/validate.mjs';
-import { newId, nextSlug } from '../../../../services/catalog/slugs.mjs';
+import { nextSlug } from '../../../../services/catalog/slugs.mjs';
+import { crudTable } from '../crudTable.mjs';
 import { readDocument } from '../../../../services/catalog/views.mjs';
+import { linkedFrom } from '../../../../services/shop/links.mjs';
 
 /**
  * The building blocks a product is described with, all edited under Catalog:
  * the "Shop by" groups, categories, the items (terms) of the other groups,
  * colours, sizes, and the shop's filter and sort layout. Ported from the
- * client's attributesApi. Links from the menu, home page and offers still
- * live in the client, so deleting something they show is not checked here yet.
+ * client's attributesApi. A category or term that offers or the Shop menu
+ * tile still link to can't be deleted until that link is changed.
  */
 const router = express.Router();
 router.use(requireAdmin);
 
-const byPosition = { orderBy: { position: 'asc' } };
+const inLinks = async (kind, row) => {
+    const where = await linkedFrom(kind, row.id);
+    if (where) throw new AppError(`${row.name} is linked from ${where}. Change that link first.`, 409);
+};
 
 const inUse = (count, what) => {
     if (count) throw new AppError(`${count} ${count === 1 ? 'product uses' : 'products use'} this ${what}. Move or edit them first.`, 409);
@@ -32,53 +37,7 @@ const image = z.union([
 
 const name = z.string().trim().min(1, 'Enter a name').max(80);
 
-/**
- * List, create, update, remove and reorder for one table, with the module
- * whose permission guards it. `prepare` builds a new or changed row, and
- * `beforeRemove` refuses a delete that would break something.
- */
-function table({ path, model, module, schema, required, label, prepare, beforeRemove, noun }) {
-    const edit = requirePermission(module, 'edit');
-    const find = async (id) => {
-        const row = await prisma[model].findUnique({ where: { id } });
-        if (!row) throw new AppError(`That ${noun} no longer exists.`, 404);
-        return row;
-    };
-    const all = () => prisma[model].findMany(byPosition);
-
-    // Any admin may read the lists: the product editor needs categories, colours and sizes to describe a piece.
-    router.get(`/${path}`, async (req, res) => res.json({ data: await all() }));
-
-    // A new row needs only its name (and what it belongs to); prepare fills the rest.
-    router.post(`/${path}`, edit, validate(schema.partial().required(required)), async (req, res) => {
-        const rows = await all();
-        const data = await prepare(req.body, null, rows);
-        const row = await prisma[model].create({ data: { ...data, id: newId(label(req.body), rows), position: rows.length } });
-        res.status(201).json({ data: row });
-    });
-
-    // Reordering lists every id, first to last; rows not listed keep their place after.
-    router.post(`/${path}/reorder`, edit, validate(z.object({ ids: z.array(z.string()).max(500) })), async (req, res) => {
-        const rows = await all();
-        const listed = req.body.ids.filter((id) => rows.some((r) => r.id === id));
-        const order = [...listed, ...rows.map((r) => r.id).filter((id) => !listed.includes(id))];
-        await prisma.$transaction(order.map((id, position) => prisma[model].update({ where: { id }, data: { position } })));
-        res.status(204).end();
-    });
-
-    router.patch(`/${path}/:id`, edit, validate(schema.partial()), async (req, res) => {
-        const existing = await find(req.params.id);
-        const data = await prepare(req.body, existing, await all());
-        res.json({ data: await prisma[model].update({ where: { id: existing.id }, data }) });
-    });
-
-    router.delete(`/${path}/:id`, requirePermission(module, 'delete'), async (req, res) => {
-        const row = await find(req.params.id);
-        await beforeRemove?.(row);
-        await prisma[model].delete({ where: { id: row.id } });
-        res.status(204).end();
-    });
-}
+const table = (options) => crudTable(router, options);
 
 /* Groups: Category is the one system group; it can be renamed and moved but not deleted or doubled. */
 table({
@@ -115,7 +74,10 @@ table({
         const slug = nextSlug({ name: data.name, existing, siblings: all, taken: await prisma.shopGroup.findMany() });
         return existing ? { ...data, ...slug } : { parentId: null, active: true, description: '', image: null, inHeader: false, ...data, ...slug };
     },
-    beforeRemove: async (c) => inUse(await prisma.product.count({ where: { categoryId: c.id } }), 'category'),
+    beforeRemove: async (c) => {
+        inUse(await prisma.product.count({ where: { categoryId: c.id } }), 'category');
+        await inLinks('categories', c);
+    },
 });
 
 /* Terms: items of tags and edits groups. An address is unique within its own group. */
@@ -143,6 +105,7 @@ table({
     beforeRemove: async (t) => {
         const group = await prisma.shopGroup.findUnique({ where: { id: t.groupId } });
         inUse(await prisma.product.count({ where: { termIds: { has: t.id } } }), group?.name.toLowerCase() ?? 'item');
+        await inLinks('terms', t);
     },
 });
 

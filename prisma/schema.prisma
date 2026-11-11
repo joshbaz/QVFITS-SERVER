@@ -219,3 +219,336 @@ model CatalogDocument {
   data      Json
   updatedAt DateTime @updatedAt
 }
+
+/* Shop settings, delivery and payment. */
+
+/// Single shop documents: the settings ("settings").
+model ShopDocument {
+  id        String   @id @map("_id")
+  data      Json
+  updatedAt DateTime @updatedAt
+}
+
+model ShippingZone {
+  id          String  @id @map("_id")
+  name        String
+  description String  @default("")
+  fee         Int
+  /// Free delivery from this subtotal; null uses the shop-wide threshold.
+  freeOver    Int?
+  /// Collected from the showroom, so no address is needed.
+  collect     Boolean @default(false)
+  etaDays     String  @default("")
+  active      Boolean @default(true)
+  position    Int
+}
+
+model PaymentMethod {
+  id           String  @id @map("_id")
+  label        String
+  short        String  @default("")
+  instructions String  @default("")
+  active       Boolean @default(true)
+  position     Int
+}
+
+type DiscountScope {
+  scope String
+  ids   String[]
+}
+
+model Discount {
+  id               String        @id @map("_id")
+  /// Stored in capitals; matching ignores case.
+  code             String        @unique
+  description      String        @default("")
+  type             String
+  value            Int
+  minSpend         Int           @default(0)
+  startsAt         DateTime?
+  endsAt           DateTime?
+  usageLimit       Int?
+  perCustomerLimit Int?
+  appliesTo        DiscountScope
+  onSaleItems      Boolean       @default(false)
+  active           Boolean       @default(true)
+  createdAt        DateTime      @default(now())
+}
+
+/* Customers. */
+
+type Address {
+  id      String
+  label   String
+  region  String
+  address String
+  phone   String
+}
+
+type CartLine {
+  productId String
+  size      String
+  color     String
+  qty       Int
+  kitId     String?
+}
+
+model Customer {
+  id               String    @id @map("_id")
+  name             String
+  email            String    @unique
+  phone            String?
+  /// The last nine digits, so +256 772 410 218 and 0772410218 match. One account per phone.
+  phoneDigits      String?
+  passwordHash     String
+  addresses        Address[]
+  wishlist         String[]
+  bag              CartLine[]
+  recentlyViewed   String[]
+  notes            String    @default("")
+  tags             String[]
+  emailConfirmedAt DateTime?
+  confirmTokenHash String?
+  resetTokenHash   String?
+  resetExpiresAt   DateTime?
+  createdAt        DateTime  @default(now())
+
+  @@index([phoneDigits])
+  @@index([confirmTokenHash])
+  @@index([resetTokenHash])
+}
+
+/// A shopper's refresh token. `persistent` is "stay signed in": the cookie outlives the browser.
+model CustomerSession {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  tokenHash  String    @unique
+  customerId String
+  persistent Boolean
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([customerId])
+}
+
+/* Orders, money and returns. */
+
+type OrderLine {
+  productId String
+  name      String
+  size      String
+  color     String
+  colorId   String?
+  qty       Int
+  price     Int
+  kitId     String?
+}
+
+type OrderEvent {
+  status String
+  at     DateTime
+  by     String
+  note   String?
+}
+
+type OrderNote {
+  id   String
+  text String
+  by   String
+  at   DateTime
+}
+
+model Order {
+  id            String       @id @map("_id")
+  /// What the customer quotes: QV-XXXXXX.
+  ref           String       @unique
+  customerId    String?
+  name          String
+  phone         String
+  phoneDigits   String
+  email         String?
+  region        String
+  address       String?
+  note          String?
+  lines         OrderLine[]
+  subtotal      Int
+  delivery      Int
+  discount      Int
+  discountCode  String?
+  kitSaving     Int          @default(0)
+  total         Int
+  payment       String
+  paymentStatus String
+  status        String
+  history       OrderEvent[]
+  notes         OrderNote[]
+  /// web, showroom, whatsapp (manual is older records)
+  source        String       @default("web")
+  /// Set once its stock is back on the shelf (cancelled or expired), so it never goes back twice.
+  stockReturned Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([customerId])
+  @@index([phoneDigits])
+  @@index([status, paymentStatus])
+  @@index([discountCode])
+  @@index([createdAt])
+}
+
+model Transaction {
+  id        String   @id @map("_id")
+  orderId   String
+  orderRef  String
+  /// payment or refund
+  type      String
+  method    String
+  amount    Int
+  /// pending, succeeded or failed
+  status    String
+  reference String   @default("")
+  note      String?
+  createdAt DateTime @default(now())
+
+  @@index([orderId])
+}
+
+type ReturnLine {
+  productId String
+  name      String
+  size      String
+  color     String
+  qty       Int
+  price     Int
+}
+
+model ReturnRequest {
+  id         String       @id @map("_id")
+  orderId    String
+  orderRef   String
+  customerId String?
+  name       String
+  lines      ReturnLine[]
+  reason     String
+  /// refund or exchange
+  resolution String
+  status     String
+  note       String?
+  /// Set once the pieces are back on the shelf, so a return restocks once.
+  restocked  Boolean      @default(false)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  @@index([orderId])
+  @@index([customerId])
+}
+
+/// Every email the shop sends, and what happened to it. Sent through Zoho Mail by the email queue.
+model OutboxEmail {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  to        String
+  kind      String
+  subject   String
+  body      String
+  link      String?
+  ref       String?
+  /// queued (waiting to send), sent, failed (gave up), held (no email service set up), no_email (only a phone)
+  status    String    @default("queued")
+  /// A newsletter email's own unsubscribe link.
+  unsubscribe String?
+  /// A campaign's product cards and button, for the email layout.
+  meta      Json?
+  attempts  Int       @default(0)
+  error     String?
+  sentAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([ref])
+  @@index([createdAt])
+  @@index([status])
+}
+
+/* Newsletter, messages, Vee and the activity log. */
+
+/// One address on the newsletter, with the consent that put it there (double opt-in).
+model Subscriber {
+  id               String    @id @map("_id")
+  email            String    @unique
+  name             String?
+  customerId       String?
+  /// pending (until the emailed link is opened), subscribed, unsubscribed
+  status           String
+  source           String
+  /// The words they agreed to, as shown when they signed up.
+  consentText      String
+  consentedAt      DateTime
+  confirmedAt      DateTime?
+  unsubscribedAt   DateTime?
+  confirmTokenHash String?
+  /// The welcome code goes once per address, ever.
+  welcomeSentAt    DateTime?
+  createdAt        DateTime  @default(now())
+
+  @@index([confirmTokenHash])
+  @@index([status])
+}
+
+/// A newsletter email: drafted, scheduled or sent (then locked) to confirmed subscribers.
+model Campaign {
+  id          String    @id @map("_id")
+  subject     String
+  previewText String    @default("")
+  heading     String    @default("")
+  body        String    @default("")
+  productIds  String[]
+  /// { label, target, href }: the button, its href worked out when saved.
+  cta         Json
+  /// draft, scheduled, sending, sent
+  status      String
+  sendAt      DateTime?
+  sentAt      DateTime?
+  recipients  Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([status, sendAt])
+}
+
+/// The contact form's messages, for the admin's inbox.
+model ContactMessage {
+  id        String   @id @map("_id")
+  name      String
+  phone     String?
+  email     String?
+  topic     String?
+  message   String
+  /// new, read, replied, archived
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+/// What shoppers asked Vee: only the words and whether she answered. The newest 200 are kept.
+model VeeQuestion {
+  id        String   @id @map("_id")
+  text      String
+  answered  Boolean
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+/// Who changed what in the admin, and when. The newest 2000 are kept.
+model ActivityEntry {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  actorId   String?
+  actorName String
+  module    String
+  action    String
+  entityId  String?
+  summary   String
+  at        DateTime @default(now())
+
+  @@index([at])
+}

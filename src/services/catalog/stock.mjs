@@ -70,3 +70,47 @@ export const moveStock = async ({ productId, color, size, delta, reason = 'corre
     await recordMovement({ product: changed.product, colorId, size, from: changed.from, to: changed.to, reason, ref, by });
     return changed;
 };
+
+/**
+ * Atomically change one colour and size by `delta` in a single MongoDB
+ * findAndModify. A negative delta only lands while at least that much is on
+ * the shelf, so two shoppers can never both buy the last one.
+ * @returns {Promise<{ product: object, from: number, to: number } | null>} null when there wasn't enough
+ */
+const shiftStock = async (productId, colorId, size, delta) => {
+    const match = { colorId, size, ...(delta < 0 ? { stock: { $gte: -delta } } : {}) };
+    const result = await prisma.$runCommandRaw({
+        findAndModify: 'Product',
+        query: { _id: productId, variants: { $elemMatch: match } },
+        update: { $inc: { 'variants.$[v].stock': delta }, $set: { updatedAt: { $date: new Date().toISOString() } } },
+        arrayFilters: [{ 'v.colorId': colorId, 'v.size': size }],
+        new: true,
+    });
+    const doc = result.value;
+    if (!doc) return null;
+    const to = doc.variants.find((v) => v.colorId === colorId && v.size === size).stock;
+    return { product: { id: doc._id, name: doc.name }, from: to - delta, to };
+};
+
+/**
+ * Take an order's units off the shelf, logged against its reference.
+ * @returns the change, or null when fewer than `qty` are left
+ */
+export const takeStock = async ({ productId, colorId, size, qty, ref, by }) => {
+    const changed = await shiftStock(productId, colorId, size, -qty);
+    if (changed) await recordMovement({ product: changed.product, colorId, size, from: changed.from, to: changed.to, reason: 'order', ref, by });
+    return changed;
+};
+
+/** Put units back: a cancelled or expired order (`cancel`), or a received return (`return`). */
+export const returnStock = async ({ productId, colorId, size, qty, reason, ref, by }) => {
+    const changed = await shiftStock(productId, colorId, size, qty);
+    if (changed) await recordMovement({ product: changed.product, colorId, size, from: changed.from, to: changed.to, reason, ref, by });
+    return changed;
+};
+
+/** Units left of one colour in one size, for the "only N left" message. */
+export const unitsLeft = async (productId, colorId, size) => {
+    const product = await prisma.product.findUnique({ where: { id: productId }, select: { variants: true } });
+    return product?.variants.find((v) => v.colorId === colorId && v.size === size)?.stock ?? 0;
+};

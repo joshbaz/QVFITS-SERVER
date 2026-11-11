@@ -9,13 +9,27 @@ export const RATE_LIMITS = {
     login: { windowMinutes: 15, limit: 10, keyedBy: 'IP + email, failed attempts only' },
     loginPerIp: { windowMinutes: 15, limit: 60, keyedBy: 'IP, all attempts' },
     forms: { windowMinutes: 60, limit: 10, keyedBy: 'IP' },
+    lookups: { windowMinutes: 15, limit: 30, keyedBy: 'IP' },
+    checkout: { windowMinutes: 60, limit: 10, keyedBy: 'IP' },
+    vee: { windowMinutes: 15, limit: 60, keyedBy: 'IP' },
 };
 
-// Public forms anyone can send without signing in: reviews now, contact and newsletter later.
-const FORM_PATH = /\/catalog\/reviews$/;
+/**
+ * Public writes anyone can send without signing in, each with its own count:
+ * reviews, the newsletter sign-up and the contact form, Vee's questions, a guest's order lookups (a
+ * reference and phone shouldn't be guessable by brute force), and placing an
+ * order (fake orders would hold stock).
+ */
+const PUBLIC_RULES = [
+    { name: 'forms', path: /\/(catalog\/reviews|newsletter\/subscribe|site\/contact)$/, message: 'Thanks, we have plenty from you for now. Please try again later.' },
+    { name: 'vee', path: /\/site\/vee\/questions$/, message: 'Vee needs a breather. Try again in a few minutes.' },
+    { name: 'lookups', path: /\/orders\/(track|cancel|return)$/, message: 'Too many tries. Please wait a few minutes and check the reference and phone number.' },
+    // Only orders that go through hold stock, so refused ones (sold out, a typo) don't count.
+    { name: 'checkout', path: /\/checkout\/orders$/, message: 'Too many orders from this connection. Message us on WhatsApp and we will help.', skipFailedRequests: true },
+];
 
 // Sign-in and every public form that takes a password or creates an account.
-const AUTH_PATH = /\/auth\/(admin|customer)\/(login|setup|accept-invite|signup|forgot-password|reset-password)$/;
+const AUTH_PATH = /\/auth\/(admin|customer)\/(login|setup|accept-invite|signup|confirm-email|forgot-password|reset-password)$/;
 
 // ipKeyGenerator groups IPv6 addresses by subnet so a client can't rotate through them
 const clientIp = (req) => ipKeyGenerator(req.ip || 'unknown');
@@ -86,16 +100,17 @@ export const createRateLimiters = () => {
         loginPerIpLimiter(req, res, (err) => (err ? next(err) : loginPerEmailLimiter(req, res, next)));
     };
 
-    const formsPerIpLimiter = limiter('forms', RATE_LIMITS.forms, {
-        keyGenerator: clientIp,
-        handler: rejected('Thanks, we have plenty from you for now. Please try again later.'),
-    });
+    const publicLimiters = PUBLIC_RULES.map((rule) => ({
+        path: rule.path,
+        run: limiter(rule.name, RATE_LIMITS[rule.name], { keyGenerator: clientIp, handler: rejected(rule.message), skipFailedRequests: Boolean(rule.skipFailedRequests) }),
+    }));
 
-    /** Applies the forms limiter to public form posts only. */
+    /** Applies each public rule's limiter to its own POSTs only. */
     const formsLimiter = (req, res, next) => {
         const path = (req.originalUrl || '').split('?')[0];
-        if (req.method !== 'POST' || !FORM_PATH.test(path)) return next();
-        formsPerIpLimiter(req, res, next);
+        const rule = req.method === 'POST' && publicLimiters.find((l) => l.path.test(path));
+        if (!rule) return next();
+        rule.run(req, res, next);
     };
 
     return { apiLimiter, authLimiter, formsLimiter };

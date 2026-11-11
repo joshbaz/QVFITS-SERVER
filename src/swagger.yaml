@@ -8,6 +8,9 @@ info:
     Every success is `{ data }`; every failure is `{ error: { code, message, details? } }`.
     Admin routes take `Authorization: Bearer <accessToken>` (15 minutes). The refresh token
     is an httpOnly cookie (`qvfits_admin_rt`) scoped to `/api/v1/auth/admin`.
+
+    Live updates: Socket.IO at /socket.io (WebSocket only), auth { token } with an access token.
+    Staff get `order:new`; a shopper gets `order:updated` for their own orders.
 servers:
   - url: http://localhost:5000/api/v1
     description: Development server
@@ -18,6 +21,18 @@ tags:
     description: The storefront's catalogue. Live pieces only; anyone may read.
   - name: Admin catalog
     description: Products, attributes, reviews, the size chart and photo uploads, each checked against the person's permissions.
+  - name: Shop
+    description: Settings, delivery zones and payment methods the storefront reads.
+  - name: Customer auth
+    description: Shopper accounts. Customer tokens (realm customer) never work on admin routes, and the reverse. Refresh cookie qvfits_customer_rt on /api/v1/auth/customer; 30 days with remember.
+  - name: Account
+    description: The signed-in shopper's own account, orders, returns and privacy.
+  - name: Checkout
+    description: Priced on the server. Placing an order takes its stock at once; unpaid orders give it back after the hold in Settings.
+  - name: Newsletter and site
+    description: Newsletter sign-up (double opt-in, signed unsubscribe links), the contact form, Vee's questions, offers and the Shop menu tile. Emails go out through Zoho Mail via a BullMQ queue; the Outbox shows each one's status.
+  - name: Admin sales
+    description: Orders, payments (payment permission), returns and refunds (refund permission), transactions, the outbox, customers, discount codes and settings.
 components:
   securitySchemes:
     adminBearer:
@@ -443,3 +458,117 @@ paths:
       description: multipart/form-data with `folder` (products needs products edit; categories needs categories edit) and `file` (JPEG, PNG, WebP or AVIF, up to 5 MB).
       security: [{ adminBearer: [] }]
       responses: { '201': { description: The Photo }, '403': { $ref: '#/components/responses/Error' }, '413': { $ref: '#/components/responses/Error' }, '502': { $ref: '#/components/responses/Error' } }
+
+  /shop/settings:
+    get: { tags: [Shop], summary: 'Settings plus the live delivery zones', responses: { '200': { description: OK } } }
+  /shop/shipping-zones:
+    get: { tags: [Shop], summary: 'Live delivery zones', responses: { '200': { description: OK } } }
+  /shop/payment-methods:
+    get: { tags: [Shop], summary: 'Live payment methods', responses: { '200': { description: OK } } }
+  /auth/customer/signup:
+    post: { tags: [Customer auth], summary: 'Sign up { name, email, password, phone?, remember?, guard? }; claims guest orders by email or phone; devLink outside production', responses: { '200': { description: OK } } }
+  /auth/customer/login:
+    post: { tags: [Customer auth], summary: 'Sign in { email, password, remember? } (rate limited)', responses: { '200': { description: OK } } }
+  /auth/customer/refresh:
+    post: { tags: [Customer auth], summary: 'New access token from the cookie (rotates it)', responses: { '200': { description: OK } } }
+  /auth/customer/logout:
+    post: { tags: [Customer auth], summary: 'End this session', responses: { '200': { description: OK } } }
+  /auth/customer/me:
+    get: { tags: [Customer auth], summary: 'The signed-in shopper', responses: { '200': { description: OK } } }
+  /auth/customer/confirm-email:
+    post: { tags: [Customer auth], summary: 'Confirm the email { token }; works once', responses: { '200': { description: OK } } }
+  /auth/customer/forgot-password:
+    post: { tags: [Customer auth], summary: 'Email a reset link (same answer for unknown emails); devLink outside production', responses: { '200': { description: OK } } }
+  /auth/customer/reset-password:
+    post: { tags: [Customer auth], summary: 'Set a new password { token, password }; 410 when used or expired; signs out every device', responses: { '200': { description: OK } } }
+  /account:
+    get: { tags: [Account], summary: 'Own profile', responses: { '200': { description: OK } } }
+  /account/addresses:
+    put: { tags: [Account], summary: 'Replace addresses { addresses }', responses: { '200': { description: OK } } }
+  /account/wishlist:
+    put: { tags: [Account], summary: 'Replace saved pieces { wishlist }', responses: { '200': { description: OK } } }
+  /account/bag:
+    put: { tags: [Account], summary: 'Replace the bag { bag }', responses: { '200': { description: OK } } }
+  /account/recently-viewed:
+    put: { tags: [Account], summary: 'Replace recently viewed { recentlyViewed }', responses: { '200': { description: OK } } }
+  /account/orders:
+    get: { tags: [Account], summary: 'Own orders (no staff notes)', responses: { '200': { description: OK } } }
+  /account/orders/{id}/cancel:
+    post: { tags: [Account], summary: 'Cancel an unpaid order; stock goes back', responses: { '200': { description: OK } } }
+  /account/returns:
+    get: { tags: [Account], summary: 'Own returns; POST asks for one { orderId, lines, reason, resolution }', responses: { '200': { description: OK } } }
+  /account/export:
+    get: { tags: [Account], summary: 'Everything held about the shopper', responses: { '200': { description: OK } } }
+  /checkout/quote:
+    post: { tags: [Checkout], summary: 'Price a bag { lines, region, code?, phone? }', responses: { '200': { description: OK } } }
+  /checkout/orders:
+    post: { tags: [Checkout], summary: 'Place an order (guest or signed in); 409 OUT_OF_STOCK names what is short; 10 per hour per address', responses: { '200': { description: OK } } }
+  /orders/track:
+    post: { tags: [Checkout], summary: 'A guest''s order { ref, phone } (30 lookups per 15 minutes)', responses: { '200': { description: OK } } }
+  /orders/cancel:
+    post: { tags: [Checkout], summary: 'A guest cancels an unpaid order { ref, phone }', responses: { '200': { description: OK } } }
+  /orders/return:
+    post: { tags: [Checkout], summary: 'A guest asks for a return { ref, phone, lines, reason, resolution }', responses: { '200': { description: OK } } }
+  /admin/orders:
+    get: { tags: [Admin sales], summary: 'Every order (orders view); expires unpaid orders first', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/orders/{id}/status:
+    patch: { tags: [Admin sales], summary: 'Move along pending > paid > packed > out_for_delivery > delivered, or cancel (stock back). Paid needs the payment permission', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/orders/{id}/payments:
+    post: { tags: [Admin sales], summary: 'Record money taken { method, reference?, amount? } in full or part (payment)', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/orders/{id}/notes:
+    post: { tags: [Admin sales], summary: 'Private staff note { text }', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/orders/emails/{ref}:
+    get: { tags: [Admin sales], summary: 'Messages sent about one order', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/orders/sales:
+    post: { tags: [Admin sales], summary: 'Record a showroom or WhatsApp sale, paid at once (payment)', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/returns:
+    get: { tags: [Admin sales], summary: 'Every return, with refundDue on open ones; POST opens one for a delivered order', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/returns/{id}/status:
+    patch: { tags: [Admin sales], summary: 'Approve, reject, receive (stock back once), refund (refund permission; never more than paid) or exchange', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/transactions:
+    get: { tags: [Admin sales], summary: 'Money in and out; POST, PATCH, DELETE by id need payment or delete', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/outbox:
+    get: { tags: [Admin sales], summary: 'Emails the shop would send (newsletter view)', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/customers:
+    get: { tags: [Admin sales], summary: 'Customers (customers view); PATCH /{id} notes and tags; DELETE /{id} closes the account, orders kept without the person', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/discounts:
+    get: { tags: [Admin sales], summary: 'Codes with their use from orders; POST, PATCH /{id}, DELETE /{id}', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/settings:
+    patch: { tags: [Admin sales], summary: 'Change settings, merged one level deep (settings edit; Vee''s alone with vee edit)', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/settings/{table}:
+    get: { tags: [Admin sales], summary: 'shipping-zones or payment-methods; POST, PATCH /{id}, DELETE /{id}, POST /reorder (settings)', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+
+  /newsletter/consent:
+    get: { tags: [Newsletter and site], summary: 'The consent words under every sign-up form', responses: { '200': { description: OK } } }
+  /newsletter/subscribe:
+    post: { tags: [Newsletter and site], summary: 'Sign up { email, source?, name? }: pending until confirmed; devLink outside production (10 per hour per address)', responses: { '200': { description: OK } } }
+  /newsletter/confirm:
+    post: { tags: [Newsletter and site], summary: 'Confirm { token }; the welcome email goes once per address', responses: { '200': { description: OK } } }
+  /newsletter/unsubscribe:
+    post: { tags: [Newsletter and site], summary: 'Unsubscribe { token } from any newsletter email (signed, so it can''t be made up)', responses: { '200': { description: OK } } }
+  /account/newsletter:
+    get: { tags: [Account], summary: 'The account''s own newsletter status; PUT { on } switches it', responses: { '200': { description: OK } } }
+  /site/offers:
+    get: { tags: [Newsletter and site], summary: 'Offers, links stored as targets', responses: { '200': { description: OK } } }
+  /site/menu-feature:
+    get: { tags: [Newsletter and site], summary: 'The Shop menu''s picture tile', responses: { '200': { description: OK } } }
+  /site/contact:
+    post: { tags: [Newsletter and site], summary: 'Contact form; lands in Messages and emails the shop (10 per hour per address)', responses: { '200': { description: OK } } }
+  /site/vee/questions:
+    post: { tags: [Newsletter and site], summary: 'Log a question to Vee { text, answered }; newest 200 kept', responses: { '200': { description: OK } } }
+  /admin/newsletter/subscribers:
+    get: { tags: [Newsletter and site], summary: 'The list; POST /{id}/unsubscribe, DELETE /{id} erases', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/newsletter/settings:
+    get: { tags: [Newsletter and site], summary: 'Consent words and welcome email; PATCH changes them', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/newsletter/campaigns:
+    get: { tags: [Newsletter and site], summary: 'Campaigns; POST drafts, PATCH /{id}, POST /{id}/schedule { sendAt }, /{id}/unschedule, /{id}/send, DELETE /{id}', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/messages:
+    get: { tags: [Newsletter and site], summary: 'The contact inbox; PATCH /{id} { status }, DELETE /{id}', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/vee/questions:
+    get: { tags: [Newsletter and site], summary: 'What shoppers asked Vee; DELETE /{id}', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/content/{doc}:
+    patch: { tags: [Newsletter and site], summary: 'offers (offers edit) or menu-feature (categories edit), merged one level deep; GET reads it', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/activity:
+    get: { tags: [Newsletter and site], summary: 'The activity log (activity view); POST records a line signed with who is signed in', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/outbox/{id}/retry:
+    post: { tags: [Newsletter and site], summary: 'Send a failed or held email again (newsletter edit)', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }

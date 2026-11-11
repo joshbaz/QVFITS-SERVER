@@ -5,6 +5,9 @@ import customizeApp from './app.mjs';
 import { setupSocketIO } from './utils/sockets.js';
 import { ensureSystemRoles } from './utils/permissions.mjs';
 import { connectRedis } from './utils/redis.mjs';
+import { startScheduler } from './jobs/scheduler.mjs';
+import { startEmailWorker } from './services/emails/queue.mjs';
+import { isMailConfigured } from './services/emails/zohoMail.js';
 
 const app = express();
 
@@ -32,7 +35,7 @@ app.start = async () => {
 
     const server = http.createServer(app);
 
-    setupSocketIO(server, app);
+    await setupSocketIO(server, app);
 
     server.on("error", (error) => {
         if (error.syscall !== 'listen') {
@@ -48,6 +51,13 @@ app.start = async () => {
             typeof addr === 'string' ? `pipe ${addr}` : `port ${addr?.port}`;
         console.log(`Server listening on ${bind}`);
         console.info('Server started ✅');
+
+        // Background tasks: unpaid orders expire, scheduled campaigns go out.
+        startScheduler();
+
+        // Emails go out through Zoho Mail once a mailbox is set up; until then they wait in the Outbox.
+        startEmailWorker();
+        if (!isMailConfigured()) console.info('Email: no Zoho mailbox set up, so emails stay in the Outbox');
     });
 
     if (env.NODE_ENV !== 'test') {

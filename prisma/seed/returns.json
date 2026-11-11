@@ -1,0 +1,68 @@
+[
+  {
+    "id": "ret_0991",
+    "orderId": "ord_0991",
+    "orderRef": "QV-0991",
+    "customerId": "cus_grace",
+    "name": "Grace Atim",
+    "lines": [
+      {
+        "productId": "sculpt-seamless-set",
+        "name": "Sculpt Seamless Set",
+        "size": "XS",
+        "color": "Teal",
+        "qty": 1,
+        "price": 195000
+      }
+    ],
+    "reason": "Did not fit",
+    "resolution": "refund",
+    "status": "refunded",
+    "createdAt": "2026-10-02T09:03:00.000Z",
+    "updatedAt": "2026-10-02T09:03:00.000Z"
+  },
+  {
+    "id": "ret_1004",
+    "orderId": "ord_1004",
+    "orderRef": "QV-1004",
+    "customerId": null,
+    "name": "Brenda Kyomuhendo",
+    "lines": [
+      {
+        "productId": "sculpt-seamless-set",
+        "name": "Sculpt Seamless Set",
+        "size": "XL",
+        "color": "Ivory",
+        "qty": 1,
+        "price": 195000
+      }
+    ],
+    "reason": "Did not fit",
+    "resolution": "refund",
+    "status": "refunded",
+    "createdAt": "2026-10-11T00:05:00.000Z",
+    "updatedAt": "2026-10-11T00:05:00.000Z"
+  },
+  {
+    "id": "ret_1008",
+    "orderId": "ord_1008",
+    "orderRef": "QV-1008",
+    "customerId": null,
+    "name": "Brenda Kyomuhendo",
+    "lines": [
+      {
+        "productId": "highwaist-sculpt-legging",
+        "name": "High-Waist Sculpt Legging",
+        "size": "S",
+        "color": "Navy",
+        "qty": 1,
+        "price": 145000
+      }
+    ],
+    "reason": "Runs small, would like a size up",
+    "resolution": "exchange",
+    "status": "requested",
+    "createdAt": "2026-10-16T13:00:00.000Z",
+    "updatedAt": "2026-10-16T13:00:00.000Z"
+  }
+]

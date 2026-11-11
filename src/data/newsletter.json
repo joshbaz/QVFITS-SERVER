@@ -1,0 +1,10 @@
+{
+  "consentText": "News of drops, restocks and members-only offers from QVFITS, about twice a month. Unsubscribe from any email.",
+  "welcome": {
+    "enabled": true,
+    "code": "WELCOME10",
+    "subject": "Welcome to QVFITS",
+    "heading": "You're on the list",
+    "body": "Thanks for joining. You'll hear about new drops and restocks first. Here's a little something for your first order."
+  }
+}

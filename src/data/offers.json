@@ -1,0 +1,61 @@
+{
+  "promoBar": [
+    "Free delivery over {{freeShipping}}",
+    "Showroom at THE CUBE, G17 Kisementi",
+    "WhatsApp orders {{phone}}"
+  ],
+  "sale": {
+    "live": true,
+    "percentUpTo": 50
+  },
+  "deals": [
+    {
+      "id": "seasonal",
+      "live": true,
+      "tag": "Seasonal",
+      "title": "Summer drop",
+      "text": "Swim and lightweight seamless, just landed in store.",
+      "cta": "Shop swim",
+      "tone": "brand",
+      "target": {
+        "categories": [
+          "swim"
+        ]
+      }
+    },
+    {
+      "id": "percent-off",
+      "live": true,
+      "tag": "Limited",
+      "title": "20% off",
+      "text": "Selected sets and bras. Ask in store or on WhatsApp.",
+      "cta": "See what's in",
+      "tone": "dark",
+      "target": {
+        "categories": [
+          "sets"
+        ]
+      }
+    },
+    {
+      "id": "weekly",
+      "live": true,
+      "tag": "This week",
+      "title": "Weekly deal",
+      "text": "A rotating piece at a better price. Changes every Monday.",
+      "cta": "Ask us what's on",
+      "href": null,
+      "tone": "teal"
+    }
+  ],
+  "sticker": {
+    "live": true,
+    "tag": "10% off",
+    "title": "First order, 10% off",
+    "text": "Join the list and we'll send your code before the next drop.",
+    "cta": "Get my code",
+    "href": "#newsForm",
+    "snoozeDays": 14,
+    "delayMs": 6000
+  }
+}

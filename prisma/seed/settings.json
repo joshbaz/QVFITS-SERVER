@@ -1,0 +1,228 @@
+{
+  "brand": "QVFITS",
+  "wordmark": "QVFITS",
+  "tagline": "Quivogue",
+  "blurb": "Premium seamless & seam-fit activewear, swim and lounge wear.",
+  "address": "THE CUBE, G17, Kisementi, Kampala",
+  "addressNote": "Ground floor, shop G17",
+  "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Cube+Kisementi+Kampala",
+  "phone": "+256 758 981 959",
+  "whatsapp": "256758981959",
+  "email": "qvfits@gmail.com",
+  "instagram": "https://www.instagram.com/quivogue",
+  "instagramHandle": "@quivogue",
+  "tiktok": "https://www.tiktok.com/@quivoguefits",
+  "tiktokHandle": "@quivoguefits",
+  "opensAt": "10 AM",
+  "currency": "UGX",
+  "freeShippingOver": 250000,
+  "exchangeDays": 7,
+  "lowStockAt": 2,
+  "ratesUpdated": "31 August 2026",
+  "currencies": [
+    {
+      "code": "UGX",
+      "label": "Uganda Shilling",
+      "perUGX": 1,
+      "decimals": 0,
+      "display": "code"
+    },
+    {
+      "code": "USD",
+      "label": "US Dollar",
+      "perUGX": 0.000267,
+      "decimals": 2
+    },
+    {
+      "code": "EUR",
+      "label": "Euro",
+      "perUGX": 0.000231,
+      "decimals": 2
+    },
+    {
+      "code": "GBP",
+      "label": "Pound Sterling",
+      "perUGX": 0.000197,
+      "decimals": 2
+    },
+    {
+      "code": "CAD",
+      "label": "Canadian Dollar",
+      "perUGX": 0.00037,
+      "decimals": 2,
+      "display": "symbol"
+    },
+    {
+      "code": "AUD",
+      "label": "Australian Dollar",
+      "perUGX": 0.000372,
+      "decimals": 2,
+      "display": "symbol"
+    },
+    {
+      "code": "CHF",
+      "label": "Swiss Franc",
+      "perUGX": 0.000217,
+      "decimals": 2
+    },
+    {
+      "code": "AED",
+      "label": "UAE Dirham",
+      "perUGX": 0.000982,
+      "decimals": 2
+    },
+    {
+      "code": "JPY",
+      "label": "Japanese Yen",
+      "perUGX": 0.042798,
+      "decimals": 0
+    }
+  ],
+  "assistant": {
+    "endpoint": null,
+    "enabled": true,
+    "whatsappHandover": true,
+    "name": "Vee",
+    "greeting": "Hey! Looking for your fit? I know every piece in the studio. Tell me what you train in.",
+    "chips": [
+      "Something for the gym",
+      "What size am I?",
+      "Under 150k",
+      "Build me a kit"
+    ],
+    "tone": "balanced",
+    "pairing": {
+      "good": [
+        [
+          "black",
+          "pink"
+        ],
+        [
+          "black",
+          "burgundy"
+        ],
+        [
+          "navy",
+          "butter"
+        ],
+        [
+          "navy",
+          "pink"
+        ],
+        [
+          "teal",
+          "sand"
+        ],
+        [
+          "teal",
+          "cream"
+        ],
+        [
+          "teal",
+          "mocha"
+        ],
+        [
+          "olive",
+          "cream"
+        ],
+        [
+          "olive",
+          "sand"
+        ],
+        [
+          "mocha",
+          "cream"
+        ],
+        [
+          "burgundy",
+          "sand"
+        ],
+        [
+          "forest",
+          "butter"
+        ],
+        [
+          "slate",
+          "butter"
+        ],
+        [
+          "grey",
+          "pink"
+        ],
+        [
+          "pink",
+          "espresso"
+        ],
+        [
+          "white",
+          "teal"
+        ]
+      ],
+      "avoid": [
+        [
+          "pink",
+          "butter"
+        ],
+        [
+          "pink",
+          "teal"
+        ],
+        [
+          "pink",
+          "olive"
+        ],
+        [
+          "burgundy",
+          "teal"
+        ],
+        [
+          "burgundy",
+          "olive"
+        ],
+        [
+          "burgundy",
+          "pink"
+        ],
+        [
+          "navy",
+          "black"
+        ],
+        [
+          "black",
+          "espresso"
+        ],
+        [
+          "ivory",
+          "cream"
+        ],
+        [
+          "grey",
+          "slate"
+        ],
+        [
+          "forest",
+          "black"
+        ],
+        [
+          "forest",
+          "navy"
+        ],
+        [
+          "olive",
+          "forest"
+        ],
+        [
+          "mocha",
+          "olive"
+        ]
+      ]
+    }
+  },
+  "bestsellerCount": 8,
+  "unpaidHoldHours": 48,
+  "shopGrid": {
+    "phone": 2,
+    "tablet": 3,
+    "desktop": 4
+  }
+}

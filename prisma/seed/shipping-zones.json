@@ -1,0 +1,35 @@
+[
+  {
+    "id": "kampala",
+    "name": "Kampala",
+    "description": "Delivered by our rider, same or next day.",
+    "fee": 15000,
+    "freeOver": null,
+    "etaDays": "1 to 2",
+    "active": true,
+    "position": 0,
+    "collect": false
+  },
+  {
+    "id": "upcountry",
+    "name": "Upcountry",
+    "description": "Sent by bus courier, collect at the park.",
+    "fee": 35000,
+    "freeOver": null,
+    "etaDays": "2 to 4",
+    "active": true,
+    "position": 1,
+    "collect": false
+  },
+  {
+    "id": "pickup",
+    "name": "Showroom pickup",
+    "description": "THE CUBE, G17, Kisementi, Kampala",
+    "fee": 0,
+    "freeOver": null,
+    "etaDays": "Same day",
+    "active": true,
+    "position": 2,
+    "collect": true
+  }
+]

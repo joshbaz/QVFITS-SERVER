@@ -1,0 +1,22 @@
+[
+  {
+    "id": "dsc_welcome",
+    "code": "WELCOME10",
+    "description": "Welcome code for newsletter sign-ups",
+    "type": "percent",
+    "value": 10,
+    "minSpend": 0,
+    "startsAt": null,
+    "endsAt": null,
+    "usageLimit": null,
+    "perCustomerLimit": 1,
+    "usedCount": 0,
+    "appliesTo": {
+      "scope": "all",
+      "ids": []
+    },
+    "active": true,
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "onSaleItems": true
+  }
+]

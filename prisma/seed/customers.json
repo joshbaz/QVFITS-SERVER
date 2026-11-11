@@ -1,0 +1,124 @@
+[
+  {
+    "id": "cus_demo",
+    "name": "Demo Shopper",
+    "email": "shopper@qvfits.com",
+    "phone": "+256 700 000 000",
+    "password": "demo123",
+    "addresses": [
+      {
+        "id": "adr_home",
+        "label": "Home",
+        "region": "kampala",
+        "address": "Plot 1, Kisementi, Kampala",
+        "phone": "+256 700 000 000"
+      }
+    ],
+    "wishlist": [
+      "sculpt-seamless-set"
+    ],
+    "createdAt": "2026-10-01T09:00:00.000Z",
+    "notes": "",
+    "tags": []
+  },
+  {
+    "id": "cus_amina",
+    "name": "Amina Nakato",
+    "email": "amina.nakato@example.com",
+    "phone": "+256 772 410 218",
+    "password": "demo123",
+    "addresses": [
+      {
+        "id": "adr_home",
+        "label": "Home",
+        "region": "kampala",
+        "address": "Ntinda, Kampala",
+        "phone": "+256 772 410 218"
+      }
+    ],
+    "wishlist": [],
+    "createdAt": "2026-08-12T08:10:00.000Z",
+    "notes": "",
+    "tags": []
+  },
+  {
+    "id": "cus_grace",
+    "name": "Grace Atim",
+    "email": "grace.atim@example.com",
+    "phone": "+256 701 553 072",
+    "password": "demo123",
+    "addresses": [
+      {
+        "id": "adr_home",
+        "label": "Home",
+        "region": "kampala",
+        "address": "Bugolobi, Kampala",
+        "phone": "+256 701 553 072"
+      }
+    ],
+    "wishlist": [],
+    "createdAt": "2026-08-20T10:30:00.000Z",
+    "notes": "",
+    "tags": []
+  },
+  {
+    "id": "cus_ruth",
+    "name": "Ruth Namukasa",
+    "email": "ruth.namukasa@example.com",
+    "phone": "+256 783 906 417",
+    "password": "demo123",
+    "addresses": [
+      {
+        "id": "adr_home",
+        "label": "Home",
+        "region": "kampala",
+        "address": "Muyenga, Kampala",
+        "phone": "+256 783 906 417"
+      }
+    ],
+    "wishlist": [],
+    "createdAt": "2026-09-02T12:00:00.000Z",
+    "notes": "",
+    "tags": []
+  },
+  {
+    "id": "cus_sheila",
+    "name": "Sheila Tumusiime",
+    "email": "sheila.t@example.com",
+    "phone": "+256 755 128 640",
+    "password": "demo123",
+    "addresses": [
+      {
+        "id": "adr_home",
+        "label": "Home",
+        "region": "upcountry",
+        "address": "Mbarara town",
+        "phone": "+256 755 128 640"
+      }
+    ],
+    "wishlist": [],
+    "createdAt": "2026-09-14T09:45:00.000Z",
+    "notes": "",
+    "tags": []
+  },
+  {
+    "id": "cus_joan",
+    "name": "Joan Akello",
+    "email": "joan.akello@example.com",
+    "phone": "+256 706 219 885",
+    "password": "demo123",
+    "addresses": [
+      {
+        "id": "adr_home",
+        "label": "Home",
+        "region": "kampala",
+        "address": "Kololo, Kampala",
+        "phone": "+256 706 219 885"
+      }
+    ],
+    "wishlist": [],
+    "createdAt": "2026-09-25T15:20:00.000Z",
+    "notes": "",
+    "tags": []
+  }
+]

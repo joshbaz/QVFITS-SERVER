@@ -6,6 +6,7 @@ import { env } from '../../../env.mjs';
 import { AppError } from '../../../utils/AppError.js';
 import { OWNER_ROLE, ensureSystemRoles, toStaffMember } from '../../../utils/permissions.mjs';
 import { INVITE_TTL_MS, hashToken, randomToken } from '../../../utils/tokens.mjs';
+import { queueEmail } from '../../../services/notify/outbox.mjs';
 import { requireAdmin, requirePermission } from '../../../middleware/adminAuth.mjs';
 import validate from '../../../middleware/validate.mjs';
 import { endSession, rotateSession, startSession } from './adminSession.mjs';
@@ -98,8 +99,8 @@ router.get('/me', requireAdmin, (req, res) => {
 });
 
 /**
- * Add someone to the team as `invited`. The link is returned for the inviter
- * to share until the server sends email; only its hash is stored.
+ * Add someone to the team as `invited` and email them the link (valid 7 days).
+ * The link also comes back for the inviter to share by hand; only its hash is stored.
  */
 router.post('/invite', requireAdmin, requirePermission('team', 'edit'), validate(inviteSchema), async (req, res) => {
     const { name, email, roleId } = req.body;
@@ -121,7 +122,15 @@ router.post('/invite', requireAdmin, requirePermission('team', 'edit'), validate
         },
     });
 
-    res.status(201).json({ data: { member: toStaffMember(member), inviteLink: `${env.APP_URL}/admin/invite?token=${token}` } });
+    const inviteLink = `${env.APP_URL}/admin/invite?token=${token}`;
+    await queueEmail({
+        to: email,
+        kind: 'staff-invite',
+        subject: `${req.admin.name} invited you to the QVFITS admin`,
+        body: `Hi ${name.split(' ')[0]}, ${req.admin.name} added you to the QVFITS team as ${role.name}.\n\nChoose a password to sign in. The link works for 7 days.`,
+        link: inviteLink,
+    });
+    res.status(201).json({ data: { member: toStaffMember(member), inviteLink } });
 });
 
 /** An invited person sets their password and is signed straight in. */

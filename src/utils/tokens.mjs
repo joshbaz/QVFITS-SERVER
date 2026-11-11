@@ -39,3 +39,21 @@ const adminCookieOptions = {
 export const setAdminRefreshCookie = (res, token) => res.cookie(ADMIN_REFRESH_COOKIE, token, adminCookieOptions);
 
 export const clearAdminRefreshCookie = (res) => res.clearCookie(ADMIN_REFRESH_COOKIE, adminCookieOptions);
+
+/* Customers: "stay signed in" keeps the cookie for 30 days; otherwise it ends with the browser. */
+
+export const CUSTOMER_REFRESH_COOKIE = 'qvfits_customer_rt';
+export const CUSTOMER_PERSISTENT_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+export const CUSTOMER_SESSION_TTL_MS = 12 * 60 * 60 * 1000;
+
+const customerCookieOptions = {
+    httpOnly: true,
+    secure: env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    path: '/api/v1/auth/customer',
+};
+
+export const setCustomerRefreshCookie = (res, token, persistent) =>
+    res.cookie(CUSTOMER_REFRESH_COOKIE, token, persistent ? { ...customerCookieOptions, maxAge: CUSTOMER_PERSISTENT_TTL_MS } : customerCookieOptions);
+
+export const clearCustomerRefreshCookie = (res) => res.clearCookie(CUSTOMER_REFRESH_COOKIE, customerCookieOptions);

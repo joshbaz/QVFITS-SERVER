@@ -1,0 +1,11 @@
+{
+  "live": true,
+  "kicker": "New styles",
+  "title": "Tennis is Sport",
+  "cta": "Shop the court range",
+  "target": {
+    "categories": [
+      "skorts"
+    ]
+  }
+}

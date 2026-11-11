@@ -1,4 +1,5 @@
 import prisma from '../../utils/db.mjs';
+import { readSettings } from '../shop/settings.mjs';
 import { matchesSearch } from './search.mjs';
 
 /**
@@ -9,7 +10,36 @@ import { matchesSearch } from './search.mjs';
 
 const byPosition = { orderBy: { position: 'asc' } };
 
-/** Every table a product view needs, in the admin's order. */
+/** Statuses that mean the money came in; cancelled and refunded orders don't count. */
+export const PAID_STATUSES = ['paid', 'packed', 'out_for_delivery', 'delivered', 'exchanged'];
+const SALES_DAYS = 90;
+
+/**
+ * Units sold per product in paid orders over the last 90 days, and the best
+ * sellers: the top N live pieces by units (N from Settings). Pinned pieces
+ * count on top of these (toView).
+ * @returns {Promise<{ units: Map<string, number>, top: Set<string> }>}
+ */
+const loadSales = async (products) => {
+    const since = new Date(Date.now() - SALES_DAYS * 86_400_000);
+    const [orders, settings] = await Promise.all([
+        prisma.order.findMany({ where: { status: { in: PAID_STATUSES }, createdAt: { gte: since } }, select: { lines: true } }),
+        readSettings(),
+    ]);
+    const units = new Map();
+    for (const o of orders) for (const l of o.lines) units.set(l.productId, (units.get(l.productId) ?? 0) + l.qty);
+    const live = new Set(products.filter((p) => p.status === 'active').map((p) => p.id));
+    const top = new Set(
+        [...units.entries()]
+            .filter(([id, n]) => n > 0 && live.has(id))
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, settings.bestsellerCount ?? 8)
+            .map(([id]) => id),
+    );
+    return { units, top };
+};
+
+/** Every table a product view needs, in the admin's order, and the sales that pick best sellers. */
 export const loadCatalog = async () => {
     const [categories, colors, sizes, groups, terms, products] = await Promise.all([
         prisma.category.findMany(byPosition),
@@ -19,25 +49,16 @@ export const loadCatalog = async () => {
         prisma.term.findMany(byPosition),
         prisma.product.findMany({ orderBy: { createdAt: 'asc' } }),
     ]);
-    return { categories, colors, sizes, groups, terms, products };
+    return { categories, colors, sizes, groups, terms, products, sales: await loadSales(products) };
 };
-
-// Settings still live in the client; this is its default.
-const BESTSELLER_COUNT = 8;
-
-/**
- * Units sold per product over the last 90 days, and the best sellers. Orders
- * are not on the API yet, so only pinned pieces count until they are.
- * @returns {{ units: Map<string, number>, top: Set<string> }}
- */
-const salesContext = () => ({ units: new Map(), top: new Set(), count: BESTSELLER_COUNT });
 
 /** What toView needs, built once per request. */
 export const viewContext = (catalog) => ({
     categories: new Map(catalog.categories.map((c) => [c.id, c])),
     colors: new Map(catalog.colors.map((c) => [c.id, c])),
     sizeOrder: new Map(catalog.sizes.map((s, i) => [s.label, i])),
-    sales: salesContext(),
+    // A single product's view (admin writes) has no sales loaded; it shows pinned best sellers only.
+    sales: catalog.sales ?? { units: new Map(), top: new Set() },
 });
 
 /** A product with names for its ids, stock per size across colours, and its card label. */
