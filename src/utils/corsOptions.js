@@ -50,7 +50,8 @@ export const corsOptions = {
         'http://localhost:5180',
         'http://localhost:5181',
         'http://localhost:8888',
-
+        // The live site (qvfits.com, or staging) in production.
+        ...(env.APP_URL.startsWith('http://localhost') ? [] : [env.APP_URL.replace(/\/+$/, '')]),
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
