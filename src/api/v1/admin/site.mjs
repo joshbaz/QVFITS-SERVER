@@ -7,7 +7,7 @@ import { requireAdmin, requirePermission } from '../../../middleware/adminAuth.m
 import validate from '../../../middleware/validate.mjs';
 import { readDocument, updateDocument } from '../../../services/shop/documents.mjs';
 
-/** The admin's inboxes (messages, Vee's questions), the offers and menu tile, and the activity log. */
+/** The admin's inboxes (messages, Vee's questions), the offers, menu tile and home page, and the activity log. */
 const router = express.Router();
 router.use(requireAdmin);
 
@@ -45,21 +45,31 @@ router.delete('/vee/questions/:id', requirePermission('vee', 'edit'), async (req
     res.status(204).end();
 });
 
-/* Offers and the Shop menu's picture tile: one document each, merged one level deep. */
+/* Offers, the Shop menu's picture tile and the home page: one document each, merged one level deep. */
 
-// Pictures must be uploaded first; an image held in the browser (a data: address) would bloat the document.
-const noInlineImages = (req, res, next) => (JSON.stringify(req.body).includes('data:image')
-    ? next(new AppError('A picture did not finish uploading. Remove it and add it again.', 422))
+// Pictures must be uploaded first; an image held in the browser (a data: or blob: address) would bloat the document.
+const noInlineImages = (req, res, next) => (/"(data:(image|video)|blob:)/.test(JSON.stringify(req.body))
+    ? next(new AppError('A picture or clip did not finish uploading. Remove it and add it again.', 422))
     : next());
 const documentPatch = z.record(z.string(), z.unknown());
 
+// The home page's editable parts, each sent whole: the hero slides, Shop by movement and Seen on you.
+// Their items are checked as objects only; the client owns their shape (src/data/home.json).
+const items = (max) => z.array(z.looseObject({}), { error: 'Each part must be a list.' }).max(max, `Keep it to ${max} or fewer.`);
+const homePatch = z.strictObject({
+    heroSlides: items(12).optional(),
+    movements: z.looseObject({ title: z.string().max(120).optional(), items: items(24) }).optional(),
+    feed: z.looseObject({ title: z.string().max(120).optional(), items: items(24) }).optional(),
+}, { error: 'Only the hero, Shop by movement and Seen on you can be saved here.' });
+
 const DOCUMENTS = [
-    { path: 'offers', id: 'offers', module: 'offers' },
-    { path: 'menu-feature', id: 'menu-feature', module: 'categories' },
+    { path: 'offers', id: 'offers', module: 'offers', schema: documentPatch },
+    { path: 'menu-feature', id: 'menu-feature', module: 'categories', schema: documentPatch },
+    { path: 'home', id: 'home', module: 'offers', schema: homePatch },
 ];
 for (const doc of DOCUMENTS) {
     router.get(`/content/${doc.path}`, requirePermission(doc.module, 'view'), async (req, res) => res.json({ data: await readDocument(doc.id) }));
-    router.patch(`/content/${doc.path}`, requirePermission(doc.module, 'edit'), validate(documentPatch), noInlineImages, async (req, res) => {
+    router.patch(`/content/${doc.path}`, requirePermission(doc.module, 'edit'), validate(doc.schema), noInlineImages, async (req, res) => {
         res.json({ data: await updateDocument(doc.id, req.body) });
     });
 }

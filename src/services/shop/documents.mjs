@@ -5,14 +5,16 @@ import newsletter from '../../data/newsletter.json';
 import offers from '../../data/offers.json';
 import menuFeature from '../../data/menu-feature.json';
 
-const DEFAULTS = { settings, newsletter, offers, 'menu-feature': menuFeature };
+// The home page has no defaults here: the client keeps its own copy (src/data/home.json) and lays
+// whatever is stored over it, so only the parts the admin has edited are kept.
+const DEFAULTS = { settings, newsletter, offers, 'menu-feature': menuFeature, home: {} };
 
 /**
  * One of the shop's single documents: the settings, the newsletter's
- * settings, the offers and the Shop menu's picture tile. A field the defaults
+ * settings, the offers, the Shop menu's picture tile and the home page. A field the defaults
  * gained since the document was saved reads from the defaults, so a new
  * setting never arrives as undefined.
- * @param {'settings'|'newsletter'|'offers'|'menu-feature'} id
+ * @param {'settings'|'newsletter'|'offers'|'menu-feature'|'home'} id
  */
 export const readDocument = async (id) => {
     const stored = (await prisma.shopDocument.findUnique({ where: { id } }))?.data ?? {};

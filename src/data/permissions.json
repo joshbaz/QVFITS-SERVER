@@ -80,7 +80,7 @@
   },
   {
     "id": "offers",
-    "label": "Offers",
+    "label": "Offers and the home page",
     "actions": [
       "view",
       "edit",

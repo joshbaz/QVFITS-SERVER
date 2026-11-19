@@ -21,7 +21,8 @@ const listUploads = async () => {
 /**
  * Every photo id and address the shop still uses, found by reading the whole
  * of each place a photo can be kept: products (including copies sharing a
- * photo), category and term pictures, the offers and the Shop menu tile.
+ * photo), category and term pictures, the offers, the Shop menu tile and the
+ * home page (its photos and reel clips).
  */
 const usedReferences = async () => {
     const [products, categories, terms, documents] = await Promise.all([

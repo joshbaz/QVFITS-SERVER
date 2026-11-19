@@ -4,6 +4,7 @@ const CODES = {
     403: 'FORBIDDEN',
     404: 'NOT_FOUND',
     409: 'CONFLICT',
+    413: 'TOO_LARGE',
     422: 'UNPROCESSABLE',
     429: 'RATE_LIMITED',
 };

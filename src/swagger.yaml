@@ -454,8 +454,8 @@ paths:
   /admin/uploads:
     post:
       tags: [Admin catalog]
-      summary: Upload a photo to ImageKit; returns a Photo
-      description: multipart/form-data with `folder` (products needs products edit; categories needs categories edit) and `file` (JPEG, PNG, WebP or AVIF, up to 5 MB).
+      summary: Upload a photo (returns a Photo) or a short clip (returns { id, url }) to ImageKit
+      description: multipart/form-data with `folder` (products needs products edit; categories needs categories edit; content, the home page and offers, needs offers edit) and `file` (a JPEG, PNG, WebP or AVIF photo up to 5 MB, or, in content only, an MP4, WebM or MOV clip up to 30 MB).
       security: [{ adminBearer: [] }]
       responses: { '201': { description: The Photo }, '403': { $ref: '#/components/responses/Error' }, '413': { $ref: '#/components/responses/Error' }, '502': { $ref: '#/components/responses/Error' } }
 
@@ -552,6 +552,8 @@ paths:
     get: { tags: [Newsletter and site], summary: 'Offers, links stored as targets', responses: { '200': { description: OK } } }
   /site/menu-feature:
     get: { tags: [Newsletter and site], summary: 'The Shop menu''s picture tile', responses: { '200': { description: OK } } }
+  /site/home:
+    get: { tags: [Newsletter and site], summary: 'The home page parts the admin has saved (heroSlides, movements, feed); the client fills in the rest', responses: { '200': { description: OK } } }
   /site/contact:
     post: { tags: [Newsletter and site], summary: 'Contact form; lands in Messages and emails the shop (10 per hour per address)', responses: { '200': { description: OK } } }
   /site/vee/questions:
@@ -567,7 +569,7 @@ paths:
   /admin/vee/questions:
     get: { tags: [Newsletter and site], summary: 'What shoppers asked Vee; DELETE /{id}', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
   /admin/content/{doc}:
-    patch: { tags: [Newsletter and site], summary: 'offers (offers edit) or menu-feature (categories edit), merged one level deep; GET reads it', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+    patch: { tags: [Newsletter and site], summary: 'offers (offers edit), menu-feature (categories edit) or home (offers edit; only heroSlides, movements and feed, each sent whole), merged one level deep; GET reads it', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
   /admin/activity:
     get: { tags: [Newsletter and site], summary: 'The activity log (activity view); POST records a line signed with who is signed in', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
   /admin/outbox/{id}/retry:
