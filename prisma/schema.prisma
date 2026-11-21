@@ -468,6 +468,9 @@ model OutboxEmail {
   attempts  Int       @default(0)
   error     String?
   sentAt    DateTime?
+  /// ZeptoMail's request id (or the SMTP message id) for the send, to match a bounce report to it.
+  /// "Sent" means the provider took it, not that it reached the inbox.
+  providerId String?
   createdAt DateTime  @default(now())
 
   @@index([ref])

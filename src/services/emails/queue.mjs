@@ -27,7 +27,7 @@ let worker = null;
 const looksLikeEmail = (to) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to);
 
 /**
- * Put an Outbox row on the queue. With no Zoho mailbox set up the row is
+ * Put an Outbox row on the queue. With no email service set up the row is
  * held (kept in the Outbox, not sent); a row addressed to a phone number is
  * marked no_email for staff to send on WhatsApp.
  */
@@ -54,8 +54,8 @@ const deliver = async (job) => {
     if (!row || row.status === 'sent') return;
     try {
         const { html, text } = renderEmail(row);
-        await sendMail({ to: row.to, subject: row.subject, text, html });
-        await prisma.outboxEmail.update({ where: { id: row.id }, data: { status: 'sent', sentAt: new Date(), attempts: job.attemptsMade + 1, error: null } });
+        const providerId = await sendMail({ to: row.to, subject: row.subject, text, html });
+        await prisma.outboxEmail.update({ where: { id: row.id }, data: { status: 'sent', sentAt: new Date(), attempts: job.attemptsMade + 1, error: null, providerId: providerId || null } });
     } catch (error) {
         const last = job.attemptsMade + 1 >= ATTEMPTS;
         await prisma.outboxEmail.update({

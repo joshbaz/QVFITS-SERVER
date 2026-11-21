@@ -10,15 +10,21 @@ const envSchema = z.object({
     // Photo uploads (src/utils/imagekit.mjs). Only the server holds the private key.
     IMAGEKIT_PRIVATE_KEY: z.string().startsWith("private_", "IMAGEKIT_PRIVATE_KEY is the private key from ImageKit, Developer options"),
     IMAGEKIT_URL_ENDPOINT: z.string().url(),
-    // Email through Zoho Mail (src/services/emails/zohoMail.js). Leave the user and password out and
+    // Email (src/services/emails/zohoMail.js). ZeptoMail first: its Send Mail token (ZeptoMail, the
+    // Mail Agent, SMTP/API, API) sends over HTTPS, which DigitalOcean doesn't block. The API URL is
+    // api.zeptomail.eu or .in for an account on those data centres. An empty value counts as not set.
+    ZEPTOMAIL_TOKEN: z.preprocess((v) => v || undefined, z.string().optional()),
+    ZEPTOMAIL_API_URL: z.preprocess((v) => v || undefined, z.string().url().default("https://api.zeptomail.com/v1.1/email")),
+    // Else Zoho Mail's SMTP (blocked on DigitalOcean Droplets). Leave the user and password out too and
     // emails stay in the Outbox unsent. smtp.zoho.com for a personal account, smtppro.zoho.com for a
     // domain (organisation) account; .eu, .in and so on for other data centres.
     ZOHO_SMTP_HOST: z.string().default("smtp.zoho.com"),
     ZOHO_SMTP_PORT: z.coerce.number().int().positive().default(465),
-    ZOHO_SMTP_USER: z.string().email().optional(),
+    ZOHO_SMTP_USER: z.preprocess((v) => v || undefined, z.string().email().optional()),
     // An app-specific password (Zoho, My Account, Security, App passwords), not the account password.
-    ZOHO_SMTP_PASSWORD: z.string().min(1).optional(),
-    // Who emails come from. Zoho only sends from the signed-in mailbox or one of its aliases.
+    ZOHO_SMTP_PASSWORD: z.preprocess((v) => v || undefined, z.string().optional()),
+    // Who emails come from. ZeptoMail sends only from a verified domain; Zoho SMTP only from the
+    // signed-in mailbox or one of its aliases.
     MAIL_FROM: z.string().optional(),
     MAIL_REPLY_TO: z.string().optional(),
     // Pesapal (src/services/payments/pesapal.mjs): mobile money and cards. Without a key and secret,

@@ -10,7 +10,8 @@
     "build": "rimraf dist && NODE_ENV='production' node esbuild.config.mjs",
     "postinstall": "prisma generate",
     "postbuild": "prisma generate",
-    "seed": "node prisma/seed.mjs"
+    "seed": "node prisma/seed.mjs",
+    "mail:test": "node scripts/send-test-email.mjs"
   },
   "author": "Joshua Kimbareeba",
   "license": "MIT",
