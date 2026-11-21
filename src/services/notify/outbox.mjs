@@ -1,6 +1,7 @@
 import prisma from '../../utils/db.mjs';
 import { enqueueEmail } from '../emails/queue.mjs';
 import { toCustomer } from '../../utils/sockets.js';
+import { orderSummary } from '../emails/orderSummary.mjs';
 
 /**
  * Every email the shop sends: order updates, account confirmations, password
@@ -31,7 +32,7 @@ const STATUS_WORDS = {
 };
 
 /** Tells the customer their order moved; staff can also send the same words on WhatsApp. */
-export const notifyCustomer = (order, status, extra = '') => {
+export const notifyCustomer = async (order, status, extra = '') => {
     // A signed-in shopper's open order page refreshes itself.
     toCustomer(order.customerId, 'order:updated', { id: order.id, ref: order.ref, status });
     const words = STATUS_WORDS[status];
@@ -44,5 +45,7 @@ export const notifyCustomer = (order, status, extra = '') => {
         body: `${words}${extra ? ` ${extra}` : ''}`,
         // The track page fills the reference in from the link; the shopper adds their phone.
         link: `/track-order?ref=${encodeURIComponent(order.ref)}`,
+        // The paid email carries the whole order: what was bought, the totals and where it goes.
+        meta: status === 'paid' ? { order: await orderSummary(order).catch(() => null) } : null,
     });
 };

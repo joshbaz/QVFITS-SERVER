@@ -7,6 +7,8 @@ import { notifyCustomer, queueEmail } from '../notify/outbox.mjs';
 import { feeFor, readSettings } from '../shop/settings.mjs';
 import { applyDiscount } from './discounts.mjs';
 import { toAdmins } from '../../utils/sockets.js';
+import { orderSummary } from '../emails/orderSummary.mjs';
+import { salesInbox } from '../emails/routing.mjs';
 // Each uses the other only when called, so the cycle is safe.
 import { lastCheckBeforeExpiry } from '../payments/payments.mjs';
 
@@ -121,6 +123,29 @@ const alertIfLow = async (changed, line, settings, ref) => {
     });
 };
 
+/**
+ * An email to the team (sales@) for each order from the website, with the
+ * whole order in it. Orders staff enter themselves (showroom, WhatsApp) are
+ * not sent: they already know. Never holds up the order if it can't be queued.
+ */
+const tellTeam = async (order, settings) => {
+    const to = salesInbox(settings);
+    if (!to || order.source !== 'web') return;
+    try {
+        await queueEmail({
+            to,
+            kind: 'new-order',
+            ref: order.ref,
+            subject: `New order ${order.ref} from ${order.name}: UGX ${order.total.toLocaleString('en-UG')}`,
+            body: order.paymentStatus === 'paid' ? 'A new order came in, paid.' : 'A new order came in. It is waiting for payment.',
+            link: `/admin/orders?order=${encodeURIComponent(order.id)}`,
+            meta: { heading: 'New order received', order: await orderSummary(order), forTeam: true, ...(order.email ? { replyTo: order.email } : {}) },
+        });
+    } catch (error) {
+        console.error(`New order email for ${order.ref} not queued:`, error.message);
+    }
+};
+
 /** Put every line of an order back on the shelf, once: the stockReturned flag is claimed first. */
 export const restockOrder = async (order, by) => {
     const claimed = await prisma.order.updateMany({ where: { id: order.id, stockReturned: false }, data: { stockReturned: true } });
@@ -198,6 +223,7 @@ export const placeOrder = async (input, { customer = null, source = 'web', by = 
         });
         // The admin hears about a new order straight away, rather than at the next refresh.
         toAdmins('order:new', { id: order.id, ref: order.ref, name: order.name, total: order.total, source });
+        await tellTeam(order, priced.settings);
         return order;
     } catch (error) {
         await giveBack();

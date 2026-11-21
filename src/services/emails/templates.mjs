@@ -42,6 +42,7 @@ const ACTIONS = {
     'low-stock': 'Open the stock list',
     'newsletter-welcome': 'Shop the new drop',
     'new-message': 'Open Messages',
+    'new-order': 'Open the order',
 };
 
 // Links stored as a path (/account/confirm?token=…) are made absolute for the inbox.
@@ -69,6 +70,63 @@ ${c.image ? `<img src="${escape(c.image)}" width="100%" alt="${escape(c.name)}" 
     return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0 0">${rows.join('')}</table>`;
 };
 
+const ugx = (n) => `UGX ${Number(n || 0).toLocaleString('en-UG')}`;
+const PAYMENT_STATES = { unpaid: 'Not paid yet', partial: 'Part paid', paid: 'Paid', refunded: 'Refunded' };
+
+/**
+ * An order's summary (meta.order, from orderSummary.mjs): each piece with its
+ * photo, the totals, and where it goes. `team` adds who ordered, how it is
+ * paid and their note, for the shop's own copy.
+ */
+const orderBlock = (o, team) => {
+    if (!o?.lines?.length) return '';
+    const cell = `padding:10px 0;border-bottom:1px solid ${C.line};vertical-align:middle`;
+    const line = (l) => `<tr>
+<td width="64" style="${cell}">${l.image ? `<img src="${escape(l.image)}" width="52" height="64" alt="" style="display:block;width:52px;height:64px;object-fit:cover;border-radius:8px;background:${C.cream2}">` : ''}</td>
+<td style="${cell};font-size:14px;color:${C.ink}"><strong style="font-weight:600">${escape(l.name)}</strong><br><span style="font-size:13px;color:${C.ink3}">${escape([l.color, l.size].filter(Boolean).join(', '))} · Qty ${l.qty}</span></td>
+<td align="right" style="${cell};font-size:14px;color:${C.ink};white-space:nowrap">${ugx(l.amount)}</td></tr>`;
+    const sum = (label, value, strong) => `<tr><td colspan="2" style="padding:${strong ? '10px' : '4px'} 0 0;font-size:${strong ? 16 : 14}px;color:${strong ? C.ink : C.ink3};${strong ? 'font-weight:700' : ''}">${escape(label)}</td>
+<td align="right" style="padding:${strong ? '10px' : '4px'} 0 0;font-size:${strong ? 16 : 14}px;color:${strong ? C.ink : C.ink2};white-space:nowrap;${strong ? 'font-weight:700' : ''}">${value}</td></tr>`;
+    const detail = (label, value) => (value ? `<p style="margin:0 0 8px;font-size:14px;line-height:1.5;color:${C.ink2}"><span style="display:block;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:${C.ink4}">${escape(label)}</span>${value}</p>` : '');
+    const placed = o.placedAt ? new Date(o.placedAt).toLocaleString('en-UG', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Africa/Kampala' }) : '';
+    const where = [o.area, o.address].filter(Boolean).map(escape).join(': ');
+    return `
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:26px 0 0;text-align:left;border:1px solid ${C.line};border-radius:14px">
+<tr><td style="padding:18px 20px 6px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+<td style="font-size:15px;font-weight:700;color:${C.ink}">Order ${escape(o.ref)}</td>
+<td align="right" style="font-size:12px;color:${C.ink4}">${escape(placed)}</td></tr></table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:6px">
+${o.lines.map(line).join('')}
+${sum('Subtotal', ugx(o.subtotal))}
+${o.kitSaving ? sum('Kit saving', `-${ugx(o.kitSaving)}`) : ''}
+${o.discount ? sum(`Discount${o.discountCode ? ` (${o.discountCode})` : ''}`, `-${ugx(o.discount)}`) : ''}
+${sum('Delivery', o.delivery ? ugx(o.delivery) : 'Free')}
+${sum('Total', ugx(o.total), true)}
+</table></td></tr>
+<tr><td style="padding:14px 20px 12px;background:${C.cream};border-top:1px solid ${C.line};border-radius:0 0 14px 14px">
+${team ? detail('Customer', [escape(o.customer?.name), escape(o.customer?.phone), o.customer?.email ? `<a href="mailto:${escape(o.customer.email)}" style="color:${C.brandDeep}">${escape(o.customer.email)}</a>` : ''].filter(Boolean).join('<br>')) : ''}
+${detail('Delivering to', where)}
+${detail('Payment', `${escape(o.payment)}${team ? ` · ${escape(PAYMENT_STATES[o.paymentStatus] || o.paymentStatus)}` : ''}`)}
+${team ? detail('Note', o.note ? escape(o.note) : '') : ''}
+</td></tr></table>`;
+};
+
+// The order summary as plain text, for the text twin.
+const orderText = (o, team) => !o?.lines?.length ? [] : [
+    '', `Order ${o.ref}`,
+    ...o.lines.map((l) => `- ${l.name} (${[l.color, l.size].filter(Boolean).join(', ')}) x${l.qty}: ${ugx(l.amount)}`),
+    `Subtotal: ${ugx(o.subtotal)}`,
+    ...(o.kitSaving ? [`Kit saving: -${ugx(o.kitSaving)}`] : []),
+    ...(o.discount ? [`Discount${o.discountCode ? ` (${o.discountCode})` : ''}: -${ugx(o.discount)}`] : []),
+    `Delivery: ${o.delivery ? ugx(o.delivery) : 'Free'}`,
+    `Total: ${ugx(o.total)}`,
+    ...(team ? [`Customer: ${[o.customer?.name, o.customer?.phone, o.customer?.email].filter(Boolean).join(', ')}`] : []),
+    `Delivering to: ${[o.area, o.address].filter(Boolean).join(': ')}`,
+    `Payment: ${o.payment}${team ? ` (${PAYMENT_STATES[o.paymentStatus] || o.paymentStatus})` : ''}`,
+    ...(team && o.note ? [`Note: ${o.note}`] : []),
+];
+
 // A pill with the brand gradient; plain brand colour where gradients aren't drawn.
 const button = (href, label) => `
 <table role="presentation" align="center" cellpadding="0" cellspacing="0" style="margin:28px auto 0"><tr>
@@ -78,7 +136,7 @@ const button = (href, label) => `
 
 /**
  * @param {{ kind: string, subject: string, body: string, link?: string|null, unsubscribe?: string|null,
- *   meta?: { heading?: string, previewText?: string, code?: { code: string, offer?: string }, cards?: object[], cta?: { label: string, href: string } } | null }} email
+ *   meta?: { heading?: string, order?: object, forTeam?: boolean, replyTo?: string, previewText?: string, code?: { code: string, offer?: string }, cards?: object[], cta?: { label: string, href: string } } | null }} email
  * @param {{ address?: string }} [shop] the shop's address, for the footer
  * @returns {{ html: string, text: string }}
  */
@@ -106,6 +164,7 @@ ${meta?.previewText ? `<div style="display:none;max-height:0;overflow:hidden;opa
 <h1 style="margin:22px 0 14px;font-family:${FONT};font-size:24px;line-height:1.25;font-weight:600;letter-spacing:-0.3px;color:${C.ink}">${escape(heading)}</h1>
 ${paragraphs(body)}
 ${codeBox(meta?.code)}
+${orderBlock(meta?.order, meta?.forTeam)}
 ${cards(meta?.cards)}
 ${action ? button(href, action) : ''}
 </td></tr>
@@ -119,6 +178,7 @@ ${unsubscribeUrl ? `<p style="margin:4px 0 0">You are getting this because you j
         heading,
         '',
         body,
+        ...orderText(meta?.order, meta?.forTeam),
         ...(meta?.code?.code ? ['', `Your code: ${meta.code.code}${meta.code.offer ? ` (${meta.code.offer})` : ''}`] : []),
         ...(href ? ['', `${action}: ${href}`] : []),
         '',
