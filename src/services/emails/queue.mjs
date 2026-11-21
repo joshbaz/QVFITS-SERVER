@@ -5,6 +5,7 @@ import prisma from '../../utils/db.mjs';
 import { env } from '../../env.mjs';
 import { isMailConfigured, sendMail } from './zohoMail.js';
 import { renderEmail } from './templates.mjs';
+import { readDocument } from '../shop/documents.mjs';
 
 /**
  * The email queue: every Outbox row is handed to a BullMQ job on Redis and
@@ -53,7 +54,9 @@ const deliver = async (job) => {
     const row = await prisma.outboxEmail.findUnique({ where: { id: job.data.id } });
     if (!row || row.status === 'sent') return;
     try {
-        const { html, text } = renderEmail(row);
+        // The footer carries the shop's address, as set in Settings.
+        const { address } = await readDocument('settings');
+        const { html, text } = renderEmail(row, { address });
         const providerId = await sendMail({ to: row.to, subject: row.subject, text, html });
         await prisma.outboxEmail.update({ where: { id: row.id }, data: { status: 'sent', sentAt: new Date(), attempts: job.attemptsMade + 1, error: null, providerId: providerId || null } });
     } catch (error) {

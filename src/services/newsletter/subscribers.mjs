@@ -100,12 +100,23 @@ export const confirmSubscription = async (token) => {
             to: s.email,
             kind: 'newsletter-welcome',
             subject: settings.welcome.subject,
-            body: `${settings.welcome.heading}.\n\n${settings.welcome.body}${settings.welcome.code ? `\n\nYour code: ${settings.welcome.code}` : ''}`,
+            body: settings.welcome.body,
             link: '/shop',
             unsubscribe: unsubscribeLink(s.id),
+            meta: { heading: settings.welcome.heading, code: await welcomeCode(settings.welcome.code) },
         });
     }
     return row;
+};
+
+// What the welcome code is worth, as the admin's preview words it: "10% off your order".
+const welcomeCode = async (code) => {
+    if (!code) return null;
+    const d = await prisma.discount.findUnique({ where: { code: code.toUpperCase() } });
+    if (!d) return { code };
+    const ugx = (n) => `UGX ${Number(n).toLocaleString('en-UG')}`;
+    const off = d.type === 'percent' ? `${d.value}% off` : `${ugx(d.value)} off`;
+    return { code: d.code, offer: d.minSpend ? `${off} orders over ${ugx(d.minSpend)}` : `${off} your order` };
 };
 
 /** Every email's unsubscribe link. The record stays, so the address isn't mailed again. */

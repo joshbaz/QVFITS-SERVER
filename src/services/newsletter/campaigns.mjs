@@ -50,13 +50,13 @@ export const deliverCampaign = async (campaign) => {
     if (!claimed.count) throw new AppError('This campaign is already being sent.', 409);
 
     try {
-        const meta = { cards: await productCards(campaign.productIds), cta: campaign.cta?.href ? { label: campaign.cta.label, href: campaign.cta.href } : null };
+        const meta = { heading: campaign.heading, previewText: campaign.previewText || '', cards: await productCards(campaign.productIds), cta: campaign.cta?.href ? { label: campaign.cta.label, href: campaign.cta.href } : null };
         for (const s of list) {
             await queueEmail({
                 to: s.email,
                 kind: 'campaign',
                 subject: campaign.subject,
-                body: `${campaign.heading}\n\n${campaign.body}`,
+                body: campaign.body,
                 ref: campaign.id,
                 unsubscribe: unsubscribeLink(s.id),
                 meta,
