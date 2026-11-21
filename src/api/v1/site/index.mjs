@@ -43,6 +43,8 @@ router.post('/contact', validate(z.object({
             subject: `New message from ${message.name}${message.topic ? `: ${message.topic}` : ''}`,
             body: `${message.message}\n\n${[message.phone, message.email].filter(Boolean).join(' · ') || 'No contact details left.'}`,
             link: '/admin/messages',
+            // Reply in the mail app and it goes straight to whoever wrote.
+            meta: message.email ? { replyTo: message.email } : null,
         });
     }
     res.status(201).json({ data: { delivered: true } });

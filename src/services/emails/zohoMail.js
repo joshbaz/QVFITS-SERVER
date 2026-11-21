@@ -42,9 +42,10 @@ const zeptoError = (status, body) => {
     return error;
 };
 
-const sendWithZepto = async ({ to, bcc, subject, text, html, attachments }) => {
-    const sender = parseAddress(from());
-    const replyTo = env.MAIL_REPLY_TO ? parseAddress(env.MAIL_REPLY_TO) : null;
+const sendWithZepto = async ({ to, bcc, subject, text, html, attachments, from: sentFrom, replyTo: replyAddress }) => {
+    const sender = parseAddress(sentFrom || from());
+    const reply = replyAddress || env.MAIL_REPLY_TO;
+    const replyTo = reply ? parseAddress(reply) : null;
     const response = await fetch(env.ZEPTOMAIL_API_URL, {
         method: 'POST',
         headers: { Accept: 'application/json', 'Content-Type': 'application/json', Authorization: zeptoAuth() },
@@ -88,23 +89,25 @@ const getTransport = () => {
     return transport;
 };
 
-const sendWithSmtp = async ({ to, bcc, subject, text, html, attachments }) => {
+const sendWithSmtp = async ({ to, bcc, subject, text, html, attachments, from: sentFrom, replyTo }) => {
+    const reply = replyTo || env.MAIL_REPLY_TO;
     const info = await getTransport().sendMail({
-        from: from(),
+        // Zoho SMTP sends only as the signed-in mailbox or one of its aliases.
+        from: sentFrom || from(),
         to,
         ...(bcc ? { bcc } : {}),
         subject,
         text,
         html,
         ...(attachments?.length ? { attachments } : {}),
-        ...(env.MAIL_REPLY_TO ? { replyTo: env.MAIL_REPLY_TO } : {}),
+        ...(reply ? { replyTo: reply } : {}),
     });
     return info.messageId;
 };
 
 /**
  * Send one email. Throws on failure so the caller can retry it.
- * @param {{ to: string, bcc?: string, subject: string, text: string, html: string, attachments?: { filename: string, content: Buffer, contentType: string }[] }} email
+ * @param {{ to: string, bcc?: string, from?: string, replyTo?: string, subject: string, text: string, html: string, attachments?: { filename: string, content: Buffer, contentType: string }[] }} email
  * @returns {Promise<string>} the provider's id for it
  */
 export const sendMail = (email) => (env.ZEPTOMAIL_TOKEN ? sendWithZepto(email) : sendWithSmtp(email));

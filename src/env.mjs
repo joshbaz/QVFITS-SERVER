@@ -27,6 +27,10 @@ const envSchema = z.object({
     // signed-in mailbox or one of its aliases.
     MAIL_FROM: z.string().optional(),
     MAIL_REPLY_TO: z.string().optional(),
+    // The team's copies and the newsletter's own sender (src/services/emails/routing.mjs). Set one to "off" to stop it.
+    MAIL_SALES_COPY: z.preprocess((v) => v || undefined, z.string().default("sales@qvfits.com")),
+    MAIL_NEWSLETTER_COPY: z.preprocess((v) => v || undefined, z.string().default("info@qvfits.com")),
+    MAIL_INFO_FROM: z.preprocess((v) => v || undefined, z.string().default("QVFITS <info@qvfits.com>")),
     // Pesapal (src/services/payments/pesapal.mjs): mobile money and cards. Without a key and secret,
     // checkout keeps the WhatsApp hand-off and the admin's Check says online payments are not set up. developer.pesapal.com.
     PESAPAL_ENV: z.enum(["sandbox", "live"]).default("sandbox"),

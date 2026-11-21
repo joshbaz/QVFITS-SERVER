@@ -5,6 +5,7 @@ import prisma from '../../utils/db.mjs';
 import { env } from '../../env.mjs';
 import { isMailConfigured, sendMail } from './zohoMail.js';
 import { renderEmail } from './templates.mjs';
+import { routeEmail } from './routing.mjs';
 import { readDocument } from '../shop/documents.mjs';
 
 /**
@@ -57,7 +58,7 @@ const deliver = async (job) => {
         // The footer carries the shop's address, as set in Settings.
         const { address } = await readDocument('settings');
         const { html, text } = renderEmail(row, { address });
-        const providerId = await sendMail({ to: row.to, subject: row.subject, text, html });
+        const providerId = await sendMail({ to: row.to, subject: row.subject, text, html, ...routeEmail(row) });
         await prisma.outboxEmail.update({ where: { id: row.id }, data: { status: 'sent', sentAt: new Date(), attempts: job.attemptsMade + 1, error: null, providerId: providerId || null } });
     } catch (error) {
         const last = job.attemptsMade + 1 >= ATTEMPTS;

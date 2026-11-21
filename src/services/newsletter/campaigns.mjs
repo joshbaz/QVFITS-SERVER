@@ -51,7 +51,7 @@ export const deliverCampaign = async (campaign) => {
 
     try {
         const meta = { heading: campaign.heading, previewText: campaign.previewText || '', cards: await productCards(campaign.productIds), cta: campaign.cta?.href ? { label: campaign.cta.label, href: campaign.cta.href } : null };
-        for (const s of list) {
+        for (const [i, s] of list.entries()) {
             await queueEmail({
                 to: s.email,
                 kind: 'campaign',
@@ -59,7 +59,8 @@ export const deliverCampaign = async (campaign) => {
                 body: campaign.body,
                 ref: campaign.id,
                 unsubscribe: unsubscribeLink(s.id),
-                meta,
+                // The team gets one copy of the campaign, on the first email, not one per subscriber.
+                meta: i === 0 ? { ...meta, teamCopy: true } : meta,
             });
         }
     } catch (error) {
