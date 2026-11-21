@@ -4,6 +4,7 @@ import { env } from './env.mjs';
 import customizeApp from './app.mjs';
 import { setupSocketIO } from './utils/sockets.js';
 import { ensureSystemRoles } from './utils/permissions.mjs';
+import { ensurePaymentMethods } from './services/shop/paymentMethods.mjs';
 import { connectRedis } from './utils/redis.mjs';
 import { startScheduler } from './jobs/scheduler.mjs';
 import { startEmailWorker } from './services/emails/queue.mjs';
@@ -30,6 +31,8 @@ app.start = async () => {
 
     // Owner, Manager and Staff must exist before anyone can be invited to one.
     await ensureSystemRoles();
+    // Checkout's ways to pay (MTN, Airtel, card, WhatsApp) must exist for the admin to switch on.
+    await ensurePaymentMethods();
 
 
 
