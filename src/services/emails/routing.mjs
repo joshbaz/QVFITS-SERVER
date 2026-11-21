@@ -8,12 +8,14 @@ import { env } from '../../env.mjs';
  *     info@. A campaign goes to every subscriber, so only one of its emails
  *     carries the copy (meta.teamCopy, set on the first), not one per address.
  *   Contact form messages: from info@, and a reply goes to whoever wrote.
+ *   Account emails (confirm, password reset, staff invite): from info@.
  *
- * Everything else (account and staff emails) comes from MAIL_FROM, as before.
+ * Everything else (sales) comes from MAIL_FROM.
  */
 const SALES = new Set(['order-update', 'low-stock']);
 const NEWSLETTER = new Set(['newsletter-confirm', 'newsletter-welcome', 'campaign']);
-const FROM_INFO = new Set([...NEWSLETTER, 'new-message']);
+const ACCOUNT = new Set(['account-confirm', 'password-reset', 'staff-invite']);
+const FROM_INFO = new Set([...NEWSLETTER, ...ACCOUNT, 'new-message']);
 
 const on = (value) => (value && value.toLowerCase() !== 'off' ? value : null);
 const address = (value) => /<([^>]+)>/.exec(value)?.[1] ?? value;
