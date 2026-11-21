@@ -16,6 +16,7 @@ import {
 } from '../../../services/sales/orders.mjs';
 import { createReturn, refundDue, toReturn, updateReturnStatus } from '../../../services/sales/returns.mjs';
 import { checkoutSchema, returnInput } from '../checkout/schemas.mjs';
+import { checkTransaction } from '../../../services/payments/payments.mjs';
 
 /**
  * Orders, returns, money, the outbox and customers for the admin. Moving
@@ -157,7 +158,8 @@ router.patch('/returns/:id/status', validate(z.object({
 
 const transaction = z.object({
     orderId: z.string(), type: z.enum(['payment', 'refund']), method, amount: z.number().int().positive(),
-    status: z.enum(['pending', 'succeeded', 'failed']), reference: z.string().max(120), note: z.string().max(500).nullish(),
+    status: z.enum(['pending', 'succeeded', 'failed', 'abandoned', 'reversed']), reference: z.string().max(120), note: z.string().max(500).nullish(),
+    reason: z.string().max(300).nullish(),
 });
 
 const canSeeMoney = (req, res, next) => (can(req.admin, 'transactions', 'view') || can(req.admin, 'orders', 'view') ? next() : next(forbid()));
@@ -170,6 +172,11 @@ router.post('/transactions', requirePermission('orders', 'payment'), validate(tr
     const order = await findOrder(req.body.orderId);
     const row = await recordTransaction({ status: 'succeeded', reference: '', ...req.body, orderRef: order.ref });
     res.status(201).json({ data: row });
+});
+
+// Ask Pesapal about a payment now and apply its answer: a payment that went through pays its order.
+router.post('/transactions/:reference/check', requirePermission('orders', 'payment'), async (req, res) => {
+    res.json({ data: await checkTransaction(req.params.reference, req.admin) });
 });
 
 router.patch('/transactions/:id', requirePermission('orders', 'payment'), validate(transaction.omit({ orderId: true }).partial()), async (req, res) => {

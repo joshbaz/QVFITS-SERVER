@@ -21,6 +21,19 @@ const envSchema = z.object({
     // Who emails come from. Zoho only sends from the signed-in mailbox or one of its aliases.
     MAIL_FROM: z.string().optional(),
     MAIL_REPLY_TO: z.string().optional(),
+    // Pesapal (src/services/payments/pesapal.mjs): mobile money and cards. Without a key and secret,
+    // checkout keeps the WhatsApp hand-off and the admin's Check says online payments are not set up. developer.pesapal.com.
+    PESAPAL_ENV: z.enum(["sandbox", "live"]).default("sandbox"),
+    // An empty value (as .env.example leaves them) counts as not set.
+    PESAPAL_CONSUMER_KEY: z.preprocess((v) => v || undefined, z.string().optional()),
+    PESAPAL_CONSUMER_SECRET: z.preprocess((v) => v || undefined, z.string().optional()),
+    // Only to point at a different Pesapal host; otherwise PESAPAL_ENV picks it.
+    PESAPAL_BASE_URL: z.preprocess((v) => v || undefined, z.string().url().optional()),
+    // Where Pesapal tells the server a payment changed (the IPN). Defaults to API_URL's
+    // /api/v1/payments/pesapal/ipn, so it only needs setting when the API sits elsewhere.
+    PESAPAL_IPN_URL: z.preprocess((v) => v || undefined, z.string().url().optional()),
+    // The API's own public address (https://api.example.com), for the Pesapal IPN.
+    API_URL: z.preprocess((v) => v || undefined, z.string().url().optional()),
     // Where the client runs; invite links point here.
     APP_URL: z.string().url().default("http://localhost:5173"),
 });

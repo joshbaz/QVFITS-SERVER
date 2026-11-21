@@ -6,6 +6,7 @@ import validate from '../../../middleware/validate.mjs';
 import { optionalCustomer } from '../../../middleware/customerAuth.mjs';
 import { cancelUnpaid, expireUnpaid, findByRefAndPhone, placeOrder, quote, toShopperOrder } from '../../../services/sales/orders.mjs';
 import { requestReturnFor, toReturn } from '../../../services/sales/returns.mjs';
+import { paymentForNewOrder } from '../../../services/payments/payments.mjs';
 import { checkoutSchema, quoteSchema, refAndPhone, returnInput } from './schemas.mjs';
 
 /**
@@ -36,7 +37,10 @@ checkout.post('/orders', optionalCustomer, validate(checkoutSchema), async (req,
         throw new AppError('Tell us where to deliver.', 422, { details: { fieldErrors: { address: ['Tell us where to deliver.'] } } });
     }
     const order = await placeOrder(input, { customer: req.customer });
-    res.status(201).json({ data: toShopperOrder(order) });
+    // MTN, Airtel and card go on to Pesapal's page ({ redirectUrl }); if it can't open, { error } and the order still stands.
+    // Not `payment`: that is the order's own field, the method chosen.
+    const onlinePayment = await paymentForNewOrder(order);
+    res.status(201).json({ data: { ...toShopperOrder(order), onlinePayment } });
 });
 
 // Reference plus phone is the only key a guest has, so a wrong pair gets the same answer as an unknown order.

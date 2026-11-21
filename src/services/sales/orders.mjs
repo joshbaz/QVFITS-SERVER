@@ -7,6 +7,8 @@ import { notifyCustomer, queueEmail } from '../notify/outbox.mjs';
 import { feeFor, readSettings } from '../shop/settings.mjs';
 import { applyDiscount } from './discounts.mjs';
 import { toAdmins } from '../../utils/sockets.js';
+// Each uses the other only when called, so the cycle is safe.
+import { lastCheckBeforeExpiry } from '../payments/payments.mjs';
 
 /**
  * Checkout, orders and payments, ported from the client's checkoutApi and
@@ -227,8 +229,15 @@ export const settlePayment = async (order, { method, reference = '', amount }, b
     if (!(take > 0)) throw new AppError('Enter the amount taken.', 422);
     if (take > due) throw new AppError(`That is more than the ${due.toLocaleString('en-UG')} UGX still due.`, 422);
     await recordTransaction({ orderId: order.id, orderRef: order.ref, type: 'payment', method, amount: take, status: 'succeeded', reference });
+    return applyPaid(order, { full: take === due, method, reference }, by);
+};
 
-    const full = take === due;
+/**
+ * Move an order on once money has landed on it: paid in full (a pending
+ * order becomes paid, and the shopper is told) or part paid. The payment's
+ * transaction is already stored as succeeded.
+ */
+export const applyPaid = async (order, { full, method, reference = '' }, by) => {
     const becomesPaid = full && order.status === 'pending';
     const updated = await prisma.order.update({
         where: { id: order.id },
@@ -257,6 +266,11 @@ export const cancelOrder = async (order, { by, note, from = [order.status], at =
     });
     if (!moved.count) throw new AppError('This order changed while you were looking at it. Reload and try again.', 409);
     const updated = await prisma.order.update({ where: { id: order.id }, data: { history: { push: { status: 'cancelled', at, by, note: note ?? null } } } });
+    // A payment still open at the gateway will never be finished now: it was abandoned, not declined.
+    await prisma.transaction.updateMany({
+        where: { orderId: order.id, type: 'payment', status: 'pending' },
+        data: { status: 'abandoned', reason: note || 'Cancelled before payment' },
+    });
     await restockOrder(updated, by);
     await notifyCustomer(updated, 'cancelled', extra);
     return prisma.order.findUnique({ where: { id: order.id } });
@@ -276,13 +290,16 @@ export const holdsUntil = (order, settings) => order.createdAt.getTime() + (sett
 /**
  * Unpaid orders don't hold stock forever: past the hold time set in Settings,
  * a pending order with nothing paid cancels itself and its pieces go back on
- * the shelf. Run on a schedule (jobs/expireUnpaid.mjs) and before order reads.
+ * the shelf, after a last check with Pesapal for any payment still open.
+ * Run on a schedule (jobs/scheduler.mjs) and before order reads.
  */
 export const expireUnpaid = async () => {
     const settings = await readSettings();
     const cutoff = new Date(Date.now() - (settings.unpaidHoldHours ?? 48) * HOUR);
     const stale = await prisma.order.findMany({ where: { status: 'pending', paymentStatus: 'unpaid', createdAt: { lt: cutoff } } });
     for (const o of stale) {
+        // Paid online at the last minute: Pesapal's answer counts, and the order stays.
+        if (!(await lastCheckBeforeExpiry(o))) continue;
         await cancelOrder(o, {
             by: 'The shop',
             note: 'Not paid in time, so the pieces went back on the shelf.',

@@ -460,7 +460,7 @@ paths:
       responses: { '201': { description: The Photo }, '403': { $ref: '#/components/responses/Error' }, '413': { $ref: '#/components/responses/Error' }, '502': { $ref: '#/components/responses/Error' } }
 
   /shop/settings:
-    get: { tags: [Shop], summary: 'Settings plus the live delivery zones', responses: { '200': { description: OK } } }
+    get: { tags: [Shop], summary: 'Settings plus the live delivery zones, and onlinePayments (whether MTN, Airtel and card are paid through Pesapal)', responses: { '200': { description: OK } } }
   /shop/shipping-zones:
     get: { tags: [Shop], summary: 'Live delivery zones', responses: { '200': { description: OK } } }
   /shop/payment-methods:
@@ -495,6 +495,8 @@ paths:
     get: { tags: [Account], summary: 'Own orders (no staff notes)', responses: { '200': { description: OK } } }
   /account/orders/{id}/cancel:
     post: { tags: [Account], summary: 'Cancel an unpaid order; stock goes back', responses: { '200': { description: OK } } }
+  /account/orders/{id}/pay:
+    post: { tags: [Account], summary: 'Pay an unpaid order online through Pesapal: { redirectUrl } for what is still due', responses: { '200': { description: OK }, '409': { $ref: '#/components/responses/Error' }, '503': { $ref: '#/components/responses/Error' } } }
   /account/returns:
     get: { tags: [Account], summary: 'Own returns; POST asks for one { orderId, lines, reason, resolution }', responses: { '200': { description: OK } } }
   /account/export:
@@ -502,7 +504,13 @@ paths:
   /checkout/quote:
     post: { tags: [Checkout], summary: 'Price a bag { lines, region, code?, phone? }', responses: { '200': { description: OK } } }
   /checkout/orders:
-    post: { tags: [Checkout], summary: 'Place an order (guest or signed in); 409 OUT_OF_STOCK names what is short; 10 per hour per address', responses: { '200': { description: OK } } }
+    post: { tags: [Checkout], summary: 'Place an order (guest or signed in); 409 OUT_OF_STOCK names what is short; 10 per hour per address. The order comes back with `onlinePayment`: { redirectUrl } to send the shopper to Pesapal (MTN, Airtel or card, with Pesapal set up), { error } if Pesapal could not open (the order still stands), or null', responses: { '200': { description: OK } } }
+  /payments/pesapal/ipn:
+    get: { tags: [Checkout], summary: 'Pesapal''s IPN (OrderTrackingId, OrderMerchantReference, OrderNotificationType); the payment is checked with Pesapal, never taken from the call. POST is accepted too', responses: { '200': { description: Acknowledged }, '500': { description: Pesapal should try again } } }
+  /payments/status:
+    post: { tags: [Checkout], summary: 'Where a payment stands { ref, trackingId }, checked with Pesapal while open: { status, reason, paid, order } (300 per 15 minutes)', responses: { '200': { description: OK }, '404': { $ref: '#/components/responses/Error' } } }
+  /payments/retry:
+    post: { tags: [Checkout], summary: 'Open Pesapal again for what is due { ref, trackingId } or { ref, phone }: { redirectUrl } (30 lookups per 15 minutes)', responses: { '200': { description: OK }, '409': { $ref: '#/components/responses/Error' }, '503': { $ref: '#/components/responses/Error' } } }
   /orders/track:
     post: { tags: [Checkout], summary: 'A guest''s order { ref, phone } (30 lookups per 15 minutes)', responses: { '200': { description: OK } } }
   /orders/cancel:
@@ -526,7 +534,9 @@ paths:
   /admin/returns/{id}/status:
     patch: { tags: [Admin sales], summary: 'Approve, reject, receive (stock back once), refund (refund permission; never more than paid) or exchange', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
   /admin/transactions:
-    get: { tags: [Admin sales], summary: 'Money in and out; POST, PATCH, DELETE by id need payment or delete', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+    get: { tags: [Admin sales], summary: 'Money in and out (status pending, succeeded, failed, abandoned or reversed, with a reason when it did not land); POST, PATCH, DELETE by id need payment or delete', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
+  /admin/transactions/{reference}/check:
+    post: { tags: [Admin sales], summary: 'Ask Pesapal about a payment now (payment) and apply its answer: completed pays the order, failed or reversed records why. Returns { message, transaction }; 503 PAYMENTS_NOT_CONFIGURED without Pesapal keys', security: [{ adminBearer: [] }], parameters: [{ name: reference, in: path, required: true, schema: { type: string } }], responses: { '200': { description: OK }, '404': { $ref: '#/components/responses/Error' }, '502': { $ref: '#/components/responses/Error' }, '503': { $ref: '#/components/responses/Error' } } }
   /admin/outbox:
     get: { tags: [Admin sales], summary: 'Emails the shop would send (newsletter view)', security: [{ adminBearer: [] }], responses: { '200': { description: OK } } }
   /admin/customers:

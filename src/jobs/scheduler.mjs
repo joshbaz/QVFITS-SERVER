@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import { redis } from '../utils/redis.mjs';
 import { expireUnpaid } from '../services/sales/orders.mjs';
+import { checkOpenPayments } from '../services/payments/payments.mjs';
 import { sendDueCampaigns } from '../services/newsletter/campaigns.mjs';
 import { removeUnusedUploads } from '../services/media/cleanup.mjs';
 
@@ -14,6 +15,8 @@ const MINUTE = 60 * 1000;
 const TASKS = [
     // Unpaid orders past their hold are cancelled and their stock goes back.
     { name: 'expire-unpaid', every: 5 * MINUTE, run: expireUnpaid, done: (n) => n && `Expired ${n} unpaid order${n === 1 ? '' : 's'}` },
+    // Online payments still open are checked with Pesapal, in case its IPN never came.
+    { name: 'check-open-payments', every: 10 * MINUTE, run: checkOpenPayments, done: (n) => n && `${n} online payment${n === 1 ? '' : 's'} came in on a check` },
     // Scheduled newsletter campaigns whose time has come are sent.
     { name: 'send-campaigns', every: MINUTE, run: sendDueCampaigns, done: (n) => n && `Sent ${n} scheduled campaign${n === 1 ? '' : 's'}` },
     // Uploaded photos nothing uses any more (and over a week old) are deleted from ImageKit.

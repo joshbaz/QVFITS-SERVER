@@ -12,6 +12,8 @@ export const RATE_LIMITS = {
     lookups: { windowMinutes: 15, limit: 30, keyedBy: 'IP' },
     checkout: { windowMinutes: 60, limit: 10, keyedBy: 'IP' },
     vee: { windowMinutes: 15, limit: 60, keyedBy: 'IP' },
+    // The payment return page asks every few seconds while Pesapal confirms; the key is unguessable.
+    paymentStatus: { windowMinutes: 15, limit: 300, keyedBy: 'IP' },
 };
 
 /**
@@ -23,7 +25,8 @@ export const RATE_LIMITS = {
 const PUBLIC_RULES = [
     { name: 'forms', path: /\/(catalog\/reviews|newsletter\/subscribe|site\/contact)$/, message: 'Thanks, we have plenty from you for now. Please try again later.' },
     { name: 'vee', path: /\/site\/vee\/questions$/, message: 'Vee needs a breather. Try again in a few minutes.' },
-    { name: 'lookups', path: /\/orders\/(track|cancel|return)$/, message: 'Too many tries. Please wait a few minutes and check the reference and phone number.' },
+    { name: 'lookups', path: /\/(orders\/(track|cancel|return)|payments\/retry)$/, message: 'Too many tries. Please wait a few minutes and check the reference and phone number.' },
+    { name: 'paymentStatus', path: /\/payments\/status$/, message: 'Too many checks. Wait a minute, then reload the page.' },
     // Only orders that go through hold stock, so refused ones (sold out, a typo) don't count.
     { name: 'checkout', path: /\/checkout\/orders$/, message: 'Too many orders from this connection. Message us on WhatsApp and we will help.', skipFailedRequests: true },
 ];

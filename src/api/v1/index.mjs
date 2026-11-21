@@ -13,6 +13,7 @@ import discounts from './admin/discounts.mjs';
 import customerAuth from './auth/customerAuth.mjs';
 import account from './account/index.mjs';
 import { checkout, guestOrders } from './checkout/index.mjs';
+import payments from './payments/index.mjs';
 import sales from './admin/sales.mjs';
 import newsletter from './newsletter/index.mjs';
 import adminNewsletter from './admin/newsletter.mjs';
@@ -35,6 +36,7 @@ const endpoints = [
     { path: '/account', router: account },
     { path: '/checkout', router: checkout },
     { path: '/orders', router: guestOrders },
+    { path: '/payments', router: payments },
     { path: '/newsletter', router: newsletter },
     { path: '/admin/newsletter', router: adminNewsletter },
     { path: '/site', router: site },

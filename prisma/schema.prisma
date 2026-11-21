@@ -404,10 +404,17 @@ model Transaction {
   type      String
   method    String
   amount    Int
-  /// pending, succeeded or failed
+  /// pending, succeeded, failed, abandoned (closed unpaid) or reversed (paid, then refunded or charged back at the gateway)
   status    String
   reference String   @default("")
   note      String?
+  /// Why it failed, was abandoned or reversed: the gateway's words or the order's
+  reason    String?
+  /// Online payments only: the keys it was made with (pesapal-sandbox or pesapal-live),
+  /// the reference sent to Pesapal, and when Pesapal was last asked about it
+  gateway     String?
+  merchantRef String?
+  checkedAt   DateTime?
   createdAt DateTime @default(now())
 
   @@index([orderId])

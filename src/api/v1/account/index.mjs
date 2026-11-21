@@ -14,6 +14,7 @@ import { requestReturnFor, toReturn } from '../../../services/sales/returns.mjs'
 import { cartLines, returnInput } from '../checkout/schemas.mjs';
 import { clearCustomerRefreshCookie } from '../../../utils/tokens.mjs';
 import { subscribe, unsubscribeEmail } from '../../../services/newsletter/subscribers.mjs';
+import { startPayment } from '../../../services/payments/payments.mjs';
 
 /** The signed-in shopper's own account (realm: customer). Nobody else's is reachable from here. */
 const router = express.Router();
@@ -80,6 +81,12 @@ router.get('/orders/:id', async (req, res) => {
 router.post('/orders/:id/cancel', async (req, res) => {
     const order = await myOrder(req, req.params.id);
     res.json({ data: toShopperOrder(await cancelUnpaid(order, order.name)) });
+});
+
+// Pay an unpaid order online (MTN, Airtel or card through Pesapal): { redirectUrl } for what is still due.
+router.post('/orders/:id/pay', async (req, res) => {
+    const order = await myOrder(req, req.params.id);
+    res.json({ data: await startPayment(order) });
 });
 
 router.get('/returns', async (req, res) => {
