@@ -10,7 +10,8 @@ import { toAdmins } from '../../utils/sockets.js';
 import { orderSummary } from '../emails/orderSummary.mjs';
 import { salesInbox } from '../emails/routing.mjs';
 // Each uses the other only when called, so the cycle is safe.
-import { lastCheckBeforeExpiry } from '../payments/payments.mjs';
+import { lastCheckBeforeExpiry, ONLINE_METHODS } from '../payments/payments.mjs';
+import { isPesapalConfigured } from '../payments/pesapal.mjs';
 
 /**
  * Checkout, orders and payments, ported from the client's checkoutApi and
@@ -123,21 +124,31 @@ const alertIfLow = async (changed, line, settings, ref) => {
     });
 };
 
+// Paid through Pesapal (MTN, Airtel, card): the team hears once the money is in, not before.
+const paysOnline = (order) => ONLINE_METHODS.has(order.payment) && isPesapalConfigured();
+
 /**
- * An email to the team (sales@) for each order from the website, with the
- * whole order in it. Orders staff enter themselves (showroom, WhatsApp) are
- * not sent: they already know. Never holds up the order if it can't be queued.
+ * The team's "New order received" email to sales@, with the whole order in
+ * it, once per website order:
+ *   - paid online (MTN, Airtel, card through Pesapal): when the payment comes
+ *     in, so the inbox only holds orders ready to pack;
+ *   - WhatsApp, or any order while Pesapal isn't set up: as soon as it is
+ *     placed, since the team arranges the payment with the customer.
+ * Orders staff enter themselves (showroom, WhatsApp) are not sent. The Outbox
+ * is checked first, so it never goes twice. Never holds up the order.
  */
 const tellTeam = async (order, settings) => {
     const to = salesInbox(settings);
     if (!to || order.source !== 'web') return;
     try {
+        if (await prisma.outboxEmail.findFirst({ where: { kind: 'new-order', ref: order.ref }, select: { id: true } })) return;
+        const paid = order.paymentStatus === 'paid';
         await queueEmail({
             to,
             kind: 'new-order',
             ref: order.ref,
-            subject: `New order ${order.ref} from ${order.name}: UGX ${order.total.toLocaleString('en-UG')}`,
-            body: order.paymentStatus === 'paid' ? 'A new order came in, paid.' : 'A new order came in. It is waiting for payment.',
+            subject: `New order ${order.ref} from ${order.name}: UGX ${order.total.toLocaleString('en-UG')}${paid ? ', paid' : ''}`,
+            body: paid ? 'A new order came in and is paid. It is ready to pack.' : 'A new order came in. Message the customer to arrange payment.',
             link: `/admin/orders?order=${encodeURIComponent(order.id)}`,
             meta: { heading: 'New order received', order: await orderSummary(order), forTeam: true, ...(order.email ? { replyTo: order.email } : {}) },
         });
@@ -223,7 +234,8 @@ export const placeOrder = async (input, { customer = null, source = 'web', by = 
         });
         // The admin hears about a new order straight away, rather than at the next refresh.
         toAdmins('order:new', { id: order.id, ref: order.ref, name: order.name, total: order.total, source });
-        await tellTeam(order, priced.settings);
+        // Paid online, the team hears when the money is in (applyPaid); otherwise now.
+        if (!paysOnline(order)) await tellTeam(order, priced.settings);
         return order;
     } catch (error) {
         await giveBack();
@@ -274,7 +286,11 @@ export const applyPaid = async (order, { full, method, reference = '' }, by) => 
             ...(becomesPaid ? { history: { push: { status: 'paid', at: new Date(), by, note: reference || null } } } : {}),
         },
     });
-    if (becomesPaid) await notifyCustomer(updated, 'paid');
+    if (becomesPaid) {
+        await notifyCustomer(updated, 'paid');
+        // An order paid online tells the team now; one already told when placed is skipped.
+        await tellTeam(updated, await readSettings());
+    }
     return updated;
 };
 
