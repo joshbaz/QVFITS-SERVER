@@ -4,7 +4,7 @@ import { newOrderRef, newRowId, phoneDigits } from '../../utils/ids.mjs';
 import { listKits, loadCatalog, views } from '../catalog/views.mjs';
 import { returnStock, takeStock, unitsLeft } from '../catalog/stock.mjs';
 import { notifyCustomer, queueEmail } from '../notify/outbox.mjs';
-import { feeFor, readSettings } from '../shop/settings.mjs';
+import { feeFor, placeIn, readSettings } from '../shop/settings.mjs';
 import { applyDiscount } from './discounts.mjs';
 import { toAdmins } from '../../utils/sockets.js';
 import { orderSummary } from '../emails/orderSummary.mjs';
@@ -72,15 +72,19 @@ const kitSavingOf = (priced, kits) => {
 /**
  * Price a bag: sale prices, kit prices, the code and delivery, worked out in
  * one place so what is shown is what is charged. Pieces no longer sold drop out.
+ * `where` is the area's id, or { region, zoneRegion, fulfilment, collectionPoint };
+ * `strict` (placing an order) refuses a region or point that isn't chosen or offered.
  * @param {{ productId: string, size: string, color: string, qty: number, kitId?: string }[]} lines
  */
-export const quote = async (lines, region, code, who) => {
+export const quote = async (lines, where, code, who, { strict = false } = {}) => {
+    const choice = typeof where === 'string' ? { region: where } : where;
     const [catalog, settings, zone] = await Promise.all([
         loadCatalog(),
         readSettings(),
-        prisma.shippingZone.findFirst({ where: { id: region, active: true } }),
+        prisma.shippingZone.findFirst({ where: { id: choice.region, active: true } }),
     ]);
     if (!zone) throw new AppError('Pick where we should deliver.', 422, { details: { fieldErrors: { region: ['Pick where we should deliver.'] } } });
+    const place = placeIn(zone, choice, { strict });
     const all = views(catalog);
     const live = all.filter((p) => p.status === 'active' && p.type !== 'kit');
 
@@ -94,8 +98,9 @@ export const quote = async (lines, region, code, who) => {
     const kitSaving = kitSavingOf(priced, listKits(all));
     const applied = await applyDiscount(code, priced, live, who);
     // A code never takes the goods below nothing; delivery is always charged on its own.
+    // A free-delivery code waives delivery, not a collection point's own fee.
     const discount = Math.min(applied.amount, subtotal - kitSaving);
-    const delivery = applied.freeShipping ? 0 : feeFor(zone, subtotal - kitSaving - discount, settings.freeShippingOver);
+    const delivery = applied.freeShipping && !place.point ? 0 : feeFor(zone, subtotal - kitSaving - discount, settings.freeShippingOver, place);
 
     return {
         lines: priced,
@@ -108,6 +113,8 @@ export const quote = async (lines, region, code, who) => {
         discountReason: applied.reason,
         products: live,
         settings,
+        zone,
+        place,
     };
 };
 
@@ -177,8 +184,13 @@ export const restockOrder = async (order, by) => {
 export const placeOrder = async (input, { customer = null, source = 'web', by = 'Checkout' } = {}) => {
     if (!input.lines.length) throw new AppError('Your bag is empty.', 422);
     const who = { customerId: customer?.id, phone: input.phone };
-    const priced = await quote(input.lines, input.region, input.discountCode, who);
+    const priced = await quote(input.lines, input, input.discountCode, who, { strict: true });
     if (priced.lines.length !== input.lines.length) throw new AppError('A piece in your bag is no longer sold. Remove it to carry on.', 409);
+    // A collection (a point, or the showroom area) needs no address; a delivery does.
+    const { area, point, collect } = priced.place;
+    if (!collect && !input.address) {
+        throw new AppError('Tell us where to deliver.', 422, { details: { fieldErrors: { address: ['Tell us where to deliver.'] } } });
+    }
 
     // The same colour and size added twice (once on its own, once in a kit) is taken as one.
     const wanted = new Map();
@@ -215,7 +227,12 @@ export const placeOrder = async (input, { customer = null, source = 'web', by = 
                 phoneDigits: phoneDigits(input.phone),
                 email: input.email || customer?.email || null,
                 region: input.region,
-                address: input.address || null,
+                zoneRegion: area?.id ?? null,
+                fulfilment: collect ? 'collect' : 'delivery',
+                collectionPoint: point?.id ?? null,
+                collectionPointSnapshot: point ? { name: point.name, address: point.address, hours: point.hours || null } : null,
+                // A point's address is the shop's, so only a delivery keeps the shopper's.
+                address: (!point && input.address) || null,
                 note: input.note || null,
                 lines: priced.lines.map(({ productId, name, size, color, colorId, qty, price, kitId }) => ({ productId, name, size, color, colorId, qty, price, kitId })),
                 subtotal: priced.subtotal,

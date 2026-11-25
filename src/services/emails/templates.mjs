@@ -90,6 +90,8 @@ const orderBlock = (o, team) => {
     const detail = (label, value) => (value ? `<p style="margin:0 0 8px;font-size:14px;line-height:1.5;color:${C.ink2}"><span style="display:block;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:${C.ink4}">${escape(label)}</span>${value}</p>` : '');
     const placed = o.placedAt ? new Date(o.placedAt).toLocaleString('en-UG', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Africa/Kampala' }) : '';
     const where = [o.area, o.address].filter(Boolean).map(escape).join(': ');
+    const point = o.collectFrom;
+    const collecting = point ? [`<strong style="font-weight:600">${escape(point.name)}</strong>`, escape(point.address), point.hours ? escape(point.hours) : '', o.area ? escape(o.area) : ''].filter(Boolean).join('<br>') : '';
     return `
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:26px 0 0;text-align:left;border:1px solid ${C.line};border-radius:14px">
 <tr><td style="padding:18px 20px 6px">
@@ -106,7 +108,7 @@ ${sum('Total', ugx(o.total), true)}
 </table></td></tr>
 <tr><td style="padding:14px 20px 12px;background:${C.cream};border-top:1px solid ${C.line};border-radius:0 0 14px 14px">
 ${team ? detail('Customer', [escape(o.customer?.name), escape(o.customer?.phone), o.customer?.email ? `<a href="mailto:${escape(o.customer.email)}" style="color:${C.brandDeep}">${escape(o.customer.email)}</a>` : ''].filter(Boolean).join('<br>')) : ''}
-${detail('Delivering to', where)}
+${point ? detail('Collecting from', collecting) : detail('Delivering to', where)}
 ${detail('Payment', `${escape(o.payment)}${team ? ` · ${escape(PAYMENT_STATES[o.paymentStatus] || o.paymentStatus)}` : ''}`)}
 ${team ? detail('Note', o.note ? escape(o.note) : '') : ''}
 </td></tr></table>`;
@@ -122,7 +124,9 @@ const orderText = (o, team) => !o?.lines?.length ? [] : [
     `Delivery: ${o.delivery ? ugx(o.delivery) : 'Free'}`,
     `Total: ${ugx(o.total)}`,
     ...(team ? [`Customer: ${[o.customer?.name, o.customer?.phone, o.customer?.email].filter(Boolean).join(', ')}`] : []),
-    `Delivering to: ${[o.area, o.address].filter(Boolean).join(': ')}`,
+    o.collectFrom
+        ? `Collecting from: ${[o.collectFrom.name, o.collectFrom.address, o.collectFrom.hours, o.area].filter(Boolean).join(', ')}`
+        : `Delivering to: ${[o.area, o.address].filter(Boolean).join(': ')}`,
     `Payment: ${o.payment}${team ? ` (${PAYMENT_STATES[o.paymentStatus] || o.paymentStatus})` : ''}`,
     ...(team && o.note ? [`Note: ${o.note}`] : []),
 ];

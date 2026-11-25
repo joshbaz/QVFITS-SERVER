@@ -53,14 +53,18 @@ const noInlineImages = (req, res, next) => (/"(data:(image|video)|blob:)/.test(J
     : next());
 const documentPatch = z.record(z.string(), z.unknown());
 
-// The home page's editable parts, each sent whole: the hero slides, Shop by movement and Seen on you.
-// Their items are checked as objects only; the client owns their shape (src/data/home.json).
+// The home page's editable parts, each sent whole: the hero slides, Shop by movement and Seen on you,
+// and the About page's pictures (kept in the same document). Their items are checked as objects only;
+// the client owns their shape (src/data/home.json).
 const items = (max) => z.array(z.looseObject({}), { error: 'Each part must be a list.' }).max(max, `Keep it to ${max} or fewer.`);
+// Each About slot holds an uploaded photo, or null for the shoot's own.
+const aboutPhoto = z.looseObject({ id: z.string().min(1) }).nullable().optional();
 const homePatch = z.strictObject({
     heroSlides: items(12).optional(),
     movements: z.looseObject({ title: z.string().max(120).optional(), items: items(24) }).optional(),
     feed: z.looseObject({ title: z.string().max(120).optional(), items: items(24) }).optional(),
-}, { error: 'Only the hero, Shop by movement and Seen on you can be saved here.' });
+    about: z.strictObject({ hero: aboutPhoto, home: aboutPhoto, court: aboutPhoto, pool: aboutPhoto, showroom: aboutPhoto }, { error: 'The About page has five pictures: hero, home, court, pool and showroom.' }).optional(),
+}, { error: 'Only the hero, Shop by movement, Seen on you and the About pictures can be saved here.' });
 
 const DOCUMENTS = [
     { path: 'offers', id: 'offers', module: 'offers', schema: documentPatch },

@@ -17,25 +17,20 @@ import { checkoutSchema, quoteSchema, refAndPhone, returnInput } from './schemas
 export const checkout = express.Router();
 export const guestOrders = express.Router();
 
-// Only what the screen needs from a quote; the products and settings used to work it out stay here.
-const publicQuote = ({ products: _p, settings: _s, ...q }) => q;
+// Only what the screen needs from a quote; the products, settings and zone used to work it out stay here.
+const publicQuote = ({ products: _p, settings: _s, zone: _z, place: _pl, ...q }) => q;
 
+// While the shopper is still choosing a region or point, the area's own fee stands in.
 checkout.post('/quote', optionalCustomer, validate(quoteSchema), async (req, res) => {
-    const { lines, region, code, phone } = req.body;
-    res.json({ data: publicQuote(await quote(lines, region, code, { customerId: req.customer?.id, phone })) });
+    const { lines, code, phone, ...where } = req.body;
+    res.json({ data: publicQuote(await quote(lines, where, code, { customerId: req.customer?.id, phone })) });
 });
 
 checkout.post('/orders', optionalCustomer, validate(checkoutSchema), async (req, res) => {
     const input = req.body;
-    const [method, zone] = await Promise.all([
-        prisma.paymentMethod.findFirst({ where: { id: input.payment, active: true } }),
-        prisma.shippingZone.findFirst({ where: { id: input.region, active: true } }),
-    ]);
+    const method = await prisma.paymentMethod.findFirst({ where: { id: input.payment, active: true } });
     if (!method) throw new AppError('Pick how you will pay.', 422, { details: { fieldErrors: { payment: ['Pick how you will pay.'] } } });
-    // A showroom pickup needs no address; delivery does.
-    if (zone && !zone.collect && !input.address) {
-        throw new AppError('Tell us where to deliver.', 422, { details: { fieldErrors: { address: ['Tell us where to deliver.'] } } });
-    }
+    // The region, collection point and address are checked as the order is priced (placeOrder).
     const order = await placeOrder(input, { customer: req.customer });
     // MTN, Airtel and card go on to Pesapal's page ({ redirectUrl }); if it can't open, { error } and the order still stands.
     // Not `payment`: that is the order's own field, the method chosen.

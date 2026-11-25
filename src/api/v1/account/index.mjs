@@ -45,7 +45,7 @@ router.patch('/', validate(z.object({ name: z.string().trim().min(1, 'Enter your
 });
 
 const address = z.object({
-    id: z.string().min(1).max(60), label: z.string().max(40), region: z.string().max(60), address: z.string().max(300), phone: z.string().max(40),
+    id: z.string().min(1).max(60), label: z.string().max(40), region: z.string().max(60), zoneRegion: z.string().max(60).optional(), address: z.string().max(300), phone: z.string().max(40),
 });
 router.put('/addresses', validate(z.object({ addresses: z.array(address).max(10, 'Up to 10 addresses') })), async (req, res) => {
     res.json({ data: await save(req, { addresses: req.body.addresses }) });

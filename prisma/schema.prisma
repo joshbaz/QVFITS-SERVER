@@ -68,7 +68,9 @@ model SystemLock {
   createdAt DateTime @default(now())
 }
 
-/* Catalog. Ids are readable slugs ("leggings", "teal") because the client's links, menus and filters store them. */
+/**
+ * Catalog. Ids are readable slugs ("leggings", "teal") because the client's links, menus and filters store them.
+ */
 
 type Photo {
   /// ImageKit's fileId for an upload; a /photos id or a CDN id for older photos.
@@ -220,7 +222,9 @@ model CatalogDocument {
   updatedAt DateTime @updatedAt
 }
 
-/* Shop settings, delivery and payment. */
+/**
+ * Shop settings, delivery and payment.
+ */
 
 /// Single shop documents: the settings ("settings").
 model ShopDocument {
@@ -229,18 +233,48 @@ model ShopDocument {
   updatedAt DateTime @updatedAt
 }
 
+/// Somewhere in a region a shopper can collect their order.
+type CollectionPoint {
+  id      String
+  name    String
+  address String
+  /// "Mon to Sat, 9am to 7pm"
+  hours   String  @default("")
+  /// A Google Maps link.
+  mapUrl  String  @default("")
+  phone   String  @default("")
+  /// Charged for collecting here, never waived; null is free.
+  fee     Int?
+  etaDays String  @default("")
+  active  Boolean @default(true)
+}
+
+/// A place inside a delivery area (Kampala: Central, Nakawa…), priced by how far it is.
+type ZoneRegion {
+  id      String
+  name    String
+  /// Delivery to an address here; null uses the area's fee.
+  fee     Int?
+  /// Empty uses the area's.
+  etaDays String            @default("")
+  active  Boolean           @default(true)
+  points  CollectionPoint[]
+}
+
 model ShippingZone {
-  id          String  @id @map("_id")
+  id          String       @id @map("_id")
   name        String
-  description String  @default("")
+  description String       @default("")
   fee         Int
   /// Free delivery from this subtotal; null uses the shop-wide threshold.
   freeOver    Int?
   /// Collected from the showroom, so no address is needed.
-  collect     Boolean @default(false)
-  etaDays     String  @default("")
-  active      Boolean @default(true)
+  collect     Boolean      @default(false)
+  etaDays     String       @default("")
+  active      Boolean      @default(true)
   position    Int
+  /// Empty: the area works as one place.
+  regions     ZoneRegion[]
 }
 
 model PaymentMethod {
@@ -275,14 +309,17 @@ model Discount {
   createdAt        DateTime      @default(now())
 }
 
-/* Customers. */
+/**
+ * Customers.
+ */
 
 type Address {
-  id      String
-  label   String
-  region  String
-  address String
-  phone   String
+  id         String
+  label      String
+  region     String
+  zoneRegion String?
+  address    String
+  phone      String
 }
 
 type CartLine {
@@ -294,9 +331,9 @@ type CartLine {
 }
 
 model Customer {
-  id               String    @id @map("_id")
+  id               String     @id @map("_id")
   name             String
-  email            String    @unique
+  email            String     @unique
   phone            String?
   /// The last nine digits, so +256 772 410 218 and 0772410218 match. One account per phone.
   phoneDigits      String?
@@ -305,13 +342,13 @@ model Customer {
   wishlist         String[]
   bag              CartLine[]
   recentlyViewed   String[]
-  notes            String    @default("")
+  notes            String     @default("")
   tags             String[]
   emailConfirmedAt DateTime?
   confirmTokenHash String?
   resetTokenHash   String?
   resetExpiresAt   DateTime?
-  createdAt        DateTime  @default(now())
+  createdAt        DateTime   @default(now())
 
   @@index([phoneDigits])
   @@index([confirmTokenHash])
@@ -331,7 +368,9 @@ model CustomerSession {
   @@index([customerId])
 }
 
-/* Orders, money and returns. */
+/**
+ * Orders, money and returns.
+ */
 
 type OrderLine {
   productId String
@@ -358,36 +397,50 @@ type OrderNote {
   at   DateTime
 }
 
+type PointSnapshot {
+  name    String
+  address String
+  hours   String?
+}
+
 model Order {
-  id            String       @id @map("_id")
+  id                      String         @id @map("_id")
   /// What the customer quotes: QV-XXXXXX.
-  ref           String       @unique
-  customerId    String?
-  name          String
-  phone         String
-  phoneDigits   String
-  email         String?
-  region        String
-  address       String?
-  note          String?
-  lines         OrderLine[]
-  subtotal      Int
-  delivery      Int
-  discount      Int
-  discountCode  String?
-  kitSaving     Int          @default(0)
-  total         Int
-  payment       String
-  paymentStatus String
-  status        String
-  history       OrderEvent[]
-  notes         OrderNote[]
+  ref                     String         @unique
+  customerId              String?
+  name                    String
+  phone                   String
+  phoneDigits             String
+  email                   String?
+  /// The delivery area's id.
+  region                  String
+  /// The region inside the area, when it has regions.
+  zoneRegion              String?
+  /// delivery or collect
+  fulfilment              String?
+  collectionPoint         String?
+  /// The point as it was when the order was placed, so it still reads right after the point is edited.
+  collectionPointSnapshot PointSnapshot?
+  address                 String?
+  note                    String?
+  lines                   OrderLine[]
+  subtotal                Int
+  delivery                Int
+  discount                Int
+  discountCode            String?
+  kitSaving               Int            @default(0)
+  total                   Int
+  payment                 String
+  paymentStatus           String
+  status                  String
+  history                 OrderEvent[]
+  notes                   OrderNote[]
   /// web, showroom, whatsapp (manual is older records)
-  source        String       @default("web")
+  source                  String         @default("web")
   /// Set once its stock is back on the shelf (cancelled or expired), so it never goes back twice.
-  stockReturned Boolean      @default(false)
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  stockReturned           Boolean        @default(false)
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
 
   @@index([customerId])
   @@index([phoneDigits])
@@ -397,25 +450,25 @@ model Order {
 }
 
 model Transaction {
-  id        String   @id @map("_id")
-  orderId   String
-  orderRef  String
+  id          String    @id @map("_id")
+  orderId     String
+  orderRef    String
   /// payment or refund
-  type      String
-  method    String
-  amount    Int
+  type        String
+  method      String
+  amount      Int
   /// pending, succeeded, failed, abandoned (closed unpaid) or reversed (paid, then refunded or charged back at the gateway)
-  status    String
-  reference String   @default("")
-  note      String?
+  status      String
+  reference   String    @default("")
+  note        String?
   /// Why it failed, was abandoned or reversed: the gateway's words or the order's
-  reason    String?
+  reason      String?
   /// Online payments only: the keys it was made with (pesapal-sandbox or pesapal-live),
   /// the reference sent to Pesapal, and when Pesapal was last asked about it
   gateway     String?
   merchantRef String?
   checkedAt   DateTime?
-  createdAt DateTime @default(now())
+  createdAt   DateTime  @default(now())
 
   @@index([orderId])
 }
@@ -452,33 +505,35 @@ model ReturnRequest {
 
 /// Every email the shop sends, and what happened to it. Sent through Zoho Mail by the email queue.
 model OutboxEmail {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  to        String
-  kind      String
-  subject   String
-  body      String
-  link      String?
-  ref       String?
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  to          String
+  kind        String
+  subject     String
+  body        String
+  link        String?
+  ref         String?
   /// queued (waiting to send), sent, failed (gave up), held (no email service set up), no_email (only a phone)
-  status    String    @default("queued")
+  status      String    @default("queued")
   /// A newsletter email's own unsubscribe link.
   unsubscribe String?
   /// A campaign's product cards and button, for the email layout.
-  meta      Json?
-  attempts  Int       @default(0)
-  error     String?
-  sentAt    DateTime?
+  meta        Json?
+  attempts    Int       @default(0)
+  error       String?
+  sentAt      DateTime?
   /// ZeptoMail's request id (or the SMTP message id) for the send, to match a bounce report to it.
   /// "Sent" means the provider took it, not that it reached the inbox.
-  providerId String?
-  createdAt DateTime  @default(now())
+  providerId  String?
+  createdAt   DateTime  @default(now())
 
   @@index([ref])
   @@index([createdAt])
   @@index([status])
 }
 
-/* Newsletter, messages, Vee and the activity log. */
+/**
+ * Newsletter, messages, Vee and the activity log.
+ */
 
 /// One address on the newsletter, with the consent that put it there (double opt-in).
 model Subscriber {

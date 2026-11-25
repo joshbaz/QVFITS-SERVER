@@ -46,6 +46,24 @@ router.patch('/', validate(settingsPatch), async (req, res) => {
     res.json({ data: { ...settings, zones } });
 });
 
+// An area's regions, each priced by how far it is, each with its own collection points. Ids are made by the client.
+const id = z.string().trim().min(1).max(60);
+const point = z.object({
+    id, name: z.string().trim().min(1, 'Every collection point needs a name.').max(80),
+    address: z.string().trim().min(1, 'Every collection point needs an address, so shoppers can find it.').max(200),
+    hours: z.string().max(120).default(''), mapUrl: z.string().max(500).default(''), phone: z.string().max(40).default(''),
+    fee: money.nullable().default(null), etaDays: z.string().max(40).default(''), active: z.boolean().default(true),
+});
+const region = z.object({
+    id, name: z.string().trim().min(1, 'Every region needs a name.').max(60),
+    fee: money.nullable().default(null), etaDays: z.string().max(40).default(''), active: z.boolean().default(true),
+    points: z.array(point).max(30, 'Keep it to 30 collection points a region.').default([]),
+});
+const regions = z.array(region).max(30, 'Keep it to 30 regions an area.').superRefine((list, ctx) => {
+    const ids = list.flatMap((r) => [r.id, ...r.points.map((p) => p.id)]);
+    if (new Set(ids).size !== ids.length) ctx.addIssue({ code: 'custom', message: 'Two regions or points share an id. Reload and try again.' });
+});
+
 crudTable(router, {
     path: 'shipping-zones',
     model: 'shippingZone',
@@ -55,7 +73,7 @@ crudTable(router, {
     label: (d) => d.name,
     schema: z.object({
         name: z.string().trim().min(1, 'Name the zone').max(60), description: z.string().max(300), fee: money,
-        freeOver: money.nullable(), collect: z.boolean(), etaDays: z.string().max(40), active: z.boolean(),
+        freeOver: money.nullable(), collect: z.boolean(), etaDays: z.string().max(40), active: z.boolean(), regions,
     }),
 });
 

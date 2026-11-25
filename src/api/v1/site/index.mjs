@@ -17,7 +17,7 @@ const router = express.Router();
 // Stored with targets only; the client works out each link's address from the live catalogue.
 router.get('/offers', async (req, res) => res.json({ data: await readDocument('offers') }));
 router.get('/menu-feature', async (req, res) => res.json({ data: await readDocument('menu-feature') }));
-// Only what the admin's Home page has saved (hero, Shop by movement, Seen on you); the client fills in the rest.
+// Only what the admin has saved (hero, Shop by movement, Seen on you, the About pictures); the client fills in the rest.
 router.get('/home', async (req, res) => res.json({ data: await readDocument('home') }));
 
 /** The contact form lands in the admin's Messages, and the shop is told by email. */

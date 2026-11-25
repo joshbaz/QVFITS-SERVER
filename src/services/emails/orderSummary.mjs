@@ -18,7 +18,7 @@ export const orderSummary = async (order) => {
     const ids = [...new Set(order.lines.map((l) => l.productId))];
     const [products, zone, method] = await Promise.all([
         prisma.product.findMany({ where: { id: { in: ids } }, select: { id: true, photos: true } }),
-        prisma.shippingZone.findUnique({ where: { id: order.region }, select: { name: true } }),
+        prisma.shippingZone.findUnique({ where: { id: order.region }, select: { name: true, regions: true } }),
         prisma.paymentMethod.findUnique({ where: { id: order.payment }, select: { label: true } }),
     ]);
     const photoFor = (l) => {
@@ -36,8 +36,11 @@ export const orderSummary = async (order) => {
         delivery: order.delivery,
         total: order.total,
         customer: { name: order.name, phone: order.phone, email: order.email || null },
-        area: zone?.name || order.region,
+        // "Kampala · Nakawa": the area, and its region when it has one.
+        area: [zone?.name || order.region, zone?.regions?.find((r) => r.id === order.zoneRegion)?.name].filter(Boolean).join(' · '),
         address: order.address || null,
+        // Collecting from a point: the point as it was when the order was placed.
+        collectFrom: order.collectionPointSnapshot ?? null,
         note: order.note || null,
         payment: method?.label || order.payment,
         paymentStatus: order.paymentStatus,

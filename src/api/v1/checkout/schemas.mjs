@@ -13,11 +13,19 @@ export const cartLines = z.array(z.object({
 export const phone = z.string({ error: 'Enter your phone number' }).trim()
     .refine((p) => phoneDigits(p).length === 9, 'Enter a phone number we can call, like 0772 410 218');
 
+// Past the area (`region`): its region, and delivery or collecting from one of the region's points.
+const destination = {
+    zoneRegion: z.string().max(60).optional(),
+    fulfilment: z.enum(['delivery', 'collect']).optional(),
+    collectionPoint: z.string().max(60).optional(),
+};
+
 export const checkoutSchema = z.object({
     name: z.string({ error: 'Enter your name' }).trim().min(1, 'Enter your name').max(80),
     phone,
     email: z.union([z.literal(''), z.string().trim().toLowerCase().email('Enter a valid email')]).optional(),
     region: z.string({ error: 'Pick where we should deliver.' }).min(1, 'Pick where we should deliver.'),
+    ...destination,
     address: z.string().trim().max(300).optional(),
     note: z.string().trim().max(500).optional(),
     payment: z.string({ error: 'Pick how you will pay.' }).min(1, 'Pick how you will pay.'),
@@ -28,6 +36,7 @@ export const checkoutSchema = z.object({
 export const quoteSchema = z.object({
     lines: cartLines,
     region: z.string().min(1),
+    ...destination,
     code: z.string().trim().max(30).optional(),
     // Lets a guest's earlier uses of a one-per-shopper code count too.
     phone: z.string().max(40).optional(),

@@ -135,7 +135,7 @@ const TABLES = [
     ['size', 'sizes', (s) => s],
     ['product', 'products', product],
     ['review', 'reviews', review],
-    ['shippingZone', 'shipping-zones', (z) => ({ description: '', freeOver: null, collect: false, etaDays: '', ...z })],
+    ['shippingZone', 'shipping-zones', (z) => ({ description: '', freeOver: null, collect: false, etaDays: '', regions: [], ...z })],
     ['paymentMethod', 'payment-methods', (m) => ({ short: '', instructions: '', ...m })],
     ['discount', 'discounts', discount],
     ['customer', 'customers', customer],
